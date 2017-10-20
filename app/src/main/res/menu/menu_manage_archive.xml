@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".activity.ManageArchiveActivity">
+
+    <!--默认单击模式下点击item不能添加表档案-->
+    <item
+        android:id="@+id/action_addArchive"
+        android:orderInCategory="100"
+        android:title="@string/action_add_archive"
+        android:icon="@mipmap/ic_menu_add"
+        app:showAsAction="ifRoom" />
+
+    <!--默认多选模式下不允许批量修改表档案-->
+    <item
+        android:id="@+id/action_updateArchive"
+        android:orderInCategory="100"
+        android:title="@string/action_update_archive"
+        android:icon="@mipmap/ic_menu_archive"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_deleteArchive"
+        android:orderInCategory="100"
+        android:title="@string/action_delete_archive"
+        android:icon="@mipmap/ic_menu_delete"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_queryArchive"
+        android:orderInCategory="100"
+        android:title="@string/action_query_archive"
+        android:icon="@mipmap/ic_menu_query"
+        app:showAsAction="never" />
+
+</menu>

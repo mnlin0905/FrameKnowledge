@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="@dimen/prefer_view_padding_horizontal"
+    android:paddingRight="@dimen/prefer_view_padding_horizontal"
+    android:paddingTop="@dimen/prefer_view_padding_vertical"
+    android:paddingBottom="@dimen/prefer_view_padding_vertical"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/prefer_view_height"
+    android:background="@drawable/selector_background_white_pressed_little_gray"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_menu"
+        android:drawablePadding="@dimen/prefer_inner_padding_horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/text_black"
+        android:text="对应的菜单信息"
+        android:gravity="start|center_vertical"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sc_switch"/>
+</LinearLayout>

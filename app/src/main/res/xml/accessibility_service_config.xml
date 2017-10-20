@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service
+    android:accessibilityEventTypes="typeWindowContentChanged"
+    android:description="@string/service_static_install_apk_description"
+    android:packageNames="com.android.packageinstaller,com.xtkj.customer,com.mokee.packageinstaller"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:notificationTimeout="100"
+    android:accessibilityFlags="flagDefault"
+    android:settingsActivity="com.mnlin.hotchpotch.service.StaticInstallAPKService"
+    android:canRetrieveWindowContent="true"
+    android:canRequestTouchExplorationMode="true"
+    android:canRequestEnhancedWebAccessibility="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
+  

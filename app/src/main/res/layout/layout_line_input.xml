@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/prefer_view_height"
+    android:paddingLeft="@dimen/prefer_view_padding_horizontal"
+    android:paddingRight="@dimen/prefer_view_padding_horizontal">
+
+    <TextView
+        android:id="@+id/tv_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/prefer_view_padding_horizontal"
+        android:gravity="start|center_vertical"
+        android:paddingBottom="@dimen/prefer_view_padding_vertical"
+        android:paddingTop="@dimen/prefer_view_padding_vertical"
+        android:text="对应的菜单信息"
+        android:textColor="@color/text_black"/>
+
+    <EditText
+        android:background="@color/white"
+        android:id="@+id/et_text"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="end|center_vertical"
+        android:maxLines="1"/>
+</LinearLayout>

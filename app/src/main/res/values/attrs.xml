@@ -1,0 +1,58 @@
+<resources>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <!--单行菜单对应的参数：switch状态、menu文本、icon图标-->
+    <declare-styleable name="LineMenuView">
+        <attr name="LineMenuView_switch" format="enum">
+            <enum name="off" value="0"/>
+            <enum name="on" value="1"/>
+            <enum name="hide" value="2"/>
+        </attr>
+        <attr name="LineMenuView_menu" format="string"/>
+        <attr name="LineMenuView_icon" format="reference"/>
+    </declare-styleable>
+
+    <!--单行输入框对应的参数：hint文字、menu文本、icon图标-->
+    <declare-styleable name="LineInputView">
+        <attr name="LineInputView_hint" format="string"/>
+        <attr name="LineInputView_menu" format="string"/>
+        <attr name="LineInputView_icon" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="CollapseLayout">
+        <attr name="CollapseLayout_parent" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="PrivateRecyclerView">
+        <attr name="PrivateRecyclerView_divider" format="reference"/>
+        <attr name="PrivateRecyclerView_orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ArchiveOperateView">
+        <attr name="ArchiveOperateView_divider" format="reference"/>
+        <attr name="ArchiveOperateView_orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="TImageBTextRecyclerView">
+        <attr name="TImageBTextRecyclerView_divider" format="reference"/>
+        <attr name="TImageBTextRecyclerView_orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

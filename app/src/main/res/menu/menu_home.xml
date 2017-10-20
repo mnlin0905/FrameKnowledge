@@ -1,0 +1,47 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.HomeActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:icon="@mipmap/ic_menu_settings_holo_light"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_bluetooth"
+        android:orderInCategory="100"
+        android:title="@string/action_bluetooth"
+        android:icon="@mipmap/stat_sys_data_bluetooth"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="100"
+        android:title="@string/action_search"
+        android:icon="@mipmap/abc_ic_search"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_invoices"
+        android:orderInCategory="100"
+        android:title="@string/action_invoices"
+        android:icon="@mipmap/management"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="100"
+        android:title="@string/action_help"
+        android:icon="@mipmap/ic_menu_help"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="100"
+        android:title="@string/action_about"
+        android:icon="@mipmap/ic_menu_info_details"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_more"
+        android:orderInCategory="100"
+        android:title="@string/action_more"
+        android:icon="@mipmap/ic_menu_more"
+        app:showAsAction="never" />
+</menu>

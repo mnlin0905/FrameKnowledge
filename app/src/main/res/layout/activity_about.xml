@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/prefer_line_spacing"
+        android:src="@mipmap/icon_sys_def"/>
+
+    <TextView
+        android:id="@+id/tv_nameAndVersion"
+        style="@style/TextViewHomeSlide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_more"
+        style="@style/TextViewHomeSlide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/prefer_view_padding_horizontal_minus"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/little_gray"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LineMenuView_menu="问题反馈"
+        app:LineMenuView_switch="hide"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/little_gray"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LineMenuView_menu="检查更新"
+        app:LineMenuView_switch="hide"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/little_gray"/>
+
+    <TextView
+        style="@style/TextViewStandard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="关注我们"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LineMenuView_icon="@mipmap/icon_sys_def"
+        app:LineMenuView_menu="新浪微博"
+        app:LineMenuView_switch="hide"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/little_gray"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LineMenuView_icon="@mipmap/icon_sys_def"
+        app:LineMenuView_menu="微信公众号"
+        app:LineMenuView_switch="hide"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/little_gray"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LineMenuView_icon="@mipmap/icon_sys_def"
+        app:LineMenuView_menu="QQ讨论组"
+        app:LineMenuView_switch="hide"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/little_gray"/>
+
+    <TextView
+        style="@style/TextViewHomeSlide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/prefer_view_padding_vertical_minus"
+        android:gravity="center_horizontal|bottom"
+        android:text="@string/about_copy_right"
+        android:textSize="@dimen/text_size_small"/>
+</LinearLayout>

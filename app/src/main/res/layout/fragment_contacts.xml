@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:visibility="gone"
+        android:id="@+id/lmv_selectAll"
+        app:LineMenuView_icon="@mipmap/ic_menu_archive"
+        app:LineMenuView_menu="取消/全选"
+        app:LineMenuView_switch="off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_contacts"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/rv_function"
+            app:TImageBTextRecyclerView_orientation="horizontal"
+            app:TImageBTextRecyclerView_divider="@color/little_gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

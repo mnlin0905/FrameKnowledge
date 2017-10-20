@@ -1,0 +1,242 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    signingConfigs {
+        config {
+        }
+    }
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "com.knowledge.mnlin.frame"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 200
+        multiDexEnabled true
+        versionName "2.0"
+        jackOptions.enabled = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-android.txt'
+        }
+        debug {
+            minifyEnabled false
+            proguardFile 'proguard-android.txt'
+        }
+    }
+/*    tasks.whenTaskAdded{ task ->
+        if(task.name.contains("lint")
+                //|| task.name == "clean"
+                || task.name.contains("Aidl")
+                || task.name.contains("mockableAndroidJar")
+                || task.name.contains("UnitTest")
+                || task.name.contains("AndroidTest")
+                || task.name.contains("Ndk")
+                || task.name.contains("Jni")
+        ){
+            task.enabled =false
+        }
+    }*/
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:palette-v7:26.0.0-alpha1'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    //multidex:dex分包
+    compile 'com.android.support:multidex:1.0.0'
+    //litepal,数据库框架,通过在assets中创建xml文件来配置
+    compile 'org.litepal.android:core:1.6.0'
+    //Dagger:基础包,dagger编译器,Javax标注
+    compile 'com.google.dagger:dagger:2.0.2'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.0.2'
+    //RxJava与RxAndroid
+    compile('io.reactivex.rxjava2:rxjava:2.1.3') {
+        force = true
+    }
+    compile('io.reactivex.rxjava2:rxandroid:2.0.1') {
+        force = true
+    }
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile 'com.android.support:support-v13:26.0.0-alpha1'
+    //retrofit;
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    //使用GSON库将http返回的数据转换为对象
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    //使用RxJava将返回的数据对象转为Observable(T);
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    //引入OkHttp框架
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
+    //okhttp打印日志
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.2'
+    //用于使用chrome调试应用
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    //包含okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    //ButterKnife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //Glide
+    compile 'com.github.bumptech.glide:glide:4.1.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+    //AndroidUtilCode
+    compile 'com.blankj:utilcode:1.9.2'
+    //内存泄漏 监视工具
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    //Logger
+    compile 'com.orhanobut:logger:2.1.1'
+    //二维码
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
+    //圆形图片
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    //图片选择
+    compile('com.jph.takephoto:takephoto_library:4.0.3') {
+        transitive false
+    }
+    //statubarutil,状态栏控制器
+    compile 'com.jaeger.statusbaruitl:library:1.0.0'
+    //时间,城市等选择器
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
+    /*    compile('org.hibernate:hibernate:3.1') {
+            // 冲突时优先使用该版本
+            force = true
+
+            // 依据构建名称排除
+            exclude module: 'cglib'
+            // 依据组织名称排除
+            exclude group: 'org.jmock'
+            // 依据组织名称+构件名称排除
+            exclude group: 'org.unwanted', module: 'iAmBuggy'
+
+            // 为本依赖关闭依赖传递特性
+            transitive = false
+        }*/
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+}
+
+class GenerateMvpCodes extends DefaultTask {
+    String domain
+    String uiPath
+    private String rootPath = project.getRootDir().getAbsolutePath()
+    private String basePath = '/app/src/main/java/com/knowledge/mnlin/frame'
+    private String packageName = "com.knowledge.mnlin.frame"
+
+    @TaskAction
+    void generateContract() {
+        if (domain == null) {
+            throw new Exception("domain is empty, buddy!!")
+        }
+
+        def contractName = domain + "Contract"
+        def path = rootPath + basePath + "/contract"
+        def contractFile = new File(path, "${contractName}.java")
+        contractFile.createNewFile();
+        contractFile.text = "package ${packageName}.contract;\n" +
+                "\n" +
+                "public interface ${contractName} {\n" +
+                "    public interface Presenter{\n" +
+                "\n" +
+                "    }\n" +
+                "\n" +
+                "     public interface View{\n" +
+                "\n" +
+                "    }\n" +
+                "}"
+        println "\n--------generateContract-------- \n" + "path:" + path + "\n" + "fileName: " + contractName
+    }
+
+    @TaskAction
+    void generatePresenter() {
+        if (domain == null) {
+            throw new Exception("domain is empty, buddy!!")
+        }
+
+        def PresenterName = domain + "Presenter"
+        def path = rootPath + basePath + "/presenter"
+        def contractFile = new File(path, "${PresenterName}.java")
+        contractFile.createNewFile();
+        contractFile.text = "package ${packageName}.presenter;\n" +
+                "\n" +
+                "\n" +
+                "import ${packageName}.base.BasePresenter;\n" +
+                "import ${packageName}.contract.${domain}Contract;\n" +
+                "import ${packageName}.activity.${domain}Activity;\n" +
+                "\n" +
+                "import javax.inject.Inject;\n" +
+                "\n" +
+                "public class ${PresenterName} extends BasePresenter<${domain}Activity> implements ${domain}Contract.Presenter{\n" +
+                "    @Inject\n" +
+                "    public ${PresenterName}() {}\n" +
+                "\n" +
+                "}"
+        println "\n--------generatePresenter-------- \n" + "path:" + path + "\n" + "fileName: " + PresenterName
+    }
+
+    @TaskAction
+    void generateActivity() {
+        if (domain == null) {
+            throw new Exception("domain is empty, buddy!!")
+        }
+
+        def ActivityName = domain + "Activity"
+        def FragmentName = domain + "Fragment"
+        def path = rootPath + basePath + uiPath
+        def activityFile = new File(path, "${ActivityName}.java")
+        activityFile.createNewFile();
+        def packagePath = uiPath.replace("/", ".")
+        activityFile.text = "package  ${packageName}.activity;\n" +
+                "\n" +
+                "import ${packageName}.presenter.${domain}Presenter;\n" +
+                "import  ${packageName}.contract.${domain}Contract;\n" +
+                "import  ${packageName}.base.BaseActivity;\n" +
+                "\n" +
+                "public class ${ActivityName} extends BaseActivity<${domain}Presenter> implements ${domain}Contract.View{\n" +
+                "    @Override\n" +
+                "    protected void initData() {}\n" +
+                "\n" +
+                "    @Override\n" +
+                "    protected void injectSelf() {\n" +
+                "        activityComponent.inject(this);\n" +
+                "    }\n" +
+                "\n" +
+                "    @Override\n" +
+                "    protected int getContentViewId() {\n" +
+                "        return 0;\n" +
+                "    }\n"+
+                "}"
+        println "\n--------generateActivity-------- \n" + "path:" + path + "\n" + "fileName: " + ActivityName
+    }
+}
+
+/**
+ * Desc: generate mvp architecture code automatically
+ * For example: gradle mvp -D domain="Test" -D path="/activity"
+ * */
+task mvp(type: GenerateMvpCodes) {
+    group 'Kai'
+    description 'generate java code for MVP architecture'
+    def domainParam = System.getProperty('domain')
+    def pathParam = System.getProperty('path')
+    if (domainParam && pathParam) {
+        domain domainParam
+        uiPath pathParam
+    }
+}
+
+
+

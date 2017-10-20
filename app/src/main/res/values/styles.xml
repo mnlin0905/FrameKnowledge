@@ -1,0 +1,147 @@
+<resources>>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+    </style>
+
+    <style name="AppThemeHacker" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryHacker</item>
+        <item name="android:textColorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkHacker</item>
+        <item name="colorAccent">@color/colorAccentHacker</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColorHint">@color/transparent_white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textCursorDrawable">@drawable/text_cursor_drawable_white</item>
+        <item name="android:popupTheme">@style/PopupThemeHacker</item>
+    </style>
+
+    <style name="TextInputLayout_HintTextAppearance_Hacker" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/text_label_hacker</item>
+    </style>
+
+
+
+
+
+
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--<item name="android:windowBackground"></item>-->
+        <!--<item name="android:textColorPrimary"></item>-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorControlNormal">@color/colorControlNormal</item>
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimaryHacker</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Theme.Light.Dialog" parent="Base.V7.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="ActivityBottomView">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+
+    <style name="TextViewStandard">
+        <item name="android:drawablePadding">@dimen/prefer_inner_padding_horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:paddingLeft">@dimen/prefer_view_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/prefer_view_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/prefer_view_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/prefer_view_padding_vertical</item>
+    </style>
+
+    <style name="TextViewHomeSlide">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:paddingLeft">@dimen/prefer_view_padding_vertical</item>
+        <item name="android:paddingRight">@dimen/prefer_view_padding_vertical</item>
+        <item name="android:paddingTop">@dimen/prefer_view_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/prefer_view_padding_vertical</item>
+    </style>
+
+    <style name="CardViewHomeSlide">
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginLeft">@dimen/prefer_view_padding_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/prefer_view_padding_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/prefer_view_padding_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/prefer_view_padding_vertical</item>
+    </style>
+
+    <style name="PopupMenuRightAppear" parent="Base.Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupAnimationStyle">@style/PopupMenuRightAppearAnimation</item>
+    </style>
+
+    <style name="PopupMenuRightAppearAnimation">
+        <item name="android:windowEnterAnimation">@anim/popupmenu_enter_gravity_right</item>
+        <item name="android:windowExitAnimation">@anim/popupmenu_exit_gravity_right</item>
+    </style>
+
+    <style name="ActivityBottomViewAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_activity_menu_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_activity_menu_exit</item>
+    </style>
+
+    <style name="ActivityTopViewAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_activity_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_activity_top_exit</item>
+    </style>
+
+    <style name="PopupThemeHacker">
+        <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">true</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingRight">5dp</item>
+        <!-- 弹出层背景颜色 -->
+        <item name="android:colorBackground">@color/colorAccentHacker</item>
+        <item name="android:windowBackground">@color/colorAccentHacker</item>
+        <item name="android:popupBackground">@color/colorAccentHacker</item>
+        <!-- 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">0dp</item>
+        <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+        <!-- 设置弹出菜单文字颜色 -->
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

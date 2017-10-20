@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_rootView"
+    style="@style/TextViewStandard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_background_white_pressed_little_gray"
+    android:paddingRight="@dimen/prefer_view_padding_vertical">
+
+    <com.mnlin.hotchpotch.view.CircleTextView
+        android:id="@+id/ctv_icon"
+        android:text="名"
+        android:textColor="@color/colorAccent"
+        android:background="@color/little_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_biggest"
+        android:minHeight="@dimen/prefer_view_height"
+        android:minWidth="@dimen/prefer_view_height"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/prefer_view_padding_horizontal"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="手机号码"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_large"/>
+
+        <LinearLayout
+            android:id="@+id/ll_multiplyInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:maxLines="1"
+                android:text="归属地"/>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="创建时间"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:minWidth="48dp">
+
+        <ImageView
+            android:id="@+id/iv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/prefer_view_height"
+            android:scaleType="center"
+            android:src="@mipmap/ic_list_item_point"/>
+
+        <com.mnlin.hotchpotch.view.CheckRadioButton
+            android:id="@+id/rb_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+</LinearLayout>

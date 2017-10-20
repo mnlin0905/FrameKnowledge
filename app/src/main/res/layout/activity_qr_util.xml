@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/layout_top_bar"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_qr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_border_gray"
+            android:hint="请输入二维码内容"
+            android:paddingTop="@dimen/prefer_view_padding_vertical"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_qr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:minHeight="@dimen/prefer_view_height"
+                android:padding="@dimen/prefer_view_padding_vertical"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_create"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/background_border_gray"
+            android:gravity="center"
+            android:padding="@dimen/prefer_view_padding_vertical"
+            android:text="生成二维码"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/prefer_view_height">
+
+            <TextView
+                android:id="@+id/tv_from_picture"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/background_border_gray"
+                android:gravity="center"
+                android:text="选择图片"/>
+
+            <TextView
+                android:id="@+id/tv_from_photo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/background_border_gray"
+                android:gravity="center"
+                android:text="使用相机"/>
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_qr"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/prefer_view_padding_vertical"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>

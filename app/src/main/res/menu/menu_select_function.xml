@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.knowledge.mnlin.frame.activity.SelectFunctionActivity">
+
+    <!--二维码生成和解析-->
+    <item
+        android:id="@+id/action_qr"
+        android:orderInCategory="100"
+        android:title="@string/action_qr"
+        app:showAsAction="never"/>
+
+    <!--查看城市信息-->
+    <item
+        android:id="@+id/action_city_info"
+        android:orderInCategory="100"
+        android:title="@string/action_city_info"
+        app:showAsAction="never"/>
+</menu>

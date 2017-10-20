@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mnlin.hotchpotch.view.CircleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_rootView"
+    style="@style/TextViewStandard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_circle_little_gray_pressed_gray"
+    android:gravity="center_horizontal"
+android:minHeight="@dimen/max_view_height"
+    android:orientation="vertical">
+
+    <com.mnlin.hotchpotch.view.CircleImageView
+        android:id="@+id/civ_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="@dimen/prefer_view_padding_vertical"/>
+
+    <com.mnlin.hotchpotch.view.MarqueeTextView
+        android:id="@+id/mtv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/prefer_view_padding_vertical"
+        android:paddingRight="@dimen/prefer_view_padding_vertical"/>
+</com.mnlin.hotchpotch.view.CircleLinearLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_software_configure"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <TextView
+        style="@style/TextViewStandard"
+        android:text="Root授权"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="@color/little_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:id="@+id/lmv_openRoot"
+        app:LineMenuView_icon="@mipmap/icon_general_setting_enable_root_authorization"
+        app:LineMenuView_menu="开启Root授权"
+        app:LineMenuView_switch="off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.mnlin.hotchpotch.view.LineMenuView>
+
+    <View
+        android:background="@color/little_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:id="@+id/lmv_openFloatWindow"
+        app:LineMenuView_icon="@mipmap/icon_general_setting_root_auth_window"
+        app:LineMenuView_menu="允许悬浮窗显示"
+        app:LineMenuView_switch="off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.mnlin.hotchpotch.view.LineMenuView>
+
+    <View
+        android:background="@color/little_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <com.mnlin.hotchpotch.view.LineMenuView
+        android:id="@+id/lmv_openHelpFunction"
+        app:LineMenuView_icon="@mipmap/icon_general_setting_smart_authorization"
+        app:LineMenuView_menu="允许开启辅助功能"
+        app:LineMenuView_switch="off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.mnlin.hotchpotch.view.LineMenuView>
+
+    <View
+        android:background="@color/little_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+</LinearLayout>

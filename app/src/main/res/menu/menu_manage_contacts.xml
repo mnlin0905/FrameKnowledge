@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--默认显示：拨打电话，发送短信，拦截短信和电话三个功能-->
+
+    <item
+        android:id="@+id/action_sendSMS"
+        android:orderInCategory="100"
+        android:title="@string/action_send_sms"
+        android:icon="@mipmap/ic_menu_send"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_dial"
+        android:orderInCategory="100"
+        android:title="@string/action_dial"
+        android:icon="@mipmap/ic_menu_call"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_interceptContacts"
+        android:orderInCategory="100"
+        android:title="@string/action_intercept_contacts"
+        android:icon="@mipmap/ic_menu_blocked_user"
+        app:showAsAction="ifRoom" />
+</menu>

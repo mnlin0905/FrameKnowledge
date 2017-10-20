@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#eeeeee"
+                android:gravity="center_vertical"
+                android:paddingBottom="13sp"
+                android:paddingLeft="16sp"
+                android:paddingTop="19sp"
+                android:text="已连接设备"
+                android:textColor="#585858"
+                android:textSize="14sp"/>
+
+            <FrameLayout
+                android:id="@+id/fl_scan_haveConnectedDevice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/include_scan_haveConnectedDevice"
+                    layout="@layout/item_listview_imagetextimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"/>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#eeeeee"
+                android:gravity="center_vertical"
+                android:paddingBottom="13sp"
+                android:paddingLeft="16sp"
+                android:paddingTop="19sp"
+                android:text="已配对设备"
+                android:textColor="#585858"
+                android:textSize="14sp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.mnlin.hotchpotch.view.FlotListView
+                    android:id="@+id/flv_scan_haveBeMatchedDevice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.mnlin.hotchpotch.view.FlotListView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#eeeeee"
+                android:gravity="center_vertical"
+                android:paddingBottom="13sp"
+                android:paddingLeft="16sp"
+                android:paddingTop="19sp"
+                android:text="可用的设备"
+                android:textColor="#585858"
+                android:textSize="14sp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.mnlin.hotchpotch.view.FlotListView
+                    android:id="@+id/flv_scan_canBeUsedDevice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.mnlin.hotchpotch.view.FlotListView>
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+    <com.mnlin.hotchpotch.view.RadarAnimation
+        android:id="@+id/ra_scanAnimator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.mnlin.hotchpotch.view.RadarAnimation>
+
+</LinearLayout>

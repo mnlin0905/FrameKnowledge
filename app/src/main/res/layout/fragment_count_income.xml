@@ -1,0 +1,117 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="名字"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="用户名称"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="基本工资"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="岗位工资"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_secret"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="保密费"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="保密费"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_totalBonus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="月奖金基"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="月奖金基"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_percentBonus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="考核得分"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="考核得分"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_bonus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="考核奖金"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="考核奖金"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_extraBonus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="全勤奖"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="全勤奖"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_overtime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="加班费"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="加班费"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_otherPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="其他扣除"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="其他扣除"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_leavePay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="扣除缺勤"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="扣除缺勤"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_totalIncome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="应发工资"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="应发工资"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_personalPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="扣个人税"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="扣个人税"/>
+
+        <com.mnlin.hotchpotch.view.LineInputView
+            android:id="@+id/liv_realIncome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LineInputView_hint="实发工资"
+            app:LineInputView_icon="@mipmap/perm_group_personal_info"
+            app:LineInputView_menu="实发工资"/>
+    </LinearLayout>
+</ScrollView>

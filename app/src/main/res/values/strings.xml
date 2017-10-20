@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">UTILS</string>
+    <string name="app_version">V1.0.0</string>
+
+    <!--toolbar标签-->
+    <string name="label_home_activity">首页</string>
+    <string name="label_test_activity">测试活动</string>
+    <string name="label_scan_device">蓝牙管理</string>
+    <string name="label_software_configure">通用设置</string>
+    <string name="label_about_activity">关于软件</string>
+    <string name="label_help_activity">使用帮助</string>
+    <string name="label_manage_archive">表档案管理</string>
+    <string name="label_feedback_activity">意见反馈</string>
+    <string name="label_work_invoices">工单管理</string>
+    <string name="label_more_function">更多功能</string>
+    <string name="label_qr_util">二维码生成与解析</string>
+    <string name="label_city_info">地域查看器</string>
+
+    <!--action菜单功能-->
+    <string name="action_message">我的消息</string>
+    <string name="action_collection">我的收藏</string>
+    <string name="action_upload">下载管理</string>
+    <string name="action_timing_power_off">定时关机</string>
+    <string name="action_settings">通用设置</string>
+    <string name="action_bluetooth">蓝牙管理</string>
+    <string name="action_search">搜索服务</string>
+    <string name="action_help">使用帮助</string>
+    <string name="action_about">关于软件</string>
+    <string name="action_more">更多功能</string>
+    <string name="action_invoices">工单管理</string>
+    <string name="action_read_meter">抄表</string>
+    <string name="action_open_valve">开阀</string>
+    <string name="action_close_valve">关阀</string>
+    <string name="action_add_archive">添加档案</string>
+    <string name="action_update_and_query_archive">更新/查询档案</string>
+    <string name="action_delete_archive">删除档案</string>
+    <string name="action_update_archive">修改档案</string>
+    <string name="action_query_archive">查询档案</string>
+    <string name="action_count_income">工资计算</string>
+    <string name="action_contacts">联系人管理</string>
+    <string name="action_send_sms">发送短信</string>
+    <string name="action_dial">拨打电话</string>
+    <string name="action_intercept_contacts">拦截信息</string>
+    <string name="action_qr">二维码工具</string>
+    <string name="action_city_info">中国城市</string>
+
+
+    <!--服务中使用的字符串-->
+    <string name="service_static_install_apk_description">开启后可以通过百宝箱静默安装应用</string>
+
+    <!--侧滑栏打开或者关闭-->
+    <string name="drawer_layout_open">打开</string>
+    <string name="drawer_layout_close">关闭</string>
+
+    <!--活动：关于软件-->
+    <string name="about_copy_right">Copyright © 2000-2017 Suntront \n All rights reserved.</string>
+
+    <!--活动：使用帮助-->
+    <string name="help_root_title">什么是Root？</string>
+    <string name="help_root_content">Root是手机的最高权限，获取Root权限成功后就可以全面管理和优化手机，如删除手机预装软件等等。</string>
+    <string name="help_bluetooth_title">蓝牙是什么？</string>
+    <string name="help_bluetooth_content">蓝牙是一种无线技术标准，可以用于设备之间的信息交互，安卓4.3之后支持蓝牙4.0功能，利用该特性可以很方便的通过手机等其他携带式设备与硬件进行交互。</string>
+
+    <!--活动：主活动-->
+    <string name="home_archive_introduce">该功能主要包括基本表档案的增删改查，所有的操作都将反馈到本地数据库中；档案中表地址为关键字段，涉及加解密操作时会从档案中提取相应的密钥。</string>
+    <string name="home_archive_menu">表档案管理</string>
+    <string name="home_archive_add">添加</string>
+    <string name="home_archive_delete">删除</string>
+    <string name="home_archive_update">修改</string>
+    <string name="home_archive_query">查询</string>
+    <string name="home_meter_introduce">该功能主要包括对单表进行抄表、控阀、设参以及对多表进行批抄；若操作成功，则会将结果存储到本地数据库中。</string>
+    <string name="home_meter_menu">智能表操控</string>
+    <string name="home_meter_single_read">单抄</string>
+    <string name="home_meter_batch_read">批抄</string>
+    <string name="home_meter_manage_valve">控阀</string>
+    <string name="home_meter_set_parameter">设参</string>
+    <string name="home_concentrator_introduce">该功能主要是通过集中器对单表进行抄表、控阀、设参，对多表进行集抄；若操作成功，则会将结果存储到本地数据库中。</string>
+    <string name="home_concentrator_menu">集中器操控</string>
+    <string name="home_concentrator_single_read">单抄</string>
+    <string name="home_concentrator_batch_read">集抄</string>
+    <string name="home_concentrator_manage_valve">控阀</string>
+    <string name="home_concentrator_set_parameter">设参</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

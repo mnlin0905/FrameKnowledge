@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    app:navigationIcon="@mipmap/ic_common_back_km"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:gravity="center_vertical">
+</android.support.v7.widget.Toolbar>
+<!--    app:subtitleTextColor="@color/transparent_white"
+    app:titleTextColor="@color/white"
+    app:collapseIcon="@mipmap/abc_ic_menu_moreoverflow_normal_holo_dark"-->
