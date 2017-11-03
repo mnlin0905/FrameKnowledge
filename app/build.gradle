@@ -17,6 +17,12 @@ android {
         versionName "2.0"
         jackOptions.enabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
     buildTypes {
         release {
@@ -127,6 +133,15 @@ dependencies {
             transitive = false
         }*/
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    //权限请求框架
+    compile("com.github.hotchemi:permissionsdispatcher:3.0.1") {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
+    //activity路由跳转
+    compile 'com.alibaba:arouter-api:1.2.4'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 }
 
 class GenerateMvpCodes extends DefaultTask {
@@ -205,9 +220,10 @@ class GenerateMvpCodes extends DefaultTask {
                 "import  ${packageName}.contract.${domain}Contract;\n" +
                 "import  ${packageName}.base.BaseActivity;\n" +
                 "\n" +
+                "@Route(path = \"/activity/${ActivityName}\")"
                 "public class ${ActivityName} extends BaseActivity<${domain}Presenter> implements ${domain}Contract.View{\n" +
                 "    @Override\n" +
-                "    protected void initData() {}\n" +
+                "    protected void initData(Bundle savedInstanceState) {}\n" +
                 "\n" +
                 "    @Override\n" +
                 "    protected void injectSelf() {\n" +

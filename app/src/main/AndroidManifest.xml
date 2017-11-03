@@ -107,6 +107,9 @@
         <activity
             android:label="@string/label_city_info"
             android:name=".activity.AnalyzeCityInfoActivity"/>
+        <activity
+            android:label="@string/label_http_request_simulate"
+            android:name=".activity.HttpRequestSimulateActivity"/>
     </application>
 
 </manifest>

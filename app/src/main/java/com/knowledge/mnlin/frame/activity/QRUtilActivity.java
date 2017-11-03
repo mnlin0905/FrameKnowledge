@@ -1,21 +1,18 @@
 package com.knowledge.mnlin.frame.activity;
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.util.ImageUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -44,7 +41,15 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
+@Route(path = "/activity/QRUtilActivity")
 public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRUtilContract.View, TakePhoto.TakeResultListener, InvokeListener {
     //从图库中扫描二维码
     private static int QR_SCAN_REQUEST = 10000;
@@ -107,31 +112,85 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 点击图片进行保存
      */
     @OnLongClick(R.id.iv_qr)
-    public boolean saveQRImage() {
-        if(!showRequestPermissionDialog("需要打开存储权限才能保存图片!",Manifest.permission.READ_EXTERNAL_STORAGE,OPEN_STORAGE_REQUEST)){
-            return true;
-        }
-
+    boolean saveQRImage() {
         if (bitmap != null) {
-            try {
-                String filePath = Environment.getExternalStorageDirectory() + "/qr_image/" + System.currentTimeMillis() + ".jpg";
-                File file = new File(filePath);
-                if (!new File(file.getParent()).exists()) {
-                    new File(file.getParent()).mkdirs();
-                }
-                if (file.exists()) {
-                    file.delete();
-                }
-                file.createNewFile();
-                ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG);
-                showSnackbar("二维码已保存,文件路径为:\n" + filePath, "确定", null);
-            } catch (IOException e) {
-                showToast("无存储权限,无法保存二维码");
-            }
+            QRUtilActivityPermissionsDispatcher.toSaveQRImageWithPermissionCheck(this);
         } else {
             showToast("二维码不存在");
         }
         return true;
+    }
+
+    /**
+     * 带权限请求的存储图片请求
+     */
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
+    void toSaveQRImage(){
+        try {
+            String filePath = Environment.getExternalStorageDirectory() + "/qr_image/" + System.currentTimeMillis() + ".jpg";
+            File file = new File(filePath);
+            if (!new File(file.getParent()).exists()) {
+                new File(file.getParent()).mkdirs();
+            }
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+            ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG);
+            showSnackbar("二维码已保存,文件路径为:\n" + filePath, "确定", null);
+        } catch (IOException e) {
+            showToast("无法保存二维码");
+        }
+    }
+
+    /**
+     * 当第一次请求外部存储权限被拒绝时，再次发起请求需要先进行说明
+     */
+    @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE})
+    void showRationaleStorage(final PermissionRequest request){
+        showToast("必须打开存储权限才能保存图片");
+        request.proceed();
+    }
+
+    /**
+     * 当第一次请求外部存储权限被拒绝时，再次发起请求需要先进行说明
+     */
+    @OnShowRationale({Manifest.permission.CAMERA})
+    void showRationaleCamera(final PermissionRequest request){
+        showToast("需要打开相机权限才能扫描二维码");
+        request.proceed();
+    }
+
+    /**
+     * 当外部存储权限请求被拒绝时
+     */
+    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE})
+    void onPermissionDeniedStorage(){
+        showToast("权限启用失败");
+    }
+
+    /**
+     * 当相机权限请求被拒绝时
+     */
+    @OnPermissionDenied({Manifest.permission.CAMERA})
+    void onPermissionDeniedCamera(){
+        showToast("权限启用失败");
+    }
+
+    /**
+     * 当用户设定“不在弹出权限请求框”时调用,存储
+     */
+    @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE})
+    void onNeverAskAgainStorage(){
+        showToast("禁止弹窗启用权限");
+    }
+
+    /**
+     * 当用户设定“不在弹出权限请求框”时调用,相机
+     */
+    @OnNeverAskAgain({Manifest.permission.CAMERA})
+    void onNeverAskAgainCamera(){
+        showToast("禁止弹窗启用权限");
     }
 
     /**
@@ -167,35 +226,17 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 拍照并进行解析
      */
     @OnClick(R.id.tv_from_photo)
-    public void parseFromPhoto() {
-        if(showRequestPermissionDialog("需要打开相机权限才能扫描二维码!",Manifest.permission.CAMERA,OPEN_CAMERA_REQUEST)){
-            Intent intent = new Intent(this, CaptureActivity.class);
-            startActivityForResult(intent, QR_SCAN_REQUEST);
-        }
+    void parseFromPhoto() {
+        QRUtilActivityPermissionsDispatcher.toParseFromPhotoWithPermissionCheck(this);
     }
 
     /**
-     * 返回boolean,为true表示已经有了相应权限
+     * 这里需要单独定义改方法,该方法需要框架去调用
      */
-    private boolean showRequestPermissionDialog(String title,String permission,int requestCode){
-        if (!ActivityUtil.checkPermission(this,permission )) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
-                showSnackbar(title,"去设置", view -> {
-                    Intent intent1 = new Intent();
-                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent1.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    intent1.setData(Uri.fromParts("package", getPackageName(), null));
-                    ComponentName componentName = intent1.resolveActivity(getPackageManager());
-                    if (componentName != null) {
-                        startActivity(intent1);
-                    }
-                });
-            } else {
-                ActivityCompat.requestPermissions(this,new String[]{permission},requestCode);
-            }
-            return false;
-        }
-        return true;
+    @NeedsPermission({Manifest.permission.CAMERA})
+    void toParseFromPhoto(){
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, QR_SCAN_REQUEST);
     }
 
     @Override
@@ -227,11 +268,8 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
         }
     }
 
-
     /**
      * 获取TakePhoto实例
-     *
-     * @return
      */
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
@@ -253,11 +291,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
         //以下代码为处理Android6.0、7.0动态权限所需
         PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
-        if(requestCode==OPEN_CAMERA_REQUEST){
-            if(grantResults.length==1&&grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                showToast("相机权限已打开");
-            }
-        }
+        QRUtilActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @Override
@@ -305,5 +339,12 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     @Override
     public void takeCancel() {
 
+    }
+
+    /**
+     * 当权限被拒绝时,需要进行提示,然后再次请求
+     */
+    private void showRequestPermissionDialog(String title,String permission,int requestCode){
+        showSnackbar(title,"去设置", view -> ActivityUtil.intoPermissionSettingPage(this));
     }
 }

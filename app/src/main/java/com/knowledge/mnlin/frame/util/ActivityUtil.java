@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 /**
  * Created by Administrator on 16-12-30.
@@ -476,7 +478,7 @@ public class ActivityUtil {
      *
      * @return true表示可以成功进行查看
      */
-    public static boolean enterSettingsSurface(Context context) {
+    public static boolean intoSettingsSurface(Context context) {
         try {
             Intent intent = new Intent("android.settings.SETTINGS");
             context.startActivity(Intent.createChooser(intent, "进入系统设置界面"));
@@ -668,6 +670,20 @@ public class ActivityUtil {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * 进入系统的权限请求界面
+     */
+    public static void intoPermissionSettingPage(Context context){
+        Intent intent1 = new Intent();
+        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent1.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent1.setData(Uri.fromParts("package", context.getPackageName(), null));
+        ComponentName componentName = intent1.resolveActivity(context.getPackageManager());
+        if (componentName != null) {
+            startActivity(intent1);
+        }
     }
 }
 

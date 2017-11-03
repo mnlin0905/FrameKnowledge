@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +29,7 @@ import static com.knowledge.mnlin.frame.R.id.tv_city;
 /**
  * 解析城市信息
  */
+@Route(path = "/activity/AnalyzeCityInfoActivity")
 public class AnalyzeCityInfoActivity extends BaseActivity<AnalyzeCityInfoPresenter> implements AnalyzeCityInfoContract.View {
 
 
@@ -152,15 +154,14 @@ public class AnalyzeCityInfoActivity extends BaseActivity<AnalyzeCityInfoPresent
         //创建视图的代码需要放在主线程
         runOnUiThread(() -> {
             //初始化银行卡选择窗口
-            pvCustomOptions = new OptionsPickerView
-                    .Builder(this, (options1, options2, options3, v) -> {
-                currencyIndex[0] = options1;
-                currencyIndex[1] = options2;
-                currencyIndex[2] = options3;
+            pvCustomOptions = new OptionsPickerView.Builder(this, (options1, options2, options3, v) -> {
+                        currencyIndex[0] = options1;
+                        currencyIndex[1] = options2;
+                        currencyIndex[2] = options3;
 
-                // TODO: 2017/10/16 处理选中item的逻辑
-                mTvCity.setText("中国/" + provinces.get(options1) + "/" + cities.get(options1).get(options2) + "/" + counties.get(options1).get(options2).get(options3));
-            })
+                        // TODO: 2017/10/16 处理选中item的逻辑
+                        mTvCity.setText("中国/" + provinces.get(options1) + "/" + cities.get(options1).get(options2) + "/" + counties.get(options1).get(options2).get(options3));
+                    })
                     .setLayoutRes(R.layout.pickerview_custom_options, v -> {
                         v.findViewById(R.id.tv_finish).setOnClickListener(v1 -> {
                             pvCustomOptions.returnData();
@@ -184,7 +185,7 @@ public class AnalyzeCityInfoActivity extends BaseActivity<AnalyzeCityInfoPresent
      */
     @OnClick(R.id.tv_city_switch)
     public void switchCity() {
-        if(!isLoadOver){
+        if (!isLoadOver) {
             showToast("正在加载数据,请稍后操作");
             return;
         }

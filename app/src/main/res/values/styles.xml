@@ -16,15 +16,23 @@
         <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:background">@color/transparent</item>
-        <item name="android:textColorHint">@color/transparent_white</item>
+        <item name="android:textColorHint">@color/text_hint_hacker</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
+        <item name="android:editTextBackground">@drawable/selector_edit_text_background_hacker</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable_white</item>
         <item name="android:popupTheme">@style/PopupThemeHacker</item>
     </style>
 
     <style name="TextInputLayout_HintTextAppearance_Hacker" parent="TextAppearance.Design.Hint">
         <item name="android:textColor">@color/text_label_hacker</item>
+    </style>
+
+    <style name="TextInputEditText_Hacker">
+        <item name="android:layout_marginLeft">@dimen/text_view_bottom_line_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/text_view_bottom_line_horizontal</item>
+        <item name="android:minHeight">@dimen/prefer_view_height</item>
+        <item name="android:padding">@dimen/prefer_view_padding_horizontal</item>
     </style>
 
 

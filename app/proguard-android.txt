@@ -240,6 +240,10 @@
 -keepclassmembers class com.blankj.utilcode.** { *; }
 -dontwarn com.blankj.utilcode.**
 
+#路由跳转 arouter
+-keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+
 
 
 #keep 保留类名不会被混淆，且成员不会被移除

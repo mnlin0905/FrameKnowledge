@@ -1,6 +1,5 @@
 package com.knowledge.mnlin.frame.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.jaeger.library.StatusBarUtil;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.base.BaseActivity;
@@ -61,11 +61,13 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         int id = item.getItemId();
         switch (id) {
             case R.id.action_qr:
-                startActivity(new Intent(this, QRUtilActivity.class));
+                ARouter.getInstance().build("/activity/QRUtilActivity").navigation();
                 break;
             case R.id.action_city_info:
-                startActivity(new Intent(this, AnalyzeCityInfoActivity.class));
+                ARouter.getInstance().build("/activity/AnalyzeCityInfoActivity").navigation();
                 break;
+            case R.id.action_http_request_simulate:
+                ARouter.getInstance().build("/activity/HttpRequestSimulateActivity").navigation();
         }
         return true;
     }
@@ -135,8 +137,6 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
                         Log.d(TAG, "onCompleted: ");
                     }
                 });
-
-        showSnackbar("111", "ok", null);
     }
 
     @Override

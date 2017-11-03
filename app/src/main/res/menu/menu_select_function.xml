@@ -16,4 +16,13 @@
         android:orderInCategory="100"
         android:title="@string/action_city_info"
         app:showAsAction="never"/>
+
+    <!--HTTP访问-->
+    <item
+        android:id="@+id/action_http_request_simulate"
+        android:orderInCategory="100"
+        android:title="@string/action_http_request_simulate"
+        app:showAsAction="never"/>
+
+
 </menu>

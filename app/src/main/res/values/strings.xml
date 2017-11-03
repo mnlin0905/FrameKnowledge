@@ -15,6 +15,7 @@
     <string name="label_more_function">更多功能</string>
     <string name="label_qr_util">二维码生成与解析</string>
     <string name="label_city_info">地域查看器</string>
+    <string name="label_http_request_simulate">HTTP模拟器</string>
 
     <!--action菜单功能-->
     <string name="action_message">我的消息</string>
@@ -43,6 +44,7 @@
     <string name="action_intercept_contacts">拦截信息</string>
     <string name="action_qr">二维码工具</string>
     <string name="action_city_info">中国城市</string>
+    <string name="action_http_request_simulate">HTTP请求模拟</string>
 
 
     <!--服务中使用的字符串-->

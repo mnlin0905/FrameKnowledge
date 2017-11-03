@@ -22,7 +22,7 @@
     <color name="dark_gray">#4C4C4C</color>
     <color name="red">#ffff0000</color>
     <color name="white">#ffffffff</color>
-    <color name="transparent_white">#aaffffff</color>
+    <color name="text_hint_hacker">#aaffffff</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_gray">#aaaaaaaa</color>
     <color name="transparent_little_gray">#AAEEEEEE</color>

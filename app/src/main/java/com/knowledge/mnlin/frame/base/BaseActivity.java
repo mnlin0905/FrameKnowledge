@@ -1,5 +1,6 @@
 package com.knowledge.mnlin.frame.base;
 
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -79,7 +80,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         ActivityUtil.setDecorTransparent(this);
 
         //设置statubar的颜色
-        ActivityUtil.setStatusBarColor(this,getResources().getColor(R.color.colorPrimaryDarkHacker));
+        ActivityUtil.setStatusBarColor(this, getResources().getColor(R.color.colorPrimaryDarkHacker));
 
         //添加布局
         setContentView(getContentViewId());
@@ -223,7 +224,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (ActivityUtil.getSDKVersion() >= 21) {
             getWindow().setStatusBarColor(color);
         } else {
-            StatusBarUtil.setColor(this,color);
+            StatusBarUtil.setColor(this, color);
         }
     }
 
@@ -248,7 +249,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     /**
      * 初始化数据
      */
-    protected abstract void initData(Bundle  savedInstanceState);
+    protected abstract void initData(Bundle savedInstanceState);
 
     /**
      * @param msg 需要显示的toast消息
@@ -264,7 +265,21 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         Snackbar singleSnackbar = Snackbar.make(toolbar == null ? findViewById(android.R.id.content) : toolbar, msg, Snackbar.LENGTH_INDEFINITE);
         ((TextView) singleSnackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setMaxLines(10);
         singleSnackbar.getView().setAlpha(0.9f);
-        singleSnackbar.setAction(button, onClickButton==null?(View.OnClickListener) view -> singleSnackbar.dismiss():onClickButton).show();
+        singleSnackbar.setActionTextColor(getThemeColorAttribute(R.style.TextInputLayout_HintTextAppearance_Hacker,android.R.attr.textColor));
+        singleSnackbar.setAction(button, onClickButton == null ? (View.OnClickListener) view -> singleSnackbar.dismiss() : onClickButton).show();
+    }
+
+    /**
+     * 获取系统属性中某个值
+     */
+    protected int getThemeColorAttribute(int styleRes,int colorId) {
+        int defaultColor = 0xFF000000;
+        int[] attrsArray = {colorId};
+        TypedArray typedArray = obtainStyledAttributes(styleRes,attrsArray);
+        int color = typedArray.getColor(0, defaultColor);
+
+        typedArray.recycle();
+        return color;
     }
 
     /**
