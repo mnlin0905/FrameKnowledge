@@ -1,5 +1,7 @@
 package com.knowledge.mnlin.frame.base;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -70,8 +73,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         Log.v(TAG, "onCreate: ");
 
         //设置支持动画过渡效果
-        ActivityUtil.setActivtyContentTransition(this);
-        ActivityUtil.setActivtySupportTransitons(this);
+        ActivityUtil.setActivityContentTransitions(this);
+        ActivityUtil.setActivitySupportTransitions(this);
+        getWindow().setExitTransition(new Fade());
 
         //添加到活动管理中
         manageAddActivity();
@@ -365,5 +369,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

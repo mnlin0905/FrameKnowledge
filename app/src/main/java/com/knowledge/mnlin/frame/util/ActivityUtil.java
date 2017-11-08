@@ -70,7 +70,7 @@ public class ActivityUtil {
      *
      * @return true表示设置成功，否则表示失败
      */
-    public static boolean setActivtyContentTransition(Activity activity) {
+    public static boolean setActivityContentTransitions(Activity activity) {
         return activity.requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
     }
 
@@ -79,7 +79,7 @@ public class ActivityUtil {
      *
      * @return true表示设置成功，否则表示失败
      */
-    public static boolean setActivtySupportTransitons(Activity activity) {
+    public static boolean setActivitySupportTransitions(Activity activity) {
         return activity.getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
     }
 

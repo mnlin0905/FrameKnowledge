@@ -244,6 +244,20 @@
 -keep public class com.alibaba.android.arouter.routes.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 
+# 友盟统计
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keep public class com.knowledge.mnlin.frame.R$*{
+    public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+
+
 
 
 #keep 保留类名不会被混淆，且成员不会被移除

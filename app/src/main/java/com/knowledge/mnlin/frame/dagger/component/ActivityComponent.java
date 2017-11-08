@@ -1,5 +1,6 @@
 package com.knowledge.mnlin.frame.dagger.component;
 
+import com.knowledge.mnlin.frame.activity.AnalyzeByteDataActivity;
 import com.knowledge.mnlin.frame.activity.AnalyzeCityInfoActivity;
 import com.knowledge.mnlin.frame.activity.HttpRequestSimulateActivity;
 import com.knowledge.mnlin.frame.activity.QRUtilActivity;
@@ -24,4 +25,6 @@ public interface ActivityComponent {
     void inject(AnalyzeCityInfoActivity analyzeCityInfoActivity);
 
     void inject(HttpRequestSimulateActivity httpRequestSimulateActivity);
+
+    void inject(AnalyzeByteDataActivity analyzeByteDataActivity);
 }

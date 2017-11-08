@@ -93,6 +93,13 @@
         android:theme="@style/AppThemeHacker"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
+
+        <!--友盟统计-->
+        <meta-data android:name="UMENG_APPKEY" android:value="59fadb7cb27b0a0e4c000032" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="Channel ID" />
+        <!--渠道包-->
+        <!--<meta-data android:name="UMENG_CHANNEL" android:value="${UMENG_CHANNEL_VALUE}"/>-->
+
         <activity
             android:name="com.knowledge.mnlin.frame.activity.SelectFunctionActivity">
             <intent-filter>
@@ -109,7 +116,9 @@
             android:name=".activity.AnalyzeCityInfoActivity"/>
         <activity
             android:label="@string/label_http_request_simulate"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:name=".activity.HttpRequestSimulateActivity"/>
+        <activity android:name=".activity.AnalyzeByteDataActivity"/>
     </application>
 
 </manifest>

@@ -23,4 +23,6 @@
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_biggest">26sp</dimen>
+
+    <dimen name="divider_line_width">1px</dimen>
 </resources>

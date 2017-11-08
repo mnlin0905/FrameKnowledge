@@ -183,6 +183,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE})
     void onNeverAskAgainStorage(){
         showToast("禁止弹窗启用权限");
+        showRequestPermissionDialog("可以由此前往设置中心开启存储权限");
     }
 
     /**
@@ -191,6 +192,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     @OnNeverAskAgain({Manifest.permission.CAMERA})
     void onNeverAskAgainCamera(){
         showToast("禁止弹窗启用权限");
+        showRequestPermissionDialog("可以由此前往设置中心开启相机权限");
     }
 
     /**
@@ -344,7 +346,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     /**
      * 当权限被拒绝时,需要进行提示,然后再次请求
      */
-    private void showRequestPermissionDialog(String title,String permission,int requestCode){
+    private void showRequestPermissionDialog(String title){
         showSnackbar(title,"去设置", view -> ActivityUtil.intoPermissionSettingPage(this));
     }
 }

@@ -14,13 +14,15 @@ android {
         targetSdkVersion 26
         versionCode 200
         multiDexEnabled true
-        versionName "2.0"
+        versionName "2.0.0"
         jackOptions.enabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        /*manifestPlaceholders = [UMENG_CHANNEL_VALUE: "channel_name"]*/
+
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
@@ -30,12 +32,24 @@ android {
             zipAlignEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-android.txt'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        /*def fileName = "FrameKnowledge_${variant.productFlavors[0].name}_${releaseTime()}_v${defaultConfig.versionName}.apk"*/
+                        def fileName = "FrameKnowledge_${releaseTime()}_v${defaultConfig.versionName}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
         debug {
             minifyEnabled false
             proguardFile 'proguard-android.txt'
         }
     }
+
 /*    tasks.whenTaskAdded{ task ->
         if(task.name.contains("lint")
                 //|| task.name == "clean"
@@ -49,11 +63,51 @@ android {
             task.enabled =false
         }
     }*/
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+
+    /*   // 友盟多渠道打包
+    productFlavors {
+        puercoin {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "puercoin"]
+        }
+        qihoo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qihoo"]
+        }
+        baidu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+        qq {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qq"]
+        }
+        androidmarket {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "androidmarket"]
+        }
+        vivo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "vivo"]
+        }
+        oppo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "oppo"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+    }
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }*/
 }
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -142,6 +196,10 @@ dependencies {
     //activity路由跳转
     compile 'com.alibaba:arouter-api:1.2.4'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    //友盟统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    //tag布局
+    compile 'com.hyman:flowlayout-lib:1.1.2'
 }
 
 class GenerateMvpCodes extends DefaultTask {
@@ -220,21 +278,23 @@ class GenerateMvpCodes extends DefaultTask {
                 "import  ${packageName}.contract.${domain}Contract;\n" +
                 "import  ${packageName}.base.BaseActivity;\n" +
                 "\n" +
-                "@Route(path = \"/activity/${ActivityName}\")"
-                "public class ${ActivityName} extends BaseActivity<${domain}Presenter> implements ${domain}Contract.View{\n" +
-                "    @Override\n" +
-                "    protected void initData(Bundle savedInstanceState) {}\n" +
+                "@Route(path = \"/activity/${ActivityName}\")" +
                 "\n" +
-                "    @Override\n" +
-                "    protected void injectSelf() {\n" +
-                "        activityComponent.inject(this);\n" +
-                "    }\n" +
+                "public class ${ActivityName} extends BaseActivity<${domain}Presenter> implements ${domain}Contract.View{\n" +
                 "\n" +
                 "    @Override\n" +
                 "    protected int getContentViewId() {\n" +
                 "        return 0;\n" +
-                "    }\n"+
-                "}"
+                "    }" +
+                "\n\n" +
+                "    @Override\n" +
+                "    protected void initData(Bundle savedInstanceState) {}" +
+                "\n\n" +
+                "    @Override\n" +
+                "    protected void injectSelf() {\n" +
+                "        activityComponent.inject(this);\n" +
+                "    }\n" +
+                "\n}"
         println "\n--------generateActivity-------- \n" + "path:" + path + "\n" + "fileName: " + ActivityName
     }
 }

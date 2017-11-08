@@ -45,7 +45,7 @@
     <string name="action_qr">二维码工具</string>
     <string name="action_city_info">中国城市</string>
     <string name="action_http_request_simulate">HTTP请求模拟</string>
-
+    <string name="action_http_visit">访问</string>
 
     <!--服务中使用的字符串-->
     <string name="service_static_install_apk_description">开启后可以通过百宝箱静默安装应用</string>

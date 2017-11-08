@@ -1,113 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="?attr/colorPrimary"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical">
 
     <include layout="@layout/layout_top_bar"/>
 
-    <android.support.design.widget.TextInputLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入请求的网址(URL地址)"
-        android:paddingTop="@dimen/prefer_view_padding_vertical"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiet_url"
-            style="@style/TextInputEditText_Hacker"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="http://"/>
-    </android.support.design.widget.TextInputLayout>
+            android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入HTTP请求方法(如GET/POST等)"
-        android:paddingTop="@dimen/prefer_view_padding_vertical"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入请求的网址(URL地址)"
+                android:paddingTop="@dimen/prefer_view_padding_vertical"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiet_method"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLength="10"
-            android:maxLines="1"
-            style="@style/TextInputEditText_Hacker"
-            android:text="GET"/>
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tiet_url"
+                    style="@style/TextInputEditText_Hacker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="http://"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="HTTP请求头信息"
-        android:paddingTop="@dimen/prefer_view_padding_vertical"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入HTTP请求方法(如GET/POST等)"
+                android:paddingTop="@dimen/prefer_view_padding_vertical"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiet_request_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            style="@style/TextInputEditText_Hacker"
-            android:text=""/>
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tiet_method"
+                    style="@style/TextInputEditText_Hacker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:text="GET"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="HTTP请求体(POST等方式时发送数据)"
-        android:paddingTop="@dimen/prefer_view_padding_vertical"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_request_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="HTTP请求头信息(长按可删除):格式同真正头部"
+                android:paddingTop="@dimen/prefer_view_padding_vertical"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiet_request_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            style="@style/TextInputEditText_Hacker"
-            android:text=""/>
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tiet_request_header"
+                    style="@style/TextInputEditText_Hacker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=""/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="HTTP响应头"
-        android:paddingTop="@dimen/prefer_view_padding_vertical"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_request_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="HTTP请求体(POST等方式时发送数据)(长按可删除)"
+                android:paddingTop="@dimen/prefer_view_padding_vertical"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiet_response_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            style="@style/TextInputEditText_Hacker"
-            android:text=""/>
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tiet_request_body"
+                    style="@style/TextInputEditText_Hacker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=""/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="HTTP响应体"
-        android:paddingTop="@dimen/prefer_view_padding_vertical"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_response_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="HTTP响应头(长按以流形式显示)(点击可复制)"
+                android:paddingTop="@dimen/prefer_view_padding_vertical"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiet_response_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            style="@style/TextInputEditText_Hacker"
-            android:text=""/>
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:transitionName="share"
+                    android:id="@+id/tiet_response_header"
+                    style="@style/TextInputEditText_Hacker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:gravity="start"
+                    android:text=""/>
+            </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_response_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="HTTP响应体(长按以网页形式打开)(点击可复制)"
+                android:paddingTop="@dimen/prefer_view_padding_vertical"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tiet_response_body"
+                    style="@style/TextInputEditText_Hacker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:gravity="start"
+                    android:text=""/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -9,6 +9,7 @@
 
     <style name="AppThemeHacker" parent="AppTheme.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:windowContentTransitions">true</item>
         <item name="colorPrimary">@color/colorPrimaryHacker</item>
         <item name="android:textColorPrimary">@color/gray</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkHacker</item>
