@@ -112,7 +112,7 @@ public class BaseApplication extends Application {
 
         //简单的toast
         singleSmallToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-        ((TextView) singleSmallToast.getView().findViewById(android.R.id.message)).setTextColor(getResources().getColor(R.color.text_label_hacker));
+        ((TextView) singleSmallToast.getView().findViewById(android.R.id.message)).setTextColor(getResources().getColor(R.color.colorAccent));
         singleSmallToast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 200);
 
         //捕获RxBus发出的消息,用于显示toast等

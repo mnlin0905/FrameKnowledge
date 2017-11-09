@@ -4,17 +4,18 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -75,7 +76,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         //设置支持动画过渡效果
         ActivityUtil.setActivityContentTransitions(this);
         ActivityUtil.setActivitySupportTransitions(this);
-        getWindow().setExitTransition(new Fade());
+        /*getWindow().setExitTransition(new Fade());*/
 
         //添加到活动管理中
         manageAddActivity();
@@ -269,17 +270,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         Snackbar singleSnackbar = Snackbar.make(toolbar == null ? findViewById(android.R.id.content) : toolbar, msg, Snackbar.LENGTH_INDEFINITE);
         ((TextView) singleSnackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setMaxLines(10);
         singleSnackbar.getView().setAlpha(0.9f);
-        singleSnackbar.setActionTextColor(getThemeColorAttribute(R.style.TextInputLayout_HintTextAppearance_Hacker,android.R.attr.textColor));
+        singleSnackbar.setActionTextColor(getThemeColorAttribute(R.style.TextInputLayout_HintTextAppearance_Hacker, android.R.attr.textColor));
         singleSnackbar.setAction(button, onClickButton == null ? (View.OnClickListener) view -> singleSnackbar.dismiss() : onClickButton).show();
     }
 
     /**
      * 获取系统属性中某个值
      */
-    protected int getThemeColorAttribute(int styleRes,int colorId) {
+    protected int getThemeColorAttribute(int styleRes, int colorId) {
         int defaultColor = 0xFF000000;
         int[] attrsArray = {colorId};
-        TypedArray typedArray = obtainStyledAttributes(styleRes,attrsArray);
+        TypedArray typedArray = obtainStyledAttributes(styleRes, attrsArray);
         int color = typedArray.getColor(0, defaultColor);
 
         typedArray.recycle();
@@ -375,4 +376,21 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void startActivity(Intent intent) {
         super.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
+
+    /**
+     * 获取drawable
+     */
+    protected Drawable dispatchGetDrawable(@DrawableRes int resId) {
+        if (Build.VERSION.SDK_INT >= 21) return getDrawable(resId);
+        else return getResources().getDrawable(resId);
+    }
+
+    /**
+     * 获取color
+     */
+    protected int dispatchGetColor(@ColorRes int resId) {
+        if (Build.VERSION.SDK_INT >= 23) return getColor(resId);
+        else return getResources().getColor(resId);
+    }
+
 }

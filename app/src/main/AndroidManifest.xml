@@ -118,7 +118,9 @@
             android:label="@string/label_http_request_simulate"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:name=".activity.HttpRequestSimulateActivity"/>
-        <activity android:name=".activity.AnalyzeByteDataActivity"/>
+        <activity
+            android:label="@string/label_data_stream_analyze"
+            android:name=".activity.AnalyzeByteDataActivity"/>
     </application>
 
 </manifest>

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.knowledge.mnlin.frame.R;
@@ -47,6 +49,12 @@ public class AnalyzeByteAdapter extends BaseAdapter {
             TextView tv=new TextView(context);
             int padding=context.getResources().getDimensionPixelSize(R.dimen.prefer_view_padding_vertical);
             tv.setPadding(padding,padding,padding,padding);
+            ListView.LayoutParams params=new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT);
+            if(parent!=null){
+                params.width=parent.getWidth()-parent.getPaddingLeft()-parent.getPaddingRight();
+            }
+            tv.setTextColor(parent.getContext().getResources().getColorStateList(R.color.selector_slide_bar_text_icon_color));
+            tv.setLayoutParams(params);
             tv.setGravity(Gravity.CENTER);
             convertView=tv;
         }

@@ -93,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="HTTP响应头(长按以流形式显示)(点击可复制)"
+                android:descendantFocusability="blocksDescendants"
                 android:paddingTop="@dimen/prefer_view_padding_vertical"
                 app:hintAnimationEnabled="true"
                 app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
@@ -103,8 +104,6 @@
                     style="@style/TextInputEditText_Hacker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:clickable="false"
                     android:gravity="start"
                     android:text=""/>
             </android.support.design.widget.TextInputLayout>
@@ -114,7 +113,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="HTTP响应体(长按以网页形式打开)(点击可复制)"
+                android:descendantFocusability="blocksDescendants"
                 android:paddingTop="@dimen/prefer_view_padding_vertical"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 app:hintAnimationEnabled="true"
                 app:hintTextAppearance="@style/TextInputLayout_HintTextAppearance_Hacker">
 
@@ -123,8 +124,6 @@
                     style="@style/TextInputEditText_Hacker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:clickable="false"
                     android:gravity="start"
                     android:text=""/>
             </android.support.design.widget.TextInputLayout>
