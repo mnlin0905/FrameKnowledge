@@ -173,6 +173,7 @@
 -dontwarn com.j256.ormlite.**
 -dontwarn javax.sql.**
 -dontwarn org.**
+-keep class * extends org.litepal.crud.DataSupport {*;}
 
 #dagger框架
 -dontwarn dagger.**

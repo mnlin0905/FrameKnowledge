@@ -21,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.jaeger.library.StatusBarUtil;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.dagger.component.ActivityComponent;
@@ -102,6 +103,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         //注入dagger框架
         activityComponent = DaggerActivityComponent.builder().applicationComponent(BaseApplication.getApplicationComponent()).activityModule(new ActivityModule(this)).build();
         injectSelf();
+
+        //注入路由Arouter框架
+        ARouter.getInstance().inject(this);
 
         //绑定presenter和activity
         mPresenter.mView = this;

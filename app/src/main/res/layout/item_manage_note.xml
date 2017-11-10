@@ -6,14 +6,12 @@
     style="@style/TextViewStandard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_background_white_pressed_little_gray"
     android:paddingRight="@dimen/prefer_view_padding_vertical">
 
-    <com.mnlin.hotchpotch.view.CircleTextView
+    <com.knowledge.mnlin.frame.view.CircleTextView
         android:id="@+id/ctv_icon"
-        android:text="名"
-        android:textColor="@color/colorAccent"
-        android:background="@color/little_gray"
+        android:text="序"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_biggest"
@@ -28,12 +26,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_phone"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="手机号码"
+            android:text="标题"
             android:textStyle="bold"
             android:textSize="@dimen/text_size_large"/>
 
@@ -43,22 +41,22 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_address"
+                android:id="@+id/tv_create_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
                 android:maxLines="1"
-                android:text="归属地"/>
+                android:text="创建时间"/>
 
             <TextView
-                android:id="@+id/tv_time"
+                android:id="@+id/tv_update_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:gravity="right"
                 android:maxLines="1"
-                android:text="创建时间"/>
+                android:text="更新时间"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -76,7 +74,7 @@
             android:scaleType="center"
             android:src="@mipmap/ic_list_item_point"/>
 
-        <com.mnlin.hotchpotch.view.CheckRadioButton
+        <com.knowledge.mnlin.frame.view.CheckRadioButton
             android:id="@+id/rb_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

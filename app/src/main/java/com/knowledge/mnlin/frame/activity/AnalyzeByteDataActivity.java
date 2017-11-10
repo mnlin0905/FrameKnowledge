@@ -2,7 +2,6 @@ package com.knowledge.mnlin.frame.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.adapter.AnalyzeByteAdapter;
 import com.knowledge.mnlin.frame.base.BaseActivity;
@@ -36,8 +34,6 @@ public class AnalyzeByteDataActivity extends BaseActivity<AnalyzeByteDataPresent
     TagFlowLayout mTflBytes;
     @BindView(R.id.tfl_chars)
     TagFlowLayout mTflChars;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.tiet_response_header)
     TextInputEditText mTietResponseHeader;
     @BindView(R.id.tv_response_header)
@@ -101,10 +97,7 @@ public class AnalyzeByteDataActivity extends BaseActivity<AnalyzeByteDataPresent
         mLvGroup.addHeaderView(header);
 
         //默认选中第一项
-        mLvGroup.post(() -> {
-            dispatchItemClick(0);
-            selectedPosition = 0;
-        });
+        mLvGroup.post(() -> onItemClick(null,mLvGroup.getChildAt(1),1,1));
     }
 
     @Override
@@ -188,7 +181,6 @@ public class AnalyzeByteDataActivity extends BaseActivity<AnalyzeByteDataPresent
     @Override
     protected void injectSelf() {
         activityComponent.inject(this);
-        ARouter.getInstance().inject(this);
     }
 
     /**

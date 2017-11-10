@@ -101,7 +101,7 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!mTietUrl.getText().toString().matches("^(http://)(\\S+)$")) {
+        if (!mTietUrl.getText().toString().matches("^((http://)|(https://))(\\S+)$")) {
             showToast("请输入有效的http地址");
             return true;
         }
@@ -134,12 +134,10 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
         try {
             switch (mTietMethod.getText().toString()) {
                 case "GET":
-                    //httpGet(mTietUrl.getText().toString());
-                    httpGet("http://192.168.1.165:8000/index");
+                    httpGet(mTietUrl.getText().toString());
                     break;
                 case "POST":
-                    //httpPost(mTietUrl.getText().toString(), mTietRequestHeader.getText().toString());
-                    httpPost("http://192.168.1.165:8000/index", mTietRequestHeader.getText().toString());
+                    httpPost(mTietUrl.getText().toString(), mTietRequestBody.getText().toString());
                     break;
                 default:
                     showToast("暂不支持该请求方式");
@@ -305,7 +303,11 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
                         .navigation(this);
                 break;
             case til_response_body:
-                // TODO: 2017/11/8 编写网页
+                ARouter.getInstance()
+                        .build("/activity/QbWebBrowseActivity")
+                        .withString("source", mTietResponseBody.getText().toString())
+                        .withTransition(R.anim.dialog_activity_menu_enter, R.anim.dialog_activity_top_exit)
+                        .navigation(this);
                 break;
         }
         return true;

@@ -16,7 +16,8 @@
     <string name="label_qr_util">二维码生成与解析</string>
     <string name="label_city_info">地域查看器</string>
     <string name="label_http_request_simulate">HTTP模拟器</string>
-    <string name="label_data_stream_analyze"></string>
+    <string name="label_data_stream_analyze">数据流分析器</string>
+    <string name="label_qb_web_browse">网页数据加载器</string>
 
     <!--action菜单功能-->
     <string name="action_message">我的消息</string>

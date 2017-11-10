@@ -3,7 +3,9 @@ package com.knowledge.mnlin.frame.dagger.component;
 import com.knowledge.mnlin.frame.activity.AnalyzeByteDataActivity;
 import com.knowledge.mnlin.frame.activity.AnalyzeCityInfoActivity;
 import com.knowledge.mnlin.frame.activity.HttpRequestSimulateActivity;
+import com.knowledge.mnlin.frame.activity.ManageNoteActivity;
 import com.knowledge.mnlin.frame.activity.QRUtilActivity;
+import com.knowledge.mnlin.frame.activity.QbWebBrowseActivity;
 import com.knowledge.mnlin.frame.activity.SelectFunctionActivity;
 import com.knowledge.mnlin.frame.annotation.PerActivity;
 import com.knowledge.mnlin.frame.dagger.module.ActivityModule;
@@ -27,4 +29,8 @@ public interface ActivityComponent {
     void inject(HttpRequestSimulateActivity httpRequestSimulateActivity);
 
     void inject(AnalyzeByteDataActivity analyzeByteDataActivity);
+
+    void inject(QbWebBrowseActivity qbWebBrowseActivity);
+
+    void inject(ManageNoteActivity manageNoteActivity);
 }

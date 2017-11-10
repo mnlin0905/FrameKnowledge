@@ -60,7 +60,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/prefer_view_padding_horizontal"
-                    android:text="字符流($charset编码)"
+                    android:text="字符流(UNICODE编码)"
                     android:textColor="@color/text_label_hacker"
                     android:textSize="@dimen/text_size_small"/>
 

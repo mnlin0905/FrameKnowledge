@@ -127,7 +127,8 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
     void toSaveQRImage(){
         try {
-            String filePath = Environment.getExternalStorageDirectory() + "/qr_image/" + System.currentTimeMillis() + ".jpg";
+
+            String filePath = Environment.getExternalStorageDirectory() + "/UTILS/qr_image/" + System.currentTimeMillis() + ".jpg";
             File file = new File(filePath);
             if (!new File(file.getParent()).exists()) {
                 new File(file.getParent()).mkdirs();

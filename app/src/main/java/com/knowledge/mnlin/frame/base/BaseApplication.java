@@ -23,6 +23,7 @@ import com.orhanobut.logger.LogStrategy;
 import com.orhanobut.logger.LogcatLogStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
@@ -96,7 +97,7 @@ public class BaseApplication extends Application {
         Connector.getDatabase();
 
         //设置全局未被捕获的异常：监听当前进程的所有线程
-    /*    Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+        /*Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             e.printStackTrace();
             try {
                 //显示提示
@@ -144,7 +145,7 @@ public class BaseApplication extends Application {
         ZXingLibrary.initDisplayOpinion(this);
 
         //初始化第三方webview
-        /*QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
 
@@ -159,7 +160,7 @@ public class BaseApplication extends Application {
                 }
             }
         });
-        QbSdk.setDownloadWithoutWifi(true);*/
+        QbSdk.setDownloadWithoutWifi(true);
 
         //路由跳转框架初始化
         if (Debug.isDebuggerConnected()) {

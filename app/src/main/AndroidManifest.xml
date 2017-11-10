@@ -121,6 +121,10 @@
         <activity
             android:label="@string/label_data_stream_analyze"
             android:name=".activity.AnalyzeByteDataActivity"/>
+        <activity
+            android:label="@string/label_qb_web_browse"
+            android:name=".activity.QbWebBrowseActivity"/>
+        <activity android:name=".activity.ManageNoteActivity"/>
     </application>
 
 </manifest>
