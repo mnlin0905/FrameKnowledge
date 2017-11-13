@@ -17,7 +17,6 @@ import com.knowledge.mnlin.frame.util.SparseBooleanArray;
 import com.knowledge.mnlin.frame.view.CircleTextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -70,7 +69,7 @@ public class ManageNoteAdapter extends RecyclerView.Adapter<ManageNoteAdapter
     /**
      * 通知数据需要进行刷新
      */
-    public void notifyDataSetChanged(ArrayList<NoteConfigBean> datas) {
+    public void notifyDataSetChanged(List<NoteConfigBean> datas) {
         if (datas == null) return;
         this.data = datas;
         notifyDataSetChanged(this.data.size());
@@ -138,12 +137,12 @@ public class ManageNoteAdapter extends RecyclerView.Adapter<ManageNoteAdapter
         private ViewHolder(View itemView) {
             super(itemView);
             rootView = itemView;
-            rb_select = (RadioButton) itemView.findViewById(R.id.rb_select);
-            iv_select = (ImageView) itemView.findViewById(R.id.iv_select);
-            ctv_icon = (CircleTextView) itemView.findViewById(R.id.ctv_icon);
-            tv_create_time = (TextView) itemView.findViewById(R.id.tv_create_time);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
-            tv_update_time = (TextView) itemView.findViewById(R.id.tv_update_time);
+            rb_select = itemView.findViewById(R.id.rb_select);
+            iv_select = itemView.findViewById(R.id.iv_select);
+            ctv_icon = itemView.findViewById(R.id.ctv_icon);
+            tv_create_time = itemView.findViewById(R.id.tv_create_time);
+            tv_title = itemView.findViewById(R.id.tv_title);
+            tv_update_time = itemView.findViewById(R.id.tv_update_time);
             rb_select.setOnCheckedChangeListener(this);
             iv_select.setOnClickListener(this);
             rootView.setOnClickListener(this);

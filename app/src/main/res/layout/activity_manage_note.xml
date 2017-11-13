@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <include layout="@layout/layout_top_bar"/>
+
+    <com.knowledge.mnlin.frame.view.LineMenuView
+        android:visibility="gone"
+        android:id="@+id/lmv_selectAll"
+        app:LineMenuView_icon="@mipmap/ic_menu_archive"
+        app:LineMenuView_menu="取消/全选"
+        app:LineMenuView_switch="off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xrv_noteList"

@@ -31,6 +31,7 @@ import com.knowledge.mnlin.frame.retrofit.HttpInterface;
 import com.knowledge.mnlin.frame.rxbus.RxBus;
 import com.knowledge.mnlin.frame.util.ActivityUtil;
 import com.knowledge.mnlin.frame.util.Const;
+import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Stack;
@@ -38,8 +39,11 @@ import java.util.Stack;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.view.KeyEvent.KEYCODE_MENU;
 
@@ -61,6 +65,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Inject
     protected HttpInterface httpInterface;
+
+    protected CharSequence activityTitle;
 
     @Override
     @SuppressWarnings("all")
@@ -110,14 +116,34 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         //绑定presenter和activity
         mPresenter.mView = this;
 
+        //获取title值
+        activityTitle = getTitle();
+
         //初始化内容
         initData(savedInstanceState);
+
+        //子线程数据处理
+        Observable.just(true)
+                .subscribeOn(Schedulers.single())
+                .map(aBoolean -> {
+                    initDataInThread(savedInstanceState);
+                    return true;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(a -> Logger.v("异步加载完成"));
     }
 
     /**
      * 使用dagger注入自身
      */
     protected abstract void injectSelf();
+
+
+    /**
+     * 在子线程加载数据
+     */
+    protected void initDataInThread(Bundle savedInstanceState) {
+    }
 
     /**
      * 管理activity实例
@@ -181,6 +207,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onResume() {
         super.onResume();
+        refreshData();
         Log.v(TAG, "onResume: ");
     }
 
@@ -259,6 +286,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      * 初始化数据
      */
     protected abstract void initData(Bundle savedInstanceState);
+
+    /**
+     * 更新数据
+     */
+    protected void refreshData() {
+    }
 
     /**
      * @param msg 需要显示的toast消息

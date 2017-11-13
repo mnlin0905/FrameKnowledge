@@ -54,9 +54,9 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     //从图库中扫描二维码
     private static int QR_SCAN_REQUEST = 10000;
     //请求打开相机权限
-    private static int OPEN_CAMERA_REQUEST=10001;
+    private static int OPEN_CAMERA_REQUEST = 10001;
     //请求存储文件
-    private static int OPEN_STORAGE_REQUEST=10002;
+    private static int OPEN_STORAGE_REQUEST = 10002;
 
     //takePhoto框架
     private TakePhoto takePhoto;
@@ -125,10 +125,10 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 带权限请求的存储图片请求
      */
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
-    void toSaveQRImage(){
+    void toSaveQRImage() {
         try {
 
-            String filePath = Environment.getExternalStorageDirectory() + "/UTILS/qr_image/" + System.currentTimeMillis() + ".jpg";
+            String filePath = Environment.getExternalStorageDirectory() + getString(R.string.qr_directory) + System.currentTimeMillis() + ".jpg";
             File file = new File(filePath);
             if (!new File(file.getParent()).exists()) {
                 new File(file.getParent()).mkdirs();
@@ -148,7 +148,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 当第一次请求外部存储权限被拒绝时，再次发起请求需要先进行说明
      */
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE})
-    void showRationaleStorage(final PermissionRequest request){
+    void showRationaleStorage(final PermissionRequest request) {
         showToast("必须打开存储权限才能保存图片");
         request.proceed();
     }
@@ -157,7 +157,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 当第一次请求外部存储权限被拒绝时，再次发起请求需要先进行说明
      */
     @OnShowRationale({Manifest.permission.CAMERA})
-    void showRationaleCamera(final PermissionRequest request){
+    void showRationaleCamera(final PermissionRequest request) {
         showToast("需要打开相机权限才能扫描二维码");
         request.proceed();
     }
@@ -166,7 +166,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 当外部存储权限请求被拒绝时
      */
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE})
-    void onPermissionDeniedStorage(){
+    void onPermissionDeniedStorage() {
         showToast("权限启用失败");
     }
 
@@ -174,7 +174,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 当相机权限请求被拒绝时
      */
     @OnPermissionDenied({Manifest.permission.CAMERA})
-    void onPermissionDeniedCamera(){
+    void onPermissionDeniedCamera() {
         showToast("权限启用失败");
     }
 
@@ -182,7 +182,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 当用户设定“不在弹出权限请求框”时调用,存储
      */
     @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE})
-    void onNeverAskAgainStorage(){
+    void onNeverAskAgainStorage() {
         showToast("禁止弹窗启用权限");
         showRequestPermissionDialog("可以由此前往设置中心开启存储权限");
     }
@@ -191,7 +191,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 当用户设定“不在弹出权限请求框”时调用,相机
      */
     @OnNeverAskAgain({Manifest.permission.CAMERA})
-    void onNeverAskAgainCamera(){
+    void onNeverAskAgainCamera() {
         showToast("禁止弹窗启用权限");
         showRequestPermissionDialog("可以由此前往设置中心开启相机权限");
     }
@@ -237,7 +237,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
      * 这里需要单独定义改方法,该方法需要框架去调用
      */
     @NeedsPermission({Manifest.permission.CAMERA})
-    void toParseFromPhoto(){
+    void toParseFromPhoto() {
         Intent intent = new Intent(this, CaptureActivity.class);
         startActivityForResult(intent, QR_SCAN_REQUEST);
     }
@@ -310,28 +310,31 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     public void takeSuccess(TResult result) {
         //获取uri
         String filePath = result.getImage().getCompressPath();
-        Glide.with(this).asBitmap().load(filePath).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                QRUtilActivity.this.bitmap = resource;
-                mIvQr.setImageBitmap(QRUtilActivity.this.bitmap);
-
-                CodeUtils.analyzeBitmap(filePath, new CodeUtils.AnalyzeCallback() {
+        Glide.with(this)
+                .asBitmap()
+                .load(filePath)
+                .into(new SimpleTarget<Bitmap>() {
                     @Override
-                    public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                        showSnackbar("解析成功,二维码内容为:\n" + result, "复制", view -> {
-                            ActivityUtil.saveMsgToClipboard(QRUtilActivity.this, result);
-                            showToast("已复制到粘贴板");
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        QRUtilActivity.this.bitmap = resource;
+                        mIvQr.setImageBitmap(QRUtilActivity.this.bitmap);
+
+                        CodeUtils.analyzeBitmap(filePath, new CodeUtils.AnalyzeCallback() {
+                            @Override
+                            public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+                                showSnackbar("解析成功,二维码内容为:\n" + result, "复制", view -> {
+                                    ActivityUtil.saveMsgToClipboard(QRUtilActivity.this, result);
+                                    showToast("已复制到粘贴板");
+                                });
+                            }
+
+                            @Override
+                            public void onAnalyzeFailed() {
+                                showToast("无法解析图片");
+                            }
                         });
                     }
-
-                    @Override
-                    public void onAnalyzeFailed() {
-                        showToast("无法解析图片");
-                    }
                 });
-            }
-        });
     }
 
     @Override
@@ -347,7 +350,7 @@ public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRU
     /**
      * 当权限被拒绝时,需要进行提示,然后再次请求
      */
-    private void showRequestPermissionDialog(String title){
-        showSnackbar(title,"去设置", view -> ActivityUtil.intoPermissionSettingPage(this));
+    private void showRequestPermissionDialog(String title) {
+        showSnackbar(title, "去设置", view -> ActivityUtil.intoPermissionSettingPage(this));
     }
 }

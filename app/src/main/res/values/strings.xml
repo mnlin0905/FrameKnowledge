@@ -18,6 +18,7 @@
     <string name="label_http_request_simulate">HTTP模拟器</string>
     <string name="label_data_stream_analyze">数据流分析器</string>
     <string name="label_qb_web_browse">网页数据加载器</string>
+    <string name="label_manage_note">便签管理</string>
 
     <!--action菜单功能-->
     <string name="action_message">我的消息</string>
@@ -48,6 +49,10 @@
     <string name="action_city_info">中国城市</string>
     <string name="action_http_request_simulate">HTTP请求模拟</string>
     <string name="action_http_visit">访问</string>
+    <string name="action_manage_note">便签</string>
+    <string name="action_add_note">添加便签</string>
+    <string name="action_delete_note">删除便签</string>
+    <string name="action_save_note">保存便签</string>
 
     <!--服务中使用的字符串-->
     <string name="service_static_install_apk_description">开启后可以通过百宝箱静默安装应用</string>

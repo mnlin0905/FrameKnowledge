@@ -1,6 +1,6 @@
 package com.knowledge.mnlin.frame.retrofit;
 
-import com.knowledge.mnlin.frame.base.BaseBean;
+import com.knowledge.mnlin.frame.base.BaseHttpBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface HttpInterface {
     @GET("getJson/getData")
-    Observable<BaseBean> getJson(@Query("username") String username,
-                                 @Query("password") String password);
+    Observable<BaseHttpBean> getJson(@Query("username") String username,
+                                     @Query("password") String password);
 
 }

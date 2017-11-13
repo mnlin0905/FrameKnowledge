@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * Created by MNLIN on 2017/9/25.
  */
 
-public class BaseBean implements Parcelable {
+public class BaseHttpBean implements Parcelable {
 
     public String data;
 
@@ -37,6 +37,6 @@ public class BaseBean implements Parcelable {
 
     @Override
     public String toString() {
-        return "BaseBean:"+this.hashCode()+"数据:"+data;
+        return "BaseHttpBean:"+this.hashCode()+"数据:"+data;
     }
 }

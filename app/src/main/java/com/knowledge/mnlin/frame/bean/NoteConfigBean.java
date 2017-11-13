@@ -12,6 +12,9 @@ import java.util.LinkedList;
  */
 
 public class NoteConfigBean extends DataSupport {
+    @Column(nullable = true,ignore = false,unique = true)
+    private long id;
+
     @Column(nullable = false,ignore = false)
     private long createTime;
 
@@ -24,6 +27,22 @@ public class NoteConfigBean extends DataSupport {
      * 记录内容,包括文字图片等等
      */
     private LinkedList<NoteContentBean> content;
+
+
+    public NoteConfigBean(long createTime, long updateTime, String title, LinkedList<NoteContentBean> content) {
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.title = title;
+        this.content = content;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getCreateTime() {
         return createTime;

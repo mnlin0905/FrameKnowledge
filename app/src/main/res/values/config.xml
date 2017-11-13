@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="note_directory">/UTILS/note_picture/</string>
+    <string name="qr_directory">/UTILS/qr_image/</string>
+</resources>

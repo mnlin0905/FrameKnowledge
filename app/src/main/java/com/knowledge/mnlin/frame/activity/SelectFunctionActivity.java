@@ -18,7 +18,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.jaeger.library.StatusBarUtil;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.base.BaseActivity;
-import com.knowledge.mnlin.frame.base.BaseBean;
+import com.knowledge.mnlin.frame.base.BaseHttpBean;
 import com.knowledge.mnlin.frame.contract.SelectFunctionContract;
 import com.knowledge.mnlin.frame.presenter.SelectFunctionPresenter;
 
@@ -68,6 +68,9 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
                 break;
             case R.id.action_http_request_simulate:
                 ARouter.getInstance().build("/activity/HttpRequestSimulateActivity").navigation();
+                break;
+            case R.id.action_manage_note:
+                ARouter.getInstance().build("/activity/ManageNoteActivity").navigation();
         }
         return true;
     }
@@ -115,7 +118,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         httpInterface.getJson("18337138008", "e5a00e37eb72222f8703098f1d07fa8e")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean>() {
+                .subscribe(new Observer<BaseHttpBean>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
@@ -128,8 +131,8 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
                     }
 
                     @Override
-                    public void onNext(BaseBean baseBean) {
-                        Log.d(TAG, "onNext: " + baseBean);
+                    public void onNext(BaseHttpBean baseHttpBean) {
+                        Log.d(TAG, "onNext: " + baseHttpBean);
                     }
 
                     @Override
@@ -144,7 +147,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         if (mDlDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDlDrawerLayout.closeDrawer(GravityCompat.START);
         } else if (System.currentTimeMillis() - lastPressBackTime > 1000) {
-            showToast("再点一次退出程序");
+            showToast("再按一次退出程序");
             lastPressBackTime = System.currentTimeMillis();
         } else {
             super.onBackPressed();
