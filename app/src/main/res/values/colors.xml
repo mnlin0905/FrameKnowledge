@@ -31,4 +31,6 @@
     <color name="color_yellow">#EE8527</color>
     <color name="color_blue">#50ABF6</color>
 
+    <color name="color_divider_line">#aaaaaaaa</color>
+
 </resources>

@@ -1,6 +1,10 @@
 package com.knowledge.mnlin.frame.adapter;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -218,4 +222,55 @@ public class ManageNoteAdapter extends RecyclerView.Adapter<ManageNoteAdapter
         return this.isMultiplyMode;
     }
 
+    /**
+     * 装饰
+     */
+    public static class ItemDecoration extends RecyclerView.ItemDecoration{
+        private int dividerSize;
+        private int color;
+        private Paint paint;
+
+        public ItemDecoration(Context context){
+            dividerSize = context.getResources().getDimensionPixelSize(R.dimen.divider_line_width);
+            color = context.getResources().getColor(R.color.color_divider_line);
+            paint = new Paint();
+            paint.setColor(color);
+            paint.setAlpha(200);
+            paint.setAntiAlias(true);
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            super.onDraw(c, parent, state);
+            drawVertical(c,parent);
+        }
+
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            super.onDrawOver(c, parent, state);
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
+                state) {
+            outRect.set(0, 0, 0, dividerSize);
+        }
+
+        /**
+         * 绘制纵向布局(底部绘制)
+         */
+        private void drawVertical(Canvas c,RecyclerView parent){
+            int left=parent.getPaddingLeft();
+            int right=parent.getRight()-parent.getPaddingRight();
+            int childAmount=parent.getChildCount();
+            for(int i=0;i<childAmount;i++){
+                View child=parent.getChildAt(i);
+                RecyclerView.LayoutParams params= (RecyclerView.LayoutParams) child.getLayoutParams();
+                int top=child.getBottom()+params.bottomMargin;
+                int bottom=top+1;
+                if(i==0)paint.setColor(Color.RED);else paint.setColor(color);
+                c.drawLine(left,bottom,right,bottom,paint);
+            }
+        }
+    }
 }

@@ -31,7 +31,6 @@ import com.knowledge.mnlin.frame.retrofit.HttpInterface;
 import com.knowledge.mnlin.frame.rxbus.RxBus;
 import com.knowledge.mnlin.frame.util.ActivityUtil;
 import com.knowledge.mnlin.frame.util.Const;
-import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Stack;
@@ -130,7 +129,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                     return true;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(a -> Logger.v("异步加载完成"));
+                .subscribe(a -> {});
     }
 
     /**

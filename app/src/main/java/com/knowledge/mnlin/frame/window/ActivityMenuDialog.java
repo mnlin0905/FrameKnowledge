@@ -2,7 +2,6 @@ package com.knowledge.mnlin.frame.window;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -83,10 +82,8 @@ public class ActivityMenuDialog extends AlertDialog implements View.OnClickListe
         for (int i = 0; i < length; i++) {
             TextView tv = new TextView(context);
             /*设置居中，粗体，*/
-            tv.setBackgroundResource(R.drawable.selector_background_white_pressed_little_gray);
             tv.setGravity(Gravity.CENTER);
             tv.setText(titles[i]);
-            tv.setTextColor(Color.BLACK);
             tv.setTypeface(Typeface.DEFAULT_BOLD);
             tv.setMinHeight(context.getResources().getDimensionPixelSize(R.dimen.prefer_view_height));
             tv.setTag(i);

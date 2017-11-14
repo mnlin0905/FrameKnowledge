@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_rootView"
     style="@style/TextViewStandard"
+    android:background="@drawable/selector_background_transparent_pressed_primary_dark"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/prefer_view_padding_vertical">
@@ -11,6 +12,7 @@
     <com.knowledge.mnlin.frame.view.CircleTextView
         android:id="@+id/ctv_icon"
         android:text="序"
+        android:background="?attr/colorAccent"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

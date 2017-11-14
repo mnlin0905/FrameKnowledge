@@ -1,6 +1,5 @@
 package com.knowledge.mnlin.frame.bean;
 
-import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
 import java.util.LinkedList;
@@ -10,23 +9,22 @@ import java.util.LinkedList;
  * <p>
  * Created by MNLIN on 2017/11/10.
  */
-
-public class NoteConfigBean extends DataSupport {
-    @Column(nullable = true,ignore = false,unique = true)
+public class NoteConfigBean extends DataSupport{
     private long id;
 
-    @Column(nullable = false,ignore = false)
     private long createTime;
 
     private long updateTime;
 
-    @Column(nullable = false)
     private String title;
 
     /**
      * 记录内容,包括文字图片等等
      */
     private LinkedList<NoteContentBean> content;
+
+    public NoteConfigBean() {
+    }
 
 
     public NoteConfigBean(long createTime, long updateTime, String title, LinkedList<NoteContentBean> content) {
@@ -76,3 +74,4 @@ public class NoteConfigBean extends DataSupport {
         this.content = content;
     }
 }
+

@@ -20,7 +20,7 @@
             android:layout_height="match_parent"/>
 
         <View
-            android:background="@color/transparent_gray"
+            android:background="@color/color_divider_line"
             android:layout_width="@dimen/divider_line_width"
             android:layout_height="match_parent"/>
 

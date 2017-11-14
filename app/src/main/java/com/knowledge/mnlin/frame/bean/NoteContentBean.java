@@ -16,7 +16,6 @@ public class NoteContentBean extends DataSupport {
     @Column(ignore = true)
     public static final int TYPE_PICTURE=1;
 
-    @Column(unique = true)
     private long id;
 
     /**
@@ -37,6 +36,8 @@ public class NoteContentBean extends DataSupport {
      * 如果为图片类型,则表示图片路径;
      */
     private String pathOrData;
+
+    public NoteContentBean(){}
 
     public NoteContentBean( int order, int type, String pathOrData) {
         this.order = order;

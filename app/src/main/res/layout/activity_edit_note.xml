@@ -10,15 +10,23 @@
         android:id="@+id/xrl_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/white"
         android:layout_weight="1"/>
+
+    <View
+        android:background="@color/color_divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line_width"/>
 
     <RadioGroup
         android:id="@+id/rg_util"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@drawable/divider_line_gray_vertical"
         android:gravity="center"
         android:minHeight="@dimen/prefer_view_height"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:showDividers="middle">
 
         <RadioButton
             android:id="@+id/rb_album"

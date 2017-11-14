@@ -7,7 +7,6 @@
     android:paddingBottom="@dimen/prefer_view_padding_vertical"
     android:gravity="center_vertical"
     android:minHeight="@dimen/prefer_view_height"
-    android:background="@drawable/selector_background_white_pressed_little_gray"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
@@ -15,7 +14,6 @@
         android:drawablePadding="@dimen/prefer_inner_padding_horizontal"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:textColor="@color/text_black"
         android:text="对应的菜单信息"
         android:gravity="start|center_vertical"
         android:layout_height="wrap_content"/>

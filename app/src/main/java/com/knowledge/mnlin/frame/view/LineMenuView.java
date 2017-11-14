@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,8 +44,15 @@ public class LineMenuView extends LinearLayout {
 
     private void initView() {
         rootView = (LinearLayout) inflate(context, R.layout.layout_line_menu, this);
-        tv_menu = (TextView) rootView.findViewById(R.id.tv_menu);
-        sc_switch = (SwitchCompat) rootView.findViewById(R.id.sc_switch);
+        tv_menu = rootView.findViewById(R.id.tv_menu);
+        sc_switch = rootView.findViewById(R.id.sc_switch);
+    }
+
+    /**
+     * 当点击切换内容时发生的事件
+     */
+    public void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener){
+        sc_switch.setOnCheckedChangeListener(listener);
     }
 
     private void initData() {

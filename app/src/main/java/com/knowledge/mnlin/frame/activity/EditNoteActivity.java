@@ -5,14 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.blankj.utilcode.util.BarUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -32,7 +35,6 @@ import com.knowledge.mnlin.frame.bean.NoteContentBean;
 import com.knowledge.mnlin.frame.contract.EditNoteContract;
 import com.knowledge.mnlin.frame.presenter.EditNotePresenter;
 import com.knowledge.mnlin.frame.window.ActivityMenuDialog;
-import com.orhanobut.logger.Logger;
 
 import org.litepal.crud.DataSupport;
 
@@ -60,8 +62,6 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
 
     @Autowired(name = "bean", required = false)
     NoteConfigBean noteConfigBean;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
 
     private EditNoteAdapter adapter;
 
@@ -81,9 +81,9 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         takePhoto.onCreate(savedInstanceState);
 
         //初始化便签内容
-        if(noteConfigBean==null){
-            noteConfigBean=new NoteConfigBean(System.currentTimeMillis(),System.currentTimeMillis(),"无标题",new LinkedList<>());
-            noteConfigBean.getContent().add(new NoteContentBean(0, NoteContentBean.TYPE_STRING, ""));
+        if (noteConfigBean == null || noteConfigBean.getContent() == null || noteConfigBean.getContent().size() == 0) {
+            noteConfigBean = new NoteConfigBean(System.currentTimeMillis(), System.currentTimeMillis(), "无标题", new LinkedList<>());
+            noteConfigBean.getContent().add(new NoteContentBean(0, NoteContentBean.TYPE_STRING, "请输入标签内容..."));
         }
 
         adapter = new EditNoteAdapter(this, noteConfigBean.getContent(), (parent, view, position, id) -> {
@@ -91,9 +91,13 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         });
 
         mXrlContent.setAdapter(adapter);
+        mXrlContent.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mXrlContent.setLoadingMoreEnabled(false);
         mXrlContent.setPullRefreshEnabled(false);
 
+        //设定toolbar的paddingtop值不随输入法的弹出而改变
+        toolbar.setFitsSystemWindows(false);
+        toolbar.setPadding(0, BarUtils.getStatusBarHeight(),0,0);
     }
 
     /**
@@ -155,6 +159,7 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         } else {
             DataSupport.saveAll(noteConfigBean.getContent());
             noteConfigBean.save();
+            showToast("内容已保存");
         }
         return true;
     }
@@ -200,7 +205,7 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
      */
     @OnClick(R.id.rb_share)
     public void onMRbShareClicked() {
-        useTokePhone(false);
+
     }
 
     /**
@@ -210,7 +215,7 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
     public void onMRbDeleteClicked() {
         new ActivityMenuDialog(this, new String[]{"确认"}, (dialog, position) -> {
             if (noteConfigBean.isSaved()) {
-                DataSupport.deleteAll(NoteContentBean.class, "where id = ?", String.valueOf(noteConfigBean.getId()));
+                noteConfigBean.getContent().stream().filter(DataSupport::isSaved).forEach(DataSupport::delete);
                 noteConfigBean.delete();
             }
             finish();
@@ -223,21 +228,37 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
      */
     @OnClick(R.id.rb_album)
     public void onViewClicked() {
-
+        useTokePhone(false);
     }
 
     @Override
     public void takeSuccess(TResult result) {
         //获取uri
         String filePath = result.getImage().getCompressPath();
-        Logger.e("===========" + filePath + "----------------");
-        showToast(filePath);
-        // TODO: 2017/11/13 保存
+
+        //如果当前没有焦点获取的位置,或者焦点位置为图片,则默认图片新添加到最后的位置
+        View view = getCurrentFocus();
+        int position = -1;
+        while (true) {
+            if (view.getParent() == mXrlContent) {
+                if (view instanceof EditText) position = mXrlContent.indexOfChild(view);
+                break;
+            }
+            if (view.getParent() != null) {
+                view = ((View) view.getParent());
+                continue;
+            }
+            break;
+        }
+        if (position == -1) position = noteConfigBean.getContent().size();
+
+        noteConfigBean.getContent().add(new NoteContentBean(position, NoteContentBean.TYPE_PICTURE, filePath));
+        noteConfigBean.getContent().add(new NoteContentBean(position + 1, NoteContentBean.TYPE_STRING, "新的内容..."));
     }
 
     @Override
     public void takeFail(TResult result, String msg) {
-
+        showToast("图片选择失败:" + msg);
     }
 
     @Override

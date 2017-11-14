@@ -2,7 +2,6 @@ package com.knowledge.mnlin.frame.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,6 @@ import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.bean.NoteContentBean;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 功能----编辑便签适配器
@@ -42,15 +38,15 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
      * 负责为item创建视图
      */
     @Override
-    public EditNoteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_edit_note, parent));
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_edit_note, parent,false));
     }
 
     /**
      * 负责将数据绑定到item的视图上
      */
     @Override
-    public void onBindViewHolder(final EditNoteAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         NoteContentBean bean = datas.get(position);
         holder.mEtMsg.setVisibility(bean.isString() ? View.VISIBLE : View.GONE);
         holder.mIvImage.setVisibility(bean.isPicture() ? View.VISIBLE : View.GONE);
@@ -60,7 +56,7 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
                     .load(bean.getPathOrData())
                     .apply(new RequestOptions() {
                         @Override
-                        public RequestOptions placeholder(@Nullable Drawable drawable) {
+                        public RequestOptions placeholder(Drawable drawable) {
                             return super.placeholder(R.drawable.loading_icon);
                         }
                     })
@@ -77,15 +73,13 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
      * RecyclerView.ViewHolder类，该类必须有
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.et_msg)
         TextView mEtMsg;
-        @BindView(R.id.iv_image)
         ImageView mIvImage;
 
         private ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mEtMsg=itemView.findViewById(R.id.et_msg);
+            mIvImage=itemView.findViewById(R.id.iv_image);
             itemView.setOnClickListener(v -> {
                 if (!datas.get(getAdapterPosition() - 1).isString())
                     if (onItemClickListener != null)

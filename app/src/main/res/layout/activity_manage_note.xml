@@ -8,10 +8,10 @@
     <include layout="@layout/layout_top_bar"/>
 
     <com.knowledge.mnlin.frame.view.LineMenuView
-        android:visibility="gone"
         android:id="@+id/lmv_selectAll"
+        android:visibility="gone"
         app:LineMenuView_icon="@mipmap/ic_menu_archive"
-        app:LineMenuView_menu="取消/全选"
+        app:LineMenuView_menu="全不选/全选"
         app:LineMenuView_switch="off"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

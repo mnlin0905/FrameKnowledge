@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/little_gray"
               android:orientation="vertical">
 
     <TextView
@@ -10,11 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/prefer_line_spacing"
-        android:background="@drawable/selector_background_white_pressed_little_gray"
         android:gravity="center"
         android:minHeight="@dimen/prefer_view_height"
         android:text="取消"
-        android:textColor="@color/text_black"
         android:textStyle="bold"/>
 
 </LinearLayout>

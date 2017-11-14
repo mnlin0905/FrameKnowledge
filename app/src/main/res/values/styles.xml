@@ -13,7 +13,7 @@
         <item name="colorPrimary">@color/colorPrimaryHacker</item>
         <item name="android:textColorPrimary">@color/gray</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkHacker</item>
-        <item name="colorAccent">@color/colorAccentHacker</item>
+        <item name="colorAccent">@color/text_label_hacker</item>
         <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:background">@color/transparent</item>
@@ -86,7 +86,8 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:background">@color/colorPrimaryDarkHacker</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
