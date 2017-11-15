@@ -18,6 +18,8 @@ public class NoteContentBean extends DataSupport {
 
     private long id;
 
+    private NoteConfigBean noteConfigBean;
+
     /**
      * 内容中的顺序
      */
@@ -43,6 +45,14 @@ public class NoteContentBean extends DataSupport {
         this.order = order;
         this.type = type;
         this.pathOrData = pathOrData;
+    }
+
+    public NoteConfigBean getNoteConfigBean() {
+        return noteConfigBean;
+    }
+
+    public void setNoteConfigBean(NoteConfigBean noteConfigBean) {
+        this.noteConfigBean = noteConfigBean;
     }
 
     public long getId() {
@@ -83,5 +93,10 @@ public class NoteContentBean extends DataSupport {
 
     public void setPathOrData(String pathOrData) {
         this.pathOrData = pathOrData;
+    }
+
+    @Override
+    public String toString() {
+        return "note_content_bean_id = "+id;
     }
 }

@@ -1,15 +1,15 @@
 package com.knowledge.mnlin.frame.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -35,15 +35,22 @@ import com.knowledge.mnlin.frame.bean.NoteContentBean;
 import com.knowledge.mnlin.frame.contract.EditNoteContract;
 import com.knowledge.mnlin.frame.presenter.EditNotePresenter;
 import com.knowledge.mnlin.frame.window.ActivityMenuDialog;
+import com.orhanobut.logger.Logger;
 
 import org.litepal.crud.DataSupport;
 
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 @Route(path = "/activity/EditNoteActivity")
 public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements EditNoteContract.View, TakePhoto.TakeResultListener, InvokeListener {
 
@@ -63,6 +70,7 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
     @Autowired(name = "bean", required = false)
     NoteConfigBean noteConfigBean;
 
+    //列表显示
     private EditNoteAdapter adapter;
 
     //takePhoto框架
@@ -82,8 +90,8 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
 
         //初始化便签内容
         if (noteConfigBean == null || noteConfigBean.getContent() == null || noteConfigBean.getContent().size() == 0) {
-            noteConfigBean = new NoteConfigBean(System.currentTimeMillis(), System.currentTimeMillis(), "无标题", new LinkedList<>());
-            noteConfigBean.getContent().add(new NoteContentBean(0, NoteContentBean.TYPE_STRING, "请输入标签内容..."));
+            noteConfigBean = new NoteConfigBean(System.currentTimeMillis(), System.currentTimeMillis(), null, new ArrayList<>());
+            noteConfigBean.getContent().add(new NoteContentBean(0, NoteContentBean.TYPE_STRING, null));
         }
 
         adapter = new EditNoteAdapter(this, noteConfigBean.getContent(), (parent, view, position, id) -> {
@@ -97,7 +105,78 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
 
         //设定toolbar的paddingtop值不随输入法的弹出而改变
         toolbar.setFitsSystemWindows(false);
-        toolbar.setPadding(0, BarUtils.getStatusBarHeight(),0,0);
+        toolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+    }
+
+    @Override
+    protected void injectSelf() {
+        activityComponent.inject(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_note, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //将对象包含内容保存到数据库
+        if (noteConfigBean.getContent().size() == 1
+                && TextUtils.isEmpty(noteConfigBean.getContent().get(0).getPathOrData())) {
+            showToast("便签无内容");
+        } else {
+            noteConfigBean.save();
+            for (NoteContentBean bean : noteConfigBean.getContent()) {
+                bean.setNoteConfigBean(noteConfigBean);
+            }
+            DataSupport.saveAll(noteConfigBean.getContent());
+            showToast("内容已保存");
+        }
+        return true;
+    }
+
+    /**
+     * 使用相机选择图片
+     */
+    @OnClick(R.id.camera)
+    public void onMCameraClicked() {
+        EditNoteActivityPermissionsDispatcher.needPermissionStorageWithPermissionCheck(this);
+    }
+
+    /**
+     * 分享功能
+     */
+    @OnClick(R.id.rb_share)
+    public void onMRbShareClicked() {
+
+    }
+
+    /**
+     * 删除该内容
+     */
+    @OnClick(R.id.rb_delete)
+    public void onMRbDeleteClicked() {
+        new ActivityMenuDialog(this, new String[]{"确认"}, (dialog, position) -> {
+            if (noteConfigBean.isSaved()) {
+                for (NoteContentBean noteContentBean : noteConfigBean.getContent()) {
+                    if (noteContentBean.isSaved()) {
+                        noteContentBean.delete();
+                    }
+                }
+                noteConfigBean.delete();
+            }
+            finish();
+            return false;
+        }).show();
+    }
+
+    /**
+     * 从相册选择内容
+     */
+    @OnClick(R.id.rb_album)
+    public void onViewClicked() {
+        takePhoto.onPickFromGallery();
     }
 
     /**
@@ -107,6 +186,20 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         if (takePhoto == null) {
             takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
         }
+        CompressConfig config = new CompressConfig
+                .Builder()
+                //.enableReserveRaw(false)//设置不保存原图
+                //.setMaxPixel(1024 * 100)//最大像素值
+                .create();
+        // 启用图片压缩(显示压缩进度框)
+        takePhoto.onEnableCompress(config, true);
+
+        TakePhotoOptions takePhotoOptions = new TakePhotoOptions
+                .Builder()
+                .setWithOwnGallery(false)//使用takePhoto自带相册
+                .setCorrectImage(true) //纠正图片旋转角度
+                .create();
+        takePhoto.setTakePhotoOptions(takePhotoOptions);
         return takePhoto;
     }
 
@@ -128,6 +221,7 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         //以下代码为处理Android6.0、7.0动态权限所需
         PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
+        EditNoteActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @Override
@@ -139,121 +233,20 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         return type;
     }
 
-
-    @Override
-    protected void injectSelf() {
-        activityComponent.inject(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_note, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (noteConfigBean.getContent().size() == 1
-                && noteConfigBean.getContent().get(0).getPathOrData().isEmpty()) {
-            showToast("便签无内容");
-        } else {
-            DataSupport.saveAll(noteConfigBean.getContent());
-            noteConfigBean.save();
-            showToast("内容已保存");
-        }
-        return true;
-    }
-
-    /**
-     * 使用框架进行操作
-     */
-    private void useTokePhone(boolean isFromCamera) {
-        CompressConfig config = new CompressConfig
-                .Builder()
-                .enableReserveRaw(false)//设置不保存原图
-                .setMaxPixel(1024 * 100)//最大像素值
-                .create();
-        takePhoto.onEnableCompress(config, true);//显示压缩进度对话框
-
-        TakePhotoOptions takePhotoOptions = new TakePhotoOptions
-                .Builder()
-                .setWithOwnGallery(false)//使用takePhoto自带相册
-                .setCorrectImage(true) //纠正图片旋转角度
-                .create();
-        takePhoto.setTakePhotoOptions(takePhotoOptions);
-
-        File file = new File(Environment.getExternalStorageDirectory() + getString(R.string.note_directory) + System.currentTimeMillis() + ".jpg");
-        if (isFromCamera) {
-            //拍照来选择图片
-            takePhoto.onPickFromCapture(Uri.fromFile(file));
-        } else {
-            //使用相册
-            takePhoto.onPickFromGallery();
-        }
-    }
-
-    /**
-     * 使用相机选择图片
-     */
-    @OnClick(R.id.camera)
-    public void onMCameraClicked() {
-        useTokePhone(true);
-    }
-
-    /**
-     * 分享功能
-     */
-    @OnClick(R.id.rb_share)
-    public void onMRbShareClicked() {
-
-    }
-
-    /**
-     * 删除该内容
-     */
-    @OnClick(R.id.rb_delete)
-    public void onMRbDeleteClicked() {
-        new ActivityMenuDialog(this, new String[]{"确认"}, (dialog, position) -> {
-            if (noteConfigBean.isSaved()) {
-                noteConfigBean.getContent().stream().filter(DataSupport::isSaved).forEach(DataSupport::delete);
-                noteConfigBean.delete();
-            }
-            finish();
-            return false;
-        }).show();
-    }
-
-    /**
-     * 从相册选择内容
-     */
-    @OnClick(R.id.rb_album)
-    public void onViewClicked() {
-        useTokePhone(false);
-    }
-
     @Override
     public void takeSuccess(TResult result) {
         //获取uri
-        String filePath = result.getImage().getCompressPath();
+        String filePath = result.getImage().getOriginalPath();
+
+        Logger.d("=====" + result.getImage().getOriginalPath());
 
         //如果当前没有焦点获取的位置,或者焦点位置为图片,则默认图片新添加到最后的位置
-        View view = getCurrentFocus();
-        int position = -1;
-        while (true) {
-            if (view.getParent() == mXrlContent) {
-                if (view instanceof EditText) position = mXrlContent.indexOfChild(view);
-                break;
-            }
-            if (view.getParent() != null) {
-                view = ((View) view.getParent());
-                continue;
-            }
-            break;
-        }
-        if (position == -1) position = noteConfigBean.getContent().size();
+        int position = position = noteConfigBean.getContent().size();
 
         noteConfigBean.getContent().add(new NoteContentBean(position, NoteContentBean.TYPE_PICTURE, filePath));
-        noteConfigBean.getContent().add(new NoteContentBean(position + 1, NoteContentBean.TYPE_STRING, "新的内容..."));
+        noteConfigBean.getContent().add(new NoteContentBean(position + 1, NoteContentBean.TYPE_STRING, null));
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -264,5 +257,31 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
     @Override
     public void takeCancel() {
 
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void needPermissionStorage() {
+        File parent = new File(Environment.getExternalStorageDirectory() + getString(R.string.note_directory));
+        if (!parent.exists())
+            if (!parent.mkdirs()) {
+                showToast("无法创建文件来存储图片");
+                return;
+            }
+        File file = new File(Environment.getExternalStorageDirectory() + getString(R.string.note_directory) + System.currentTimeMillis() + ".jpg");
+        takePhoto.onPickFromCapture(Uri.fromFile(file));
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onShowRationaleStorage(final PermissionRequest request) {
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onNeverAskAgainStorage() {
+    }
+
+    @Override
+    public void onBackPressed() {
+        onOptionsItemSelected(null);
+        super.onBackPressed();
     }
 }

@@ -127,7 +127,9 @@
         <activity
             android:label="@string/label_manage_note"
             android:name=".activity.ManageNoteActivity"/>
-        <activity android:name=".activity.EditNoteActivity"/>
+        <activity
+            android:label="@string/label_edit_note"
+            android:name=".activity.EditNoteActivity"/>
     </application>
 
 </manifest>

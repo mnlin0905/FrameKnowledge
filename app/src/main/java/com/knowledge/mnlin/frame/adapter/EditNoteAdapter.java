@@ -3,6 +3,8 @@ package com.knowledge.mnlin.frame.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,9 @@ import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.bean.NoteContentBean;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 功能----编辑便签适配器
@@ -39,7 +44,7 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_edit_note, parent,false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_edit_note, parent, false));
     }
 
     /**
@@ -73,17 +78,37 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
      * RecyclerView.ViewHolder类，该类必须有
      */
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.et_msg)
         TextView mEtMsg;
+        @BindView(R.id.iv_image)
         ImageView mIvImage;
 
         private ViewHolder(View itemView) {
             super(itemView);
-            mEtMsg=itemView.findViewById(R.id.et_msg);
-            mIvImage=itemView.findViewById(R.id.iv_image);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(v -> {
                 if (!datas.get(getAdapterPosition() - 1).isString())
                     if (onItemClickListener != null)
                         onItemClickListener.onItemClick(null, itemView, getAdapterPosition() - 1, getAdapterPosition() - 1);
+            });
+            mEtMsg.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (datas.get(getAdapterPosition() - 1).isString()) {
+                        datas.get(getAdapterPosition() - 1).setPathOrData(s.toString());
+                    }
+                }
             });
         }
     }

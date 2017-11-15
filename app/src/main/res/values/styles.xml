@@ -24,6 +24,7 @@
         <item name="android:editTextBackground">@drawable/selector_edit_text_background_hacker</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable_white</item>
         <item name="android:popupTheme">@style/PopupThemeHacker</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden|adjustPan</item>
     </style>
 
     <style name="TextInputLayout_HintTextAppearance_Hacker" parent="TextAppearance.Design.Hint">

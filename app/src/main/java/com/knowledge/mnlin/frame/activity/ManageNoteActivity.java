@@ -17,17 +17,19 @@ import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.adapter.ManageNoteAdapter;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.bean.NoteConfigBean;
+import com.knowledge.mnlin.frame.bean.NoteContentBean;
 import com.knowledge.mnlin.frame.contract.ManageNoteContract;
 import com.knowledge.mnlin.frame.presenter.ManageNotePresenter;
 import com.knowledge.mnlin.frame.view.EmptyView;
 import com.knowledge.mnlin.frame.view.LineMenuView;
 import com.knowledge.mnlin.frame.window.ActivityMenuDialog;
+import com.orhanobut.logger.Logger;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.crud.callback.FindMultiCallback;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +54,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
      * 适配器
      * 标题
      */
-    private LinkedList<NoteConfigBean> data;
+    private ArrayList<NoteConfigBean> data;
     private ManageNoteAdapter adapter;
 
     @Override
@@ -62,7 +64,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        data = new LinkedList<>();
+        data = new ArrayList<>();
         adapter = new ManageNoteAdapter(this, data);
         mXrvNoteList.setAdapter(adapter);
         mXrvNoteList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -72,8 +74,6 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
         mXrvNoteList.addItemDecoration(new ManageNoteAdapter.ItemDecoration(this));
         adapter.setOnItemClickListener(this);
 
-        new NoteConfigBean(0, 0, "title", null).save();
-
         mLmvSelectAll.setOnCheckedChangeListener(this);
     }
 
@@ -81,12 +81,20 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
     protected void refreshData() {
         super.refreshData();
         //初始化数据
-        DataSupport.findAllAsync(NoteConfigBean.class).listen(new FindMultiCallback() {
+        DataSupport.order("createTime desc").findAsync(NoteConfigBean.class,true).listen(new FindMultiCallback() {
             @Override
             public <T> void onFinish(List<T> t) {
                 data.clear();
                 data.addAll((Collection<? extends NoteConfigBean>) t);
                 adapter.notifyDataSetChanged(data);
+                adapter.setMultiplyMode(false);
+                Logger.v(data.toString());
+                /*Cursor cursor = LitePal.getDatabase().query("NoteContentBean", null, null, null, null, null, null);
+                if(cursor.moveToFirst()){
+                    while (cursor.moveToNext()){
+                        Logger.d("id = "+cursor.getLong(cursor.getColumnIndex("id"))+"\t foreign_id="+cursor.getLong(cursor.getColumnIndex("NoteConfigBean_id")));
+                    }
+                }*/
             }
         });
     }
@@ -158,7 +166,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
     private void switchToMultiply() {
         mXrvNoteList.animate()
                 .translationY(animateheight)
-                .setDuration(2000)
+                .setDuration(200)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -168,7 +176,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
                         mLmvSelectAll.setVisibility(View.VISIBLE);
                         mLmvSelectAll.animate()
                                 .translationY(0)
-                                .setDuration(2000)
+                                .setDuration(200)
                                 .setListener(new AnimatorListenerAdapter() {
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
@@ -190,7 +198,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
         mLmvSelectAll.setTranslationY(0);
         mLmvSelectAll.animate()
                 .translationY(-animateheight)
-                .setDuration(2000)
+                .setDuration(200)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -199,7 +207,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
                         mLmvSelectAll.setVisibility(View.GONE);
                         mXrvNoteList.animate()
                                 .translationY(0)
-                                .setDuration(2000)
+                                .setDuration(200)
                                 .setListener(null)
                                 .start();
                     }
@@ -239,11 +247,11 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
         new ActivityMenuDialog(this, new String[]{"确认"}, (dialog, position) -> {
             for (int i = 0; i < data.size(); i++) {
                 if (adapter.selectedPosition.valueAt(i)) {
+                    DataSupport.deleteAll(NoteContentBean.class,"NoteConfigBean_id = ?",String.valueOf(data.get(i).getId()));
                     data.get(i).delete();
                 }
             }
             refreshData();
-            refreshTitle();
             return false;
         }).show();
     }

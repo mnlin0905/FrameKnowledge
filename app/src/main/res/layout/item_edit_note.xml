@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:minHeight="@dimen/prefer_view_height"
              android:paddingBottom="@dimen/prefer_view_padding_horizontal"
-             android:background="@color/red"
-              android:orientation="vertical"
              android:layout_width="match_parent"
               android:layout_height="wrap_content">
     <EditText
-        android:background="@color/color_blue"
-        android:text="232323"
+        android:hint="请输入便签内容..."
         android:paddingLeft="@dimen/prefer_view_padding_horizontal"
         android:paddingRight="@dimen/prefer_view_padding_horizontal"
+        android:background="@color/transparent"
         android:id="@+id/et_msg"
         android:minHeight="@dimen/prefer_view_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <ImageView
-        android:background="@color/color_green"
-        android:src="@mipmap/splash"
         android:paddingLeft="@dimen/prefer_view_padding_horizontal"
         android:paddingRight="@dimen/prefer_view_padding_horizontal"
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-</LinearLayout>
+</FrameLayout>

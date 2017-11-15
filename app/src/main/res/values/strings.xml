@@ -19,6 +19,7 @@
     <string name="label_data_stream_analyze">数据流分析器</string>
     <string name="label_qb_web_browse">网页数据加载器</string>
     <string name="label_manage_note">便签管理</string>
+    <string name="label_edit_note">便签编辑</string>
 
     <!--action菜单功能-->
     <string name="action_message">我的消息</string>

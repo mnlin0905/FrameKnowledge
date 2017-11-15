@@ -2,7 +2,7 @@ package com.knowledge.mnlin.frame.bean;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * 功能----记事本配置表
@@ -21,13 +21,13 @@ public class NoteConfigBean extends DataSupport{
     /**
      * 记录内容,包括文字图片等等
      */
-    private LinkedList<NoteContentBean> content;
+    private ArrayList<NoteContentBean> content;
 
     public NoteConfigBean() {
     }
 
 
-    public NoteConfigBean(long createTime, long updateTime, String title, LinkedList<NoteContentBean> content) {
+    public NoteConfigBean(long createTime, long updateTime, String title, ArrayList<NoteContentBean> content) {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.title = title;
@@ -66,12 +66,17 @@ public class NoteConfigBean extends DataSupport{
         this.title = title;
     }
 
-    public LinkedList<NoteContentBean> getContent() {
+    public ArrayList<NoteContentBean> getContent() {
         return content;
     }
 
-    public void setContent(LinkedList<NoteContentBean> content) {
+    public void setContent(ArrayList<NoteContentBean> content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "\n=================\n"+"note_config_bean_id = "+id+"\n----------\n"+content+"\n=================\n";
     }
 }
 
