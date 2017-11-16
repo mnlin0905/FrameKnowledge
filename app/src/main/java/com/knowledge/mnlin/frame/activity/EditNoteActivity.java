@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -44,6 +46,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnShowRationale;
@@ -77,6 +80,9 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
 
+    //记录是否修改了内容
+    public boolean hasModified = false;
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_edit_note;
@@ -90,8 +96,9 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
 
         //初始化便签内容
         if (noteConfigBean == null || noteConfigBean.getContent() == null || noteConfigBean.getContent().size() == 0) {
+            hasModified = true;
             noteConfigBean = new NoteConfigBean(System.currentTimeMillis(), System.currentTimeMillis(), null, new ArrayList<>());
-            noteConfigBean.getContent().add(new NoteContentBean(0, NoteContentBean.TYPE_STRING, null));
+            noteConfigBean.getContent().add(new NoteContentBean(NoteContentBean.TYPE_STRING, null));
         }
 
         adapter = new EditNoteAdapter(this, noteConfigBean.getContent(), (parent, view, position, id) -> {
@@ -133,6 +140,9 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
             DataSupport.saveAll(noteConfigBean.getContent());
             showToast("内容已保存");
         }
+
+        //清除标志,表示没有最新更改的内容
+        hasModified = false;
         return true;
     }
 
@@ -241,10 +251,13 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
         Logger.d("=====" + result.getImage().getOriginalPath());
 
         //如果当前没有焦点获取的位置,或者焦点位置为图片,则默认图片新添加到最后的位置
-        int position = position = noteConfigBean.getContent().size();
+        View view = getCurrentFocus();
+        Integer position = noteConfigBean.getContent().size() - 1;
+        if (view instanceof EditText) position = (Integer) view.getTag();
 
-        noteConfigBean.getContent().add(new NoteContentBean(position, NoteContentBean.TYPE_PICTURE, filePath));
-        noteConfigBean.getContent().add(new NoteContentBean(position + 1, NoteContentBean.TYPE_STRING, null));
+        hasModified = true;
+        noteConfigBean.getContent().add(position + 1, new NoteContentBean(NoteContentBean.TYPE_PICTURE, filePath));
+        noteConfigBean.getContent().add(position + 2, new NoteContentBean(NoteContentBean.TYPE_STRING, null));
 
         adapter.notifyDataSetChanged();
     }
@@ -273,15 +286,34 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
 
     @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void onShowRationaleStorage(final PermissionRequest request) {
+        request.proceed();
     }
 
     @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void onNeverAskAgainStorage() {
+        showToast("无法访问外部存储路径,请前往权限中心自行开启");
     }
 
     @Override
     public void onBackPressed() {
-        onOptionsItemSelected(null);
-        super.onBackPressed();
+        if (hasModified) {
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("是否保存修改?")
+                    .setContentText("确保修改的内容已经保存!")
+                    .setCancelText("不保存")
+                    .setConfirmText("保存")
+                    .showCancelButton(true)
+                    .setConfirmClickListener(sDialog -> {
+                        onOptionsItemSelected(null);
+                        sDialog.dismissWithAnimation();
+                    })
+                    .setCancelClickListener(sDialog -> {
+                        sDialog.cancel();
+                        finish();
+                    })
+                    .show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -19,7 +19,9 @@ public class SparseBooleanArray extends android.util.SparseBooleanArray {
     public int countNumber(boolean value){
         int number=0;
         for(int i=0;i<size();i++){
-            if(valueAt(i)==value)number++;
+            if(valueAt(i)==value) {
+                number++;
+            }
         }
         return number;
     }
@@ -29,7 +31,9 @@ public class SparseBooleanArray extends android.util.SparseBooleanArray {
         }
     }
     public void resize(int size){
-        if(size()==size)return;
+        if(size()==size) {
+            return;
+        }
         if(size<size()){
             for(int i=size;i<size();i++){
                 delete(i);

@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +30,7 @@ import com.knowledge.mnlin.frame.retrofit.HttpInterface;
 import com.knowledge.mnlin.frame.rxbus.RxBus;
 import com.knowledge.mnlin.frame.util.ActivityUtil;
 import com.knowledge.mnlin.frame.util.Const;
+import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Stack;
@@ -77,7 +77,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                     .detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
         }
         super.onCreate(savedInstanceState);
-        Log.v(TAG, "onCreate: ");
+        Logger.v(TAG+ "onCreate: ");
 
         //设置支持动画过渡效果
         ActivityUtil.setActivityContentTransitions(this);
@@ -187,51 +187,51 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     private void logStack() {
         for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
             Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
-            Log.v(TAG, "\n栈id：" + temp.get(0).getTaskId() + "\n栈底->" + temp.toString() + "栈顶");
+            Logger.v(TAG+ "\n栈id：" + temp.get(0).getTaskId() + "\n栈底->" + temp.toString() + "栈顶");
         }
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        Log.v(TAG, "onPostCreate: ");
+        Logger.v(TAG+ "onPostCreate: ");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.v(TAG, "onStart: ");
+        Logger.v(TAG+ "onStart: ");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         refreshData();
-        Log.v(TAG, "onResume: ");
+        Logger.v(TAG+ "onResume: ");
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        Log.v(TAG, "onPostResume: ");
+        Logger.v(TAG+ "onPostResume: ");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.v(TAG, "onPause: ");
+        Logger.v(TAG+ "onPause: ");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.v(TAG, "onStop: ");
+        Logger.v(TAG+ "onStop: ");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.v(TAG, "onDestroy: ");
+        Logger.v(TAG+ "onDestroy: ");
         manageRemoveActivity();
         logStack();
 
@@ -248,7 +248,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
-        Log.v(TAG, "onPostResume: public");
+        Logger.v(TAG+ "onPostResume: public");
     }
 
     /**
@@ -328,7 +328,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      */
     protected void bindView(String[] ids, View root) {
         try {
-            if (ids == null || ids.length == 0) return;
+            if (ids == null || ids.length == 0) {
+                return;
+            }
             Class class_id = Class.forName("com.mnlin.hotchpotch.R$id");
             Class class_view = getClass();
             Field field_id = null;
@@ -417,16 +419,22 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      * 获取drawable
      */
     protected Drawable dispatchGetDrawable(@DrawableRes int resId) {
-        if (Build.VERSION.SDK_INT >= 21) return getDrawable(resId);
-        else return getResources().getDrawable(resId);
+        if (Build.VERSION.SDK_INT >= 21) {
+            return getDrawable(resId);
+        } else {
+            return getResources().getDrawable(resId);
+        }
     }
 
     /**
      * 获取color
      */
     protected int dispatchGetColor(@ColorRes int resId) {
-        if (Build.VERSION.SDK_INT >= 23) return getColor(resId);
-        else return getResources().getColor(resId);
+        if (Build.VERSION.SDK_INT >= 23) {
+            return getColor(resId);
+        } else {
+            return getResources().getColor(resId);
+        }
     }
 
 }

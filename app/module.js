@@ -223,6 +223,21 @@ app.catalogs={
     ]
 };
 
+app.shares={
+    weixin:{
+
+    }
+};
+
+//keystore.jks
+app.keystore={
+    path:'./keystore.jks',
+    MD5:'B6:91:76:BE:13:B7:BE:F8:AB:26:2F:94:FB:76:13:9C',
+    SHA1:'26:38:6D:A6:21:FE:B0:3C:73:43:4E:95:86:24:7E:21:6C:73:EA:B7',
+    SHA256:'82:EE:0A:70:59:1E:E4:21:AD:87:A7:5E:2F:62:15:04:40:1D:BC:75:51:37:B3:4A:16:F8:8E:D4:58:E2:19:BF',
+    alias:'mnlin',
+    password:'357638'
+}
 
 
 

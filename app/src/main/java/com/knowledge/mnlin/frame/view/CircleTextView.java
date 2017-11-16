@@ -48,7 +48,9 @@ public class CircleTextView extends android.support.v7.widget.AppCompatTextView 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         size = Math.max(getMeasuredWidth(), getMeasuredHeight());
         int temp =getResources().getDimensionPixelSize(R.dimen.prefer_view_height);
-        if (size < temp) size = temp;
+        if (size < temp) {
+            size = temp;
+        }
         setMeasuredDimension(size, size);
     }
 

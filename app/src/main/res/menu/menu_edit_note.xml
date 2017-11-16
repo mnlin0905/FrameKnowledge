@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_save_note"
         android:orderInCategory="100"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@drawable/ic_save_white_24dp"
         android:title="@string/action_save_note"
         app:showAsAction="ifRoom"/>
 </menu>

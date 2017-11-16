@@ -1,6 +1,5 @@
 package com.knowledge.mnlin.frame.adapter;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,12 +14,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.knowledge.mnlin.frame.R;
+import com.knowledge.mnlin.frame.activity.EditNoteActivity;
 import com.knowledge.mnlin.frame.bean.NoteContentBean;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * 功能----编辑便签适配器
@@ -29,11 +30,11 @@ import butterknife.ButterKnife;
  */
 public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHolder> {
 
-    private Context context;
+    private EditNoteActivity context;
     private List<NoteContentBean> datas;
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    public EditNoteAdapter(Context context, List<NoteContentBean> datas, AdapterView.OnItemClickListener onItemClickListener) {
+    public EditNoteAdapter(EditNoteActivity context, List<NoteContentBean> datas, AdapterView.OnItemClickListener onItemClickListener) {
         this.context = context;
         this.datas = datas;
         this.onItemClickListener = onItemClickListener;
@@ -54,6 +55,7 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         NoteContentBean bean = datas.get(position);
         holder.mEtMsg.setVisibility(bean.isString() ? View.VISIBLE : View.GONE);
+        holder.mEtMsg.setTag(position);
         holder.mIvImage.setVisibility(bean.isPicture() ? View.VISIBLE : View.GONE);
         if (bean.isString()) holder.mEtMsg.setText(bean.getPathOrData());
         if (bean.isPicture()) {
@@ -74,9 +76,6 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
         return datas.size();
     }
 
-    /**
-     * RecyclerView.ViewHolder类，该类必须有
-     */
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.et_msg)
@@ -107,8 +106,30 @@ public class EditNoteAdapter extends RecyclerView.Adapter<EditNoteAdapter.ViewHo
                 public void afterTextChanged(Editable s) {
                     if (datas.get(getAdapterPosition() - 1).isString()) {
                         datas.get(getAdapterPosition() - 1).setPathOrData(s.toString());
+                        context.hasModified = true;
                     }
                 }
+            });
+            mIvImage.setOnLongClickListener(v -> {
+                new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("是否删除该图片?")
+                        .setContentText("删除操作不可逆转")
+                        .setCancelText("放弃")
+                        .setConfirmText("删除")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(sDialog -> {
+                            int position = getAdapterPosition() - 1;
+                            datas.get(position).delete();
+                            datas.get(position - 1).setPathOrData(datas.get(position - 1).getPathOrData() + "\n" + datas.get(position + 1).getPathOrData());
+                            datas.get(position + 1).delete();
+                            datas.remove(position + 1);
+                            datas.remove(position);
+                            notifyDataSetChanged();
+                            sDialog.dismissWithAnimation();
+                        })
+                        .setCancelClickListener(SweetAlertDialog::cancel)
+                        .show();
+                return true;
             });
         }
     }

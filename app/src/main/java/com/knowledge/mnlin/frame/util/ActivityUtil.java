@@ -112,7 +112,7 @@ public class ActivityUtil {
      */
     public static DisplayMetrics getScreenInfomations(Activity activity) {
         DisplayMetrics metrics;
-        if ((metrics = activity.getResources().getDisplayMetrics()) == null) {
+        if ((metrics = activity.getResources().getDisplayMetrics()) != null) {
             activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         }
         return metrics;

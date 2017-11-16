@@ -26,6 +26,8 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import org.litepal.LitePal;
@@ -156,8 +158,9 @@ public class BaseApplication extends Application {
             public void onViewInitFinished(boolean b) {
                 if(b){
                     //加载x5内核成功,会使用x5内核
+                    Logger.d("x5内核加载成功");
                 }else{
-                    //加载内核失败,会使用系统自带webkit内核
+                    Logger.d("x5内核加载失败");
                 }
             }
         });
@@ -183,7 +186,7 @@ public class BaseApplication extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+                PushAgent.getInstance(activity).onAppStart();
             }
 
             @Override
@@ -214,6 +217,21 @@ public class BaseApplication extends Application {
             @Override
             public void onActivityDestroyed(Activity activity) {
 
+            }
+        });
+
+        //友盟消息推送
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+                //Logger.d(TAG, "onSuccess: \n"+deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                MobclickAgent.reportError(BaseApplication.this,"友盟推送无法开启:\n"+s+"\n&&\n"+s1);
             }
         });
 

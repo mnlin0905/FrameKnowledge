@@ -1,5 +1,6 @@
 package com.knowledge.mnlin.frame.activity;
 
+import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.jaeger.library.StatusBarUtil;
 import com.knowledge.mnlin.frame.R;
@@ -29,7 +31,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
+@Route(path = "activity/SelectFunctionActivity")
 public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter> implements SelectFunctionContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -58,20 +66,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_qr:
-                ARouter.getInstance().build("/activity/QRUtilActivity").navigation();
-                break;
-            case R.id.action_city_info:
-                ARouter.getInstance().build("/activity/AnalyzeCityInfoActivity").navigation();
-                break;
-            case R.id.action_http_request_simulate:
-                ARouter.getInstance().build("/activity/HttpRequestSimulateActivity").navigation();
-                break;
-            case R.id.action_manage_note:
-                ARouter.getInstance().build("/activity/ManageNoteActivity").navigation();
-        }
+        SelectFunctionActivityPermissionsDispatcher.needsPermissionPhoneWithPermissionCheck(this,item);
         return true;
     }
 
@@ -109,7 +104,10 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         //设置navigation默认选中状态,位置等
         mNvSlideBar.setItemTextColor(getResources().getColorStateList(R.color.selector_slide_bar_text_icon_color));
         mNvSlideBar.setItemIconTintList(getResources().getColorStateList(R.color.selector_slide_bar_text_icon_color));
-        //mNvSlideBar.setCheckedItem(0);
+        mNvSlideBar.setCheckedItem(0);
+
+        //启动时请求权限
+        SelectFunctionActivityPermissionsDispatcher.needsPermissionPhoneWithPermissionCheck(this,null);
     }
 
     @OnClick(R.id.fab)
@@ -152,5 +150,38 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    @NeedsPermission(Manifest.permission.READ_PHONE_STATE)
+    void needsPermissionPhone(MenuItem item) {
+        if(item==null)return;
+        //必须有权限才能使用更多的服务
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_qr:
+                ARouter.getInstance().build("/activity/QRUtilActivity").navigation();
+                break;
+            case R.id.action_city_info:
+                ARouter.getInstance().build("/activity/AnalyzeCityInfoActivity").navigation();
+                break;
+            case R.id.action_http_request_simulate:
+                ARouter.getInstance().build("/activity/HttpRequestSimulateActivity").navigation();
+                break;
+            case R.id.action_manage_note:
+                ARouter.getInstance().build("/activity/ManageNoteActivity").navigation();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        SelectFunctionActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @OnShowRationale(Manifest.permission.READ_PHONE_STATE)
+    void onShowRationaleMethod(final PermissionRequest request) {
+        showToast("为了更安全的使用软件,请开启该权限");
+        request.proceed();
     }
 }

@@ -41,7 +41,7 @@ public class NoteContentBean extends DataSupport {
 
     public NoteContentBean(){}
 
-    public NoteContentBean( int order, int type, String pathOrData) {
+    public NoteContentBean( int type, String pathOrData) {
         this.order = order;
         this.type = type;
         this.pathOrData = pathOrData;
