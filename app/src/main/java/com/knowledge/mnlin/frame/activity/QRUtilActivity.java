@@ -48,8 +48,10 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QRUtilActivity;
+
 @RuntimePermissions
-@Route(path = "/activity/QRUtilActivity")
+@Route(path = Activity_QRUtilActivity)
 public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRUtilContract.View, TakePhoto.TakeResultListener, InvokeListener {
     //从图库中扫描二维码
     private static int QR_SCAN_REQUEST = 10000;

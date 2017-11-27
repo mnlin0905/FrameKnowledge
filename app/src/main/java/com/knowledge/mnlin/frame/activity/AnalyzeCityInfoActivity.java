@@ -25,11 +25,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.knowledge.mnlin.frame.R.id.tv_city;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeCityInfoActivity;
 
 /**
  * 解析城市信息
  */
-@Route(path = "/activity/AnalyzeCityInfoActivity")
+@Route(path = Activity_AnalyzeCityInfoActivity)
 public class AnalyzeCityInfoActivity extends BaseActivity<AnalyzeCityInfoPresenter> implements AnalyzeCityInfoContract.View {
 
 

@@ -35,8 +35,10 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.knowledge.mnlin.frame.R.id.lmv_selectAll;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_EditNoteActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_ManageNoteActivity;
 
-@Route(path = "/activity/ManageNoteActivity")
+@Route(path = Activity_ManageNoteActivity)
 public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implements ManageNoteContract.View, ManageNoteAdapter.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
 
     @BindView(R.id.empty_view)
@@ -81,7 +83,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
     protected void refreshData() {
         super.refreshData();
         //初始化数据
-        DataSupport.order("createTime desc").findAsync(NoteConfigBean.class,true).listen(new FindMultiCallback() {
+        DataSupport.order("createTime desc").findAsync(NoteConfigBean.class, true).listen(new FindMultiCallback() {
             @Override
             public <T> void onFinish(List<T> t) {
                 data.clear();
@@ -125,7 +127,8 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
 
     @Override
     public void doOnRecyclerViewItemClick(View v, int position) {
-        ARouter.getInstance().build("/activity/EditNoteActivity").withObject("bean", data.get(position)).navigation();
+        Logger.v("开始编辑便签");
+        //ARouter.getInstance().build(Activity_EditNoteActivity).withObject("bean", data.get(position)).navigation();
     }
 
     @Override
@@ -234,7 +237,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
                 }
                 break;
             case R.id.action_add_note:
-                ARouter.getInstance().build("/activity/EditNoteActivity").navigation();
+                ARouter.getInstance().build(Activity_EditNoteActivity).navigation();
                 break;
         }
         return true;
@@ -247,7 +250,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
         new ActivityMenuDialog(this, new String[]{"确认"}, (dialog, position) -> {
             for (int i = 0; i < data.size(); i++) {
                 if (adapter.selectedPosition.valueAt(i)) {
-                    DataSupport.deleteAll(NoteContentBean.class,"NoteConfigBean_id = ?",String.valueOf(data.get(i).getId()));
+                    DataSupport.deleteAll(NoteContentBean.class, "NoteConfigBean_id = ?", String.valueOf(data.get(i).getId()));
                     data.get(i).delete();
                 }
             }

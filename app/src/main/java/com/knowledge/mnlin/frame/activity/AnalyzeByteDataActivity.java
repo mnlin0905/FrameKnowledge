@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-@Route(path = "/activity/AnalyzeByteDataActivity")
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeByteDataActivity;
+
+@Route(path = Activity_AnalyzeByteDataActivity)
 public class AnalyzeByteDataActivity extends BaseActivity<AnalyzeByteDataPresenter> implements AnalyzeByteDataContract.View, AdapterView.OnItemClickListener {
 
     @BindView(R.id.lv_group)

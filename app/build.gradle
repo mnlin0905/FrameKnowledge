@@ -236,6 +236,10 @@ class GenerateMvpCodes extends DefaultTask {
     private String basePath = '/app/src/main/java/com/knowledge/mnlin/frame'
     private String packageName = "com.knowledge.mnlin.frame"
 
+    static def releaseTime() {
+        return new Date().format("yyyy/MM/dd HH:mm:ss (Z)", TimeZone.getTimeZone("UTC"))
+    }
+
     @TaskAction
     void generateContract() {
         if (domain == null) {
@@ -245,15 +249,20 @@ class GenerateMvpCodes extends DefaultTask {
         def contractName = domain + "Contract"
         def path = rootPath + basePath + "/contract"
         def contractFile = new File(path, "${contractName}.java")
-        contractFile.createNewFile();
+        contractFile.createNewFile()
         contractFile.text = "package ${packageName}.contract;\n" +
                 "\n" +
+                "/**\n" +
+                " * 功能---- \n" +
+                " * <p>\n" +
+                " * Created(Gradle default create) by MNLIN on ${releaseTime()}.\n" +
+                " */\n"
                 "public interface ${contractName} {\n" +
-                "    public interface Presenter{\n" +
+                "    interface Presenter{\n" +
                 "\n" +
                 "    }\n" +
                 "\n" +
-                "     public interface View{\n" +
+                "     interface View{\n" +
                 "\n" +
                 "    }\n" +
                 "}"
@@ -269,7 +278,7 @@ class GenerateMvpCodes extends DefaultTask {
         def PresenterName = domain + "Presenter"
         def path = rootPath + basePath + "/presenter"
         def contractFile = new File(path, "${PresenterName}.java")
-        contractFile.createNewFile();
+        contractFile.createNewFile()
         contractFile.text = "package ${packageName}.presenter;\n" +
                 "\n" +
                 "\n" +
@@ -279,6 +288,11 @@ class GenerateMvpCodes extends DefaultTask {
                 "\n" +
                 "import javax.inject.Inject;\n" +
                 "\n" +
+                "/**\n" +
+                " * 功能---- \n" +
+                " * <p>\n" +
+                " * Created(Gradle default create) by MNLIN on ${releaseTime()}.\n" +
+                " */\n"
                 "public class ${PresenterName} extends BasePresenter<${domain}Activity> implements ${domain}Contract.Presenter{\n" +
                 "    @Inject\n" +
                 "    public ${PresenterName}() {}\n" +
@@ -305,6 +319,11 @@ class GenerateMvpCodes extends DefaultTask {
                 "import  ${packageName}.contract.${domain}Contract;\n" +
                 "import  ${packageName}.base.BaseActivity;\n" +
                 "\n" +
+                "/**\n" +
+                " * 功能---- \n" +
+                " * <p>\n" +
+                " * Created(Gradle default create) by MNLIN on ${releaseTime()}.\n" +
+                " */\n"
                 "@Route(path = \"/activity/${ActivityName}\")" +
                 "\n" +
                 "public class ${ActivityName} extends BaseActivity<${domain}Presenter> implements ${domain}Contract.View{\n" +
@@ -331,10 +350,12 @@ class GenerateMvpCodes extends DefaultTask {
  * For example: gradle mvp -D domain="Test" -D path="/activity"
  * */
 task mvp(type: GenerateMvpCodes) {
-    group 'Kai'
+    group 'mnlin'
     description 'generate java code for MVP architecture'
-    def domainParam = System.getProperty('domain')
-    def pathParam = System.getProperty('path')
+/*    def domainParam = System.getProperty('domain')
+    def pathParam = System.getProperty('path')*/
+    def domainParam = "Help"
+    def pathParam = "/activity"
     if (domainParam && pathParam) {
         domain domainParam
         uiPath pathParam

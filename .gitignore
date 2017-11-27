@@ -10,3 +10,5 @@
 /app/release/
 /app/build/
 /.idea/dbnavigator.xml
+/test/
+/PushSDK/build/

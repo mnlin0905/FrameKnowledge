@@ -53,8 +53,10 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_EditNoteActivity;
+
 @RuntimePermissions
-@Route(path = "/activity/EditNoteActivity")
+@Route(path = Activity_EditNoteActivity)
 public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements EditNoteContract.View, TakePhoto.TakeResultListener, InvokeListener {
 
     @BindView(R.id.xrl_content)

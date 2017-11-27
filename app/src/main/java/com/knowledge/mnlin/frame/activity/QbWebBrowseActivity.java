@@ -28,7 +28,9 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
-@Route(path = "/activity/QbWebBrowseActivity")
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QbWebBrowseActivity;
+
+@Route(path = Activity_QbWebBrowseActivity)
 @RuntimePermissions
 public class QbWebBrowseActivity extends BaseActivity<QbWebBrowsePresenter> implements QbWebBrowseContract.View {
     @Autowired
@@ -71,7 +73,7 @@ public class QbWebBrowseActivity extends BaseActivity<QbWebBrowsePresenter> impl
         settings.setJavaScriptEnabled(true);
         settings.setSaveFormData(true);
         settings.setSavePassword(false);
-        settings.setDefaultTextEncodingName("UTF -8");
+        settings.setDefaultTextEncodingName("UTF-8");
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadWithOverviewMode(true);
         settings.setCacheMode(android.webkit.WebSettings.LOAD_CACHE_ELSE_NETWORK);

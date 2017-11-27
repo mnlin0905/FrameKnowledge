@@ -36,6 +36,12 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeCityInfoActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_HelpActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_HttpRequestSimulateActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_ManageNoteActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QRUtilActivity;
+
 @RuntimePermissions
 @Route(path = "activity/SelectFunctionActivity")
 public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter> implements SelectFunctionContract.View {
@@ -66,7 +72,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        SelectFunctionActivityPermissionsDispatcher.needsPermissionPhoneWithPermissionCheck(this,item);
+        SelectFunctionActivityPermissionsDispatcher.needsPermissionPhoneWithPermissionCheck(this, item);
         return true;
     }
 
@@ -107,7 +113,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         mNvSlideBar.setCheckedItem(0);
 
         //启动时请求权限
-        SelectFunctionActivityPermissionsDispatcher.needsPermissionPhoneWithPermissionCheck(this,null);
+        SelectFunctionActivityPermissionsDispatcher.needsPermissionPhoneWithPermissionCheck(this, null);
     }
 
     @OnClick(R.id.fab)
@@ -155,21 +161,23 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
 
     @NeedsPermission(Manifest.permission.READ_PHONE_STATE)
     void needsPermissionPhone(MenuItem item) {
-        if(item==null)return;
+        if (item == null) return;
         //必须有权限才能使用更多的服务
         int id = item.getItemId();
         switch (id) {
             case R.id.action_qr:
-                ARouter.getInstance().build("/activity/QRUtilActivity").navigation();
+                ARouter.getInstance().build(Activity_QRUtilActivity).navigation();
                 break;
             case R.id.action_city_info:
-                ARouter.getInstance().build("/activity/AnalyzeCityInfoActivity").navigation();
+                ARouter.getInstance().build(Activity_AnalyzeCityInfoActivity).navigation();
                 break;
             case R.id.action_http_request_simulate:
-                ARouter.getInstance().build("/activity/HttpRequestSimulateActivity").navigation();
+                ARouter.getInstance().build(Activity_HttpRequestSimulateActivity).navigation();
                 break;
             case R.id.action_manage_note:
-                ARouter.getInstance().build("/activity/ManageNoteActivity").navigation();
+                ARouter.getInstance().build(Activity_ManageNoteActivity).navigation();
+            case R.id.action_help:
+                ARouter.getInstance().build(Activity_HelpActivity).navigation();
         }
     }
 

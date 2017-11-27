@@ -35,8 +35,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.knowledge.mnlin.frame.R.id.til_response_body;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeByteDataActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_HttpRequestSimulateActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QbWebBrowseActivity;
 
-@Route(path = "/activity/HttpRequestSimulateActivity")
+@Route(path = Activity_HttpRequestSimulateActivity)
 public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulatePresenter> implements HttpRequestSimulateContract.View {
     @BindView(R.id.tiet_url)
     TextInputEditText mTietUrl;
@@ -297,14 +300,14 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
                 ActivityOptionsCompat compat = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(this, mTietResponseHeader, "share");
                 ARouter.getInstance()
-                        .build("/activity/AnalyzeByteDataActivity")
+                        .build(Activity_AnalyzeByteDataActivity)
                         .withOptionsCompat(compat)
                         .withString("stream", mTietResponseHeader.getText().toString())
                         .navigation(this);
                 break;
             case til_response_body:
                 ARouter.getInstance()
-                        .build("/activity/QbWebBrowseActivity")
+                        .build(Activity_QbWebBrowseActivity)
                         .withString("source", mTietResponseBody.getText().toString())
                         .withTransition(R.anim.dialog_activity_menu_enter, R.anim.dialog_activity_top_exit)
                         .navigation(this);

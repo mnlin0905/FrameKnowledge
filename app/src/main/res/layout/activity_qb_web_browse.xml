@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"/>
 
     <com.tencent.smtt.sdk.WebView
+        android:background="@color/transparent"
         android:id="@+id/wv_web"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

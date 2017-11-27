@@ -1,11 +1,12 @@
 package com.knowledge.mnlin.frame.contract;
 
 public interface QRUtilContract {
-    public interface Presenter{
+    interface Presenter {
 
     }
 
-     public interface View{
+    interface View {
+
 
     }
 }

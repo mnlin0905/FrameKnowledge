@@ -8,7 +8,7 @@
     <string name="label_scan_device">蓝牙管理</string>
     <string name="label_software_configure">通用设置</string>
     <string name="label_about_activity">关于软件</string>
-    <string name="label_help_activity">使用帮助</string>
+    <string name="label_help">使用帮助</string>
     <string name="label_manage_archive">表档案管理</string>
     <string name="label_feedback_activity">意见反馈</string>
     <string name="label_work_invoices">工单管理</string>

@@ -32,7 +32,7 @@ public class EmptyView extends LinearLayout {
         inflate(context, R.layout.layout_empty_view, this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(params);
-        setGravity(Gravity.CENTER_HORIZONTAL);
+        setGravity(Gravity.CENTER);
         setOrientation(VERTICAL);
     }
 }
