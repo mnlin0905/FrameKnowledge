@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/layout_top_bar"/>
+    <TextView
+        android:text="LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <com.knowledge.mnlin.frame.view.CollapseLayout
+            app:CollapseLayout_parent="@id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.knowledge.mnlin.frame.view.CollapseLayout
+            app:CollapseLayout_parent="@id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.knowledge.mnlin.frame.view.CollapseLayout
+            app:CollapseLayout_parent="@id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.knowledge.mnlin.frame.view.CollapseLayout
+            app:CollapseLayout_parent="@id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:text="ListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <ListView
         android:id="@+id/lv_help"
         android:layout_width="match_parent"

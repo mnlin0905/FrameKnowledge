@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -46,12 +45,7 @@ public class HelpActivity extends BaseActivity<HelpPresenter> implements HelpCon
         temp.add("9");
         temp.add("10");
         mLvHelp.setAdapter(new Adapter(this, temp));
-        mLvHelp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Logger.d("" + parent + view + position);
-            }
-        });
+        mLvHelp.setOnItemClickListener((parent, view, position, id) -> Logger.d("" + parent + view + position));
     }
 
     @Override

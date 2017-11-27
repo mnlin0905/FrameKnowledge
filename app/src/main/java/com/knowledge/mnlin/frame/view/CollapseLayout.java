@@ -1,9 +1,13 @@
 package com.knowledge.mnlin.frame.view;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.IdRes;
+import android.support.annotation.Keep;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +16,6 @@ import android.widget.TextView;
 
 import com.knowledge.mnlin.frame.R;
 
-
 /**
  * 功能---- 可折叠的布局
  * <p>
@@ -20,11 +23,14 @@ import com.knowledge.mnlin.frame.R;
  */
 
 public class CollapseLayout extends LinearLayout implements View.OnClickListener {
-    private static final String TAG = "CollapseLayout";
-
     private Context context;
     private AttributeSet attrs;
     private TextView tv_title, tv_content;
+
+    //展开状态应当的高度/折叠状态应当具有的高度
+    private int unfoldHeight;
+    private int foldHeight;
+    private float currentHeight;
 
     //是否处于折叠状态
     private boolean isCollapsed = true;
@@ -32,8 +38,15 @@ public class CollapseLayout extends LinearLayout implements View.OnClickListener
     //是否是第一次初始化视图
     private boolean isFirstLayout = true;
 
+    //设置动画时间
+    private long collapseTime = 400;
+    private long expandTime = 400;
+
     //父布局的id
     private ViewGroup parent;
+
+    //动画是否同时开始
+    private boolean together;
 
     public CollapseLayout(Context context) {
         this(context, null);
@@ -57,6 +70,18 @@ public class CollapseLayout extends LinearLayout implements View.OnClickListener
         this.context = context;
         this.attrs = attrs;
         init();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        //设定自身高度为标题的高度
+        if (unfoldHeight == 0 && foldHeight == 0) {
+            unfoldHeight = getMeasuredHeight();
+            foldHeight = tv_title.getMeasuredHeight();
+        }
+        setMeasuredDimension(getMeasuredWidth(), foldHeight + (int) (currentHeight * (unfoldHeight - foldHeight)));
     }
 
     /**
@@ -90,10 +115,18 @@ public class CollapseLayout extends LinearLayout implements View.OnClickListener
     @Override
     public final void onClick(View v) {
         if (isCollapsed) {
-            if (parent != null) {
-                collapseChild(parent);
+            if (together) {
+                expand(null);
+                if (parent != null) {
+                    collapseChild(parent);
+                }
+            } else {
+                expand(() -> {
+                    if (parent != null) {
+                        collapseChild(parent);
+                    }
+                });
             }
-            expand(this);
         } else {
             collapse(this);
         }
@@ -102,73 +135,31 @@ public class CollapseLayout extends LinearLayout implements View.OnClickListener
     /**
      * 进行折叠
      */
-    private void collapse(final CollapseLayout layout) {
+    private void collapse(CollapseLayout layout) {
         layout.isCollapsed = true;
-        int width = layout.tv_content.getMeasuredWidth();
-        layout.tv_content.animate()
-                .x(width)
-                .setDuration(1000)
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        layout.tv_content.animate().setListener(null);
-                        layout.tv_content.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
+        Animator animator = ObjectAnimator.ofFloat(layout, "heights", 1, 0);
+        animator.setDuration(collapseTime);
+        animator.start();
     }
 
     /**
      * 打开折叠内容
      */
-    private void expand(final CollapseLayout layout) {
-        layout.isCollapsed = false;
-        if (!isFirstLayout) {
-            layout.tv_content.setVisibility(View.VISIBLE);
-            layout.tv_content
-                    .animate()
-                    .x(0)
-                    .setDuration(1000);
-        } else {
-            isFirstLayout = false;
-            layout.tv_content.setVisibility(View.INVISIBLE);
-            layout.tv_content.post(() -> layout.tv_content
-                    .animate()
-                    .x(layout.tv_content.getRight())
-                    .setDuration(0)
-                    .setListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            layout.tv_content.setVisibility(View.VISIBLE);
-                            layout.tv_content.animate().setListener(null);
-                            layout.tv_content.animate().x(0).setDuration(1000);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    }));
-        }
+    private void expand(Callback onFinish) {
+        isCollapsed = false;
+        Animator animator = ObjectAnimator.ofFloat(this, "heights", 0, 1);
+        animator.setDuration(expandTime);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                animate().setListener(null);
+                if (onFinish != null) {
+                    onFinish.run();
+                }
+            }
+        });
+        animator.start();
     }
 
     /**
@@ -176,12 +167,12 @@ public class CollapseLayout extends LinearLayout implements View.OnClickListener
      */
     private void collapseChild(ViewGroup parent) {
         int childAmount = parent.getChildCount();
-        CollapseLayout item = null;
+        CollapseLayout item;
         for (int i = 0; i < childAmount; i++) {
             View view = parent.getChildAt(i);
             if (view instanceof CollapseLayout) {
                 item = (CollapseLayout) view;
-                if (!item.isCollapsed) {
+                if (!item.isCollapsed && item != this) {
                     collapse(item);
                 }
             } else if (view instanceof ViewGroup) {
@@ -191,10 +182,110 @@ public class CollapseLayout extends LinearLayout implements View.OnClickListener
     }
 
     /**
+     * 设置折叠式同组的“父布局”
+     */
+    public CollapseLayout setCollapseParent(ViewGroup parent) {
+        this.parent = parent;
+        return this;
+    }
+
+    /**
+     * 设置动画分两步完成
+     */
+    public CollapseLayout setAnimatorTogether(boolean together) {
+        this.together = together;
+        return this;
+    }
+
+    /**
      * 设置标题和内容
      */
-    public void setTitleAndContent(CharSequence title, CharSequence content) {
+    public CollapseLayout setTitleAndContent(CharSequence title, CharSequence content) {
         tv_title.setText(title);
         tv_content.setText(content);
+        return this;
     }
+
+    /**
+     * 设置标题和内容
+     */
+    public CollapseLayout setTitleAndContent(@StringRes int title, @StringRes int content) {
+        tv_title.setText(getContext().getResources().getString(title));
+        tv_content.setText(getContext().getResources().getString(content));
+        return this;
+    }
+
+    /**
+     * 设置标题
+     */
+    public CollapseLayout setTitle(CharSequence title) {
+        tv_title.setText(title);
+        return this;
+    }
+
+    /**
+     * 设置内容
+     */
+    public CollapseLayout setContent(CharSequence content) {
+        tv_content.setText(content);
+        return this;
+    }
+
+    /**
+     * 设置动画时间
+     */
+    public CollapseLayout setContent(long expandTime, long collapseTime) {
+        this.expandTime = expandTime;
+        this.collapseTime = collapseTime;
+        return this;
+    }
+
+
+    /**
+     * 获取标题view
+     */
+    public TextView getTitleView() {
+        return tv_title;
+    }
+
+    /**
+     * 获取内容view
+     */
+    public TextView getContentView() {
+        return tv_title;
+    }
+
+
+    /**
+     * 动态改变布局的高度处理
+     */
+    @Keep
+    private void setHeights(float height) {
+        currentHeight = height;
+        requestLayout();
+    }
+
+    /**
+     * 获取布局的高度
+     */
+    @Keep
+    private float getHeights() {
+        return currentHeight;
+    }
+
+    private interface Callback {
+        void run();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        animate().cancel();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
 }

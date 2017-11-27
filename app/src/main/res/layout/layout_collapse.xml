@@ -7,6 +7,7 @@
               android:orientation="vertical">
 
     <TextView
+        android:text="title"
         android:id="@+id/tv_title"
         style="@style/TextViewStandard"
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
         android:textColor="@color/text_black"/>
 
     <TextView
+        android:text="content"
         android:lineSpacingMultiplier="1.5"
         android:id="@+id/tv_content"
         style="@style/TextViewStandard"
@@ -23,6 +25,5 @@
         android:layout_height="wrap_content"
         android:background="@color/little_gray"
         android:minHeight="@dimen/prefer_view_height"
-        android:textColor="@color/dark_gray"
-        android:visibility="gone"/>
+        android:textColor="@color/dark_gray"/>
 </merge>
