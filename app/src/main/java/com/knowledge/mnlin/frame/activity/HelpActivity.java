@@ -2,18 +2,20 @@ package com.knowledge.mnlin.frame.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.knowledge.mnlin.collapselayout.CollapseLayout;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.contract.HelpContract;
 import com.knowledge.mnlin.frame.presenter.HelpPresenter;
-import com.knowledge.mnlin.frame.view.CollapseLayout;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -25,6 +27,10 @@ public class HelpActivity extends BaseActivity<HelpPresenter> implements HelpCon
 
     @BindView(R.id.lv_help)
     ListView mLvHelp;
+    @BindView(R.id.parent)
+    LinearLayout mParent;
+    @BindView(R.id.rv_help)
+    RecyclerView mRvHelp;
 
     @Override
     protected int getContentViewId() {
@@ -45,13 +51,17 @@ public class HelpActivity extends BaseActivity<HelpPresenter> implements HelpCon
         temp.add("9");
         temp.add("10");
         mLvHelp.setAdapter(new Adapter(this, temp));
-        mLvHelp.setOnItemClickListener((parent, view, position, id) -> Logger.d("" + parent + view + position));
+        mLvHelp.setOnItemClickListener((parent, view, position, id) -> Logger.d("ListView:" + parent + view + position));
+
+        mRvHelp.setLayoutManager(new LinearLayoutManager(this));
+        mRvHelp.setAdapter(new RecAdapter(this,temp));
     }
 
     @Override
     protected void injectSelf() {
         activityComponent.inject(this);
     }
+
 
     public class Adapter extends BaseAdapter {
         private ArrayList<String> data;
@@ -80,7 +90,7 @@ public class HelpActivity extends BaseActivity<HelpPresenter> implements HelpCon
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                CollapseLayout item = new CollapseLayout(parent,context);
+                CollapseLayout item = new CollapseLayout(parent, context);
                 convertView = item;
             }
             ((CollapseLayout) convertView).setTitleAndContent("title:" + data.get(position), "content:" + data.get(position));
@@ -103,7 +113,7 @@ public class HelpActivity extends BaseActivity<HelpPresenter> implements HelpCon
          */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(new CollapseLayout(parent,context));
+            return new ViewHolder(new CollapseLayout(parent, context));
         }
 
         /**

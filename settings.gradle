@@ -1,3 +1,3 @@
-include ':app', ':PushSDK'
+include ':app', ':PushSDK', ':collapselayout'
 //, ':test'
 

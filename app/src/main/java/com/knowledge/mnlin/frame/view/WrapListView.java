@@ -47,4 +47,5 @@ public class WrapListView extends ListView {
     public WrapListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 }
