@@ -214,7 +214,7 @@ dependencies {
     compile 'cn.pedant.sweetalert:library:1.3'
     //CollapseLayout可折叠布局
     compile ('com.knowledge.mnlin:collapselayout:0.0.1'){
-        exclude module: 'support-annotations'
+        exclude module: "support-annotations"
     }
 
     /*compile('org.hibernate:hibernate:3.1') {
