@@ -30,7 +30,7 @@ public abstract class BaseFragment extends Fragment {
 
 	//根部局
 	@Inject
-	protected ViewGroup viewGroop;
+	protected ViewGroup viewGroup;
 
 	private FragmentComponent fragmentComponent;
 
@@ -71,7 +71,7 @@ public abstract class BaseFragment extends Fragment {
 
 		fragmentComponent= DaggerFragmentComponent.builder().applicationComponent(BaseApplication.getApplicationComponent()).fragmentModule(new FragmentModule(this)).build();
 		fragmentComponent.inject(this);
-		ButterKnife.bind(this,viewGroop);
+		ButterKnife.bind(this, viewGroup);
 		initData();
 	}
 

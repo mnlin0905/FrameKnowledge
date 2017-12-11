@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.knowledge.mnlin.frame.R;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.contract.HttpRequestSimulateContract;
 import com.knowledge.mnlin.frame.presenter.HttpRequestSimulatePresenter;
@@ -34,12 +35,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.knowledge.mnlin.frame.R.id.til_response_body;
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeByteDataActivity;
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_HttpRequestSimulateActivity;
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QbWebBrowseActivity;
-
-@Route(path = Activity_HttpRequestSimulateActivity)
+@Route(path = ARouterConst.Activity_HttpRequestSimulateActivity)
 public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulatePresenter> implements HttpRequestSimulateContract.View {
     @BindView(R.id.tiet_url)
     TextInputEditText mTietUrl;
@@ -59,7 +55,7 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
     TextInputLayout mTilRequestHeader;
     @BindView(R.id.til_response_header)
     TextInputLayout mTilResponseHeader;
-    @BindView(til_response_body)
+    @BindView(R.id.til_response_body)
     TextInputLayout mTilResponseBody;
 
     //添加header请求头
@@ -274,10 +270,10 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
                 });
     }
 
-    @OnClick({til_response_body, R.id.til_response_header})
+    @OnClick({R.id.til_response_body, R.id.til_response_header})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case til_response_body:
+            case R.id.til_response_body:
                 ActivityUtil.saveMsgToClipboard(getApplication(), mTietResponseBody.getText().toString());
                 break;
             case R.id.til_response_header:
@@ -290,7 +286,7 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
     /**
      * 清除请求头信息
      */
-    @OnLongClick({R.id.til_request_body, til_response_body, R.id.til_response_header})
+    @OnLongClick({R.id.til_request_body, R.id.til_response_body, R.id.til_response_header})
     boolean onViewLongClicked(View view) {
         switch (view.getId()) {
             case R.id.til_request_body:
@@ -300,14 +296,14 @@ public class HttpRequestSimulateActivity extends BaseActivity<HttpRequestSimulat
                 ActivityOptionsCompat compat = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(this, mTietResponseHeader, "share");
                 ARouter.getInstance()
-                        .build(Activity_AnalyzeByteDataActivity)
+                        .build(ARouterConst.Activity_AnalyzeByteDataActivity)
                         .withOptionsCompat(compat)
                         .withString("stream", mTietResponseHeader.getText().toString())
                         .navigation(this);
                 break;
-            case til_response_body:
+            case R.id.til_response_body:
                 ARouter.getInstance()
-                        .build(Activity_QbWebBrowseActivity)
+                        .build(ARouterConst.Activity_QbWebBrowseActivity)
                         .withString("source", mTietResponseBody.getText().toString())
                         .withTransition(R.anim.dialog_activity_menu_enter, R.anim.dialog_activity_top_exit)
                         .navigation(this);

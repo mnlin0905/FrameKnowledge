@@ -19,6 +19,8 @@
             <include layout="@layout/layout_top_bar"/>
 
             <android.support.v4.widget.NestedScrollView
+                android:fitsSystemWindows="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

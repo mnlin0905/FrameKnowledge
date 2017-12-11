@@ -2,6 +2,7 @@ package com.knowledge.mnlin.frame.base;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -76,6 +78,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
         }
+
+        //设置系统主题
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        setTheme(preferences.getInt(Const.PREFERENCE_APP_THEME, R.style.AppTheme));
+
         super.onCreate(savedInstanceState);
         Logger.v(TAG+ "onCreate: ");
 
@@ -418,7 +425,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     /**
      * 获取drawable
      */
-    protected Drawable dispatchGetDrawable(@DrawableRes int resId) {
+    public final Drawable dispatchGetDrawable(@DrawableRes int resId) {
         if (Build.VERSION.SDK_INT >= 21) {
             return getDrawable(resId);
         } else {
@@ -429,7 +436,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     /**
      * 获取color
      */
-    protected int dispatchGetColor(@ColorRes int resId) {
+    public final int dispatchGetColor(@ColorRes int resId) {
         if (Build.VERSION.SDK_INT >= 23) {
             return getColor(resId);
         } else {

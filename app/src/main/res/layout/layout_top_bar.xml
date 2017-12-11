@@ -7,9 +7,9 @@
     android:theme="@style/AppTheme.AppBarOverlay">
 
     <android.support.v7.widget.Toolbar
-        android:fitsSystemWindows="true"
         android:id="@+id/toolbar"
         android:popupTheme="@style/PopupThemeHacker"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"

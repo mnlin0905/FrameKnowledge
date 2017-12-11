@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.knowledge.mnlin.frame.R;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.contract.QbWebBrowseContract;
 import com.knowledge.mnlin.frame.presenter.QbWebBrowsePresenter;
@@ -28,9 +29,7 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QbWebBrowseActivity;
-
-@Route(path = Activity_QbWebBrowseActivity)
+@Route(path = ARouterConst.Activity_QbWebBrowseActivity)
 @RuntimePermissions
 public class QbWebBrowseActivity extends BaseActivity<QbWebBrowsePresenter> implements QbWebBrowseContract.View {
     @Autowired

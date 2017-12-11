@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
 
-    <ImageView
-        android:src="@mipmap/splash"
-        android:scaleType="fitXY"
+    <View
+        android:layout_marginTop="100dp"
+        android:background="@color/red"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="1px"/>
 
-    <TextView
-        android:textColor="@color/white"
-        android:id="@+id/tv_introduce"
-        android:text="3秒"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/prefer_line_spacing"
-        android:layout_marginTop="@dimen/prefer_line_spacing"
-        android:layout_width="wrap_content"
+    <com.knowledge.mnlin.RollTextView
+        android:id="@+id/rtv_temp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</RelativeLayout>
+    <View
+        android:background="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+</LinearLayout>

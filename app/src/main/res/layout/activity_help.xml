@@ -1,70 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/root"
+    <include layout="@layout/layout_top_bar"/>
+
+    <TextView
+        android:textColor="@color/text_label_hacker"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="基础功能"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/text_label_hacker"
+        android:layout_height="@dimen/divider_line_width"/>
+
+    <ListView
+        android:id="@+id/lv_help"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/layout_top_bar"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LinearLayout"/>
-
-        <LinearLayout
-            android:id="@+id/parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.knowledge.mnlin.collapselayout.CollapseLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:CollapseLayout_parent="@id/root"/>
-
-            <com.knowledge.mnlin.collapselayout.CollapseLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:CollapseLayout_parent="@id/root"/>
-
-            <com.knowledge.mnlin.collapselayout.CollapseLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:CollapseLayout_parent="@id/root"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="ListView"/>
-
-        <ListView
-            android:id="@+id/lv_help"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:divider="?colorAccent"
-            android:dividerHeight="1px"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="RecyclerView"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_help"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:divider="?colorAccent"
-            android:dividerHeight="1px"/>
-    </LinearLayout>
-
-</ScrollView>
+        android:divider="?attr/colorAccent"
+        android:dividerHeight="1px"/>
+</LinearLayout>

@@ -9,7 +9,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,18 +18,14 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.jaeger.library.StatusBarUtil;
 import com.knowledge.mnlin.frame.R;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
-import com.knowledge.mnlin.frame.base.BaseHttpBean;
 import com.knowledge.mnlin.frame.contract.SelectFunctionContract;
 import com.knowledge.mnlin.frame.presenter.SelectFunctionPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
@@ -43,7 +38,7 @@ import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_ManageNote
 import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QRUtilActivity;
 
 @RuntimePermissions
-@Route(path = "activity/SelectFunctionActivity")
+@Route(path = ARouterConst.Activity_SelectFunctionActivity)
 public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter> implements SelectFunctionContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -119,7 +114,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
     @OnClick(R.id.fab)
     protected void onClickFab() {
         // TODO: 2017/9/25 测试数据
-        httpInterface.getJson("18337138008", "e5a00e37eb72222f8703098f1d07fa8e")
+  /*      httpInterface.getJson("18337138008", "e5a00e37eb72222f8703098f1d07fa8e")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseHttpBean>() {
@@ -143,8 +138,11 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
                     public void onComplete() {
                         Log.d(TAG, "onCompleted: ");
                     }
-                });
+                });*/
+
+        //Thread.currentThread().getStackTrace()[2].getMethodName();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -176,6 +174,7 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
                 break;
             case R.id.action_manage_note:
                 ARouter.getInstance().build(Activity_ManageNoteActivity).navigation();
+                break;
             case R.id.action_help:
                 ARouter.getInstance().build(Activity_HelpActivity).navigation();
         }

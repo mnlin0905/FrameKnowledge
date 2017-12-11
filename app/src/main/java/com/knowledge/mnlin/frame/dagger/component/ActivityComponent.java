@@ -9,6 +9,7 @@ import com.knowledge.mnlin.frame.activity.ManageNoteActivity;
 import com.knowledge.mnlin.frame.activity.QRUtilActivity;
 import com.knowledge.mnlin.frame.activity.QbWebBrowseActivity;
 import com.knowledge.mnlin.frame.activity.SelectFunctionActivity;
+import com.knowledge.mnlin.frame.activity.SplashActivity;
 import com.knowledge.mnlin.frame.annotation.PerActivity;
 import com.knowledge.mnlin.frame.dagger.module.ActivityModule;
 
@@ -39,4 +40,6 @@ public interface ActivityComponent {
     void inject(EditNoteActivity editNoteActivity);
 
     void inject(HelpActivity helpActivity);
+
+    void inject(SplashActivity splashActivity);
 }

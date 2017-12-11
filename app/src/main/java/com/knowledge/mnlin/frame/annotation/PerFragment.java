@@ -15,5 +15,4 @@ import javax.inject.Scope;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PerFragment {
-
 }

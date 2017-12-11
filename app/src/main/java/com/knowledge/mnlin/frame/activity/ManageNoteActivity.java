@@ -15,6 +15,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.adapter.ManageNoteAdapter;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.bean.NoteConfigBean;
 import com.knowledge.mnlin.frame.bean.NoteContentBean;
@@ -34,18 +35,15 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.knowledge.mnlin.frame.R.id.lmv_selectAll;
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_EditNoteActivity;
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_ManageNoteActivity;
 
-@Route(path = Activity_ManageNoteActivity)
+@Route(path = ARouterConst.Activity_ManageNoteActivity)
 public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implements ManageNoteContract.View, ManageNoteAdapter.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
 
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
     @BindView(R.id.xrv_noteList)
     XRecyclerView mXrvNoteList;
-    @BindView(lmv_selectAll)
+    @BindView(R.id.lmv_selectAll)
     LineMenuView mLmvSelectAll;
 
     //动画平移的高度
@@ -128,7 +126,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
     @Override
     public void doOnRecyclerViewItemClick(View v, int position) {
         Logger.v("开始编辑便签");
-        //ARouter.getInstance().build(Activity_EditNoteActivity).withObject("bean", data.get(position)).navigation();
+        ARouter.getInstance().build(ARouterConst.Activity_EditNoteActivity).withObject("bean", data.get(position)).navigation();
     }
 
     @Override
@@ -237,7 +235,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
                 }
                 break;
             case R.id.action_add_note:
-                ARouter.getInstance().build(Activity_EditNoteActivity).navigation();
+                ARouter.getInstance().build(ARouterConst.Activity_EditNoteActivity).navigation();
                 break;
         }
         return true;

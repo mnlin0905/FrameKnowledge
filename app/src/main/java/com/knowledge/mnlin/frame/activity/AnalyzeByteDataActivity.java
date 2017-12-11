@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.adapter.AnalyzeByteAdapter;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.contract.AnalyzeByteDataContract;
 import com.knowledge.mnlin.frame.presenter.AnalyzeByteDataPresenter;
@@ -25,9 +26,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeByteDataActivity;
-
-@Route(path = Activity_AnalyzeByteDataActivity)
+@Route(path = ARouterConst.Activity_AnalyzeByteDataActivity)
 public class AnalyzeByteDataActivity extends BaseActivity<AnalyzeByteDataPresenter> implements AnalyzeByteDataContract.View, AdapterView.OnItemClickListener {
 
     @BindView(R.id.lv_group)

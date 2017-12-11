@@ -74,40 +74,46 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.READ_CELL_BORADCASTS"/>
 
-    <!--特殊权限-->
+    <!-- 特殊权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
 
     <!-- 自定义permission -->
-<!--    <permission
+    <!--
+    <permission
         android:name="com.mnlin.hotchpotch.permission.ACCESS_SECRET_AIDL"
         android:label="权限：访问secret服务"
-        android:protectionLevel="normal"/>-->
-
-    <!--自定义权限-->
-   <!-- <uses-permission android:name="com.mnlin.hotchpotch.permission.ACCESS_SECRET_AIDL"/>-->
-
+        android:protectionLevel="normal"/>
+    -->
+    <!-- 自定义权限 -->
+    <!-- <uses-permission android:name="com.mnlin.hotchpotch.permission.ACCESS_SECRET_AIDL"/> -->
     <application
-        android:debuggable="false"
-        tools:replace="android:icon,android:allowBackup"
         android:name=".base.BaseApplication"
         android:allowBackup="false"
+        android:debuggable="false"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/AppThemeHacker"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:ignore="HardcodedDebugMode">
+        android:theme="@style/AppThemeHacker"
+        tools:ignore="HardcodedDebugMode"
+        tools:replace="android:icon,android:allowBackup">
 
-        <!--友盟统计-->
-        <meta-data android:name="UMENG_APPKEY" android:value="59fadb7cb27b0a0e4c000032" />
-        <meta-data android:name="UMENG_CHANNEL" android:value="Channel ID" />
-        <!--友盟消息推送-->
-        <meta-data android:name="UMENG_MESSAGE_SECRET" android:value="319bcfe1b565b268b3a0dffd9d5e2034"/>
-        <!--渠道包-->
-        <!--<meta-data android:name="UMENG_CHANNEL" android:value="${UMENG_CHANNEL_VALUE}"/>-->
+        <!-- 友盟统计 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59fadb7cb27b0a0e4c000032"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID"/>
+        <!-- 友盟消息推送 -->
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="319bcfe1b565b268b3a0dffd9d5e2034"/>
+        <!-- 渠道包 -->
+        <!-- <meta-data android:name="UMENG_CHANNEL" android:value="${UMENG_CHANNEL_VALUE}"/> -->
 
-        <activity
-            android:name="com.knowledge.mnlin.frame.activity.SelectFunctionActivity">
+        <activity android:name=".activity.SelectFunctionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -115,30 +121,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/label_qr_util"
-            android:name=".activity.QRUtilActivity"/>
+            android:name=".activity.QRUtilActivity"
+            android:label="@string/label_qr_util"/>
         <activity
-            android:label="@string/label_city_info"
-            android:name=".activity.AnalyzeCityInfoActivity"/>
+            android:name=".activity.AnalyzeCityInfoActivity"
+            android:label="@string/label_city_info"/>
         <activity
+            android:name=".activity.HttpRequestSimulateActivity"
             android:label="@string/label_http_request_simulate"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name=".activity.HttpRequestSimulateActivity"/>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
-            android:label="@string/label_data_stream_analyze"
-            android:name=".activity.AnalyzeByteDataActivity"/>
+            android:name=".activity.AnalyzeByteDataActivity"
+            android:label="@string/label_data_stream_analyze"/>
         <activity
-            android:label="@string/label_qb_web_browse"
-            android:name=".activity.QbWebBrowseActivity"/>
+            android:name=".activity.QbWebBrowseActivity"
+            android:label="@string/label_qb_web_browse"/>
         <activity
-            android:label="@string/label_manage_note"
-            android:name=".activity.ManageNoteActivity"/>
+            android:name=".activity.ManageNoteActivity"
+            android:label="@string/label_manage_note"/>
         <activity
-            android:label="@string/label_edit_note"
-            android:name=".activity.EditNoteActivity"/>
+            android:name=".activity.EditNoteActivity"
+            android:label="@string/label_edit_note"/>
         <activity
-            android:label="@string/label_help"
-            android:name=".activity.HelpActivity"/>
+            android:name=".activity.HelpActivity"
+            android:label="@string/label_help"/>
+        <activity
+            android:name=".activity.SplashActivity"
+            android:label="@string/label_splash">
+
+        </activity>
     </application>
 
 </manifest>

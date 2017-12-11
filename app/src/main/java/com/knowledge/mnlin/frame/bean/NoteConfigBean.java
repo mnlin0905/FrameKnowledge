@@ -63,7 +63,15 @@ public class NoteConfigBean extends DataSupport{
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if(title==null){
+            return;
+        }
+        if(title.length()<=10){
+            this.title=title;
+        }
+        if(title.length()>10){
+            this.title=title.substring(0,10);
+        }
     }
 
     public ArrayList<NoteContentBean> getContent() {

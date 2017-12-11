@@ -3,7 +3,9 @@ package com.knowledge.mnlin.frame.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -54,15 +56,16 @@ public class BaseApplication extends Application {
 
     //当前是否处于严格模式
     static boolean isStrictMode = false;
-
-    //BigToast
-    @Inject
-    public  Toast singleBigToast;
-
-    protected Toast singleSmallToast;
-
     //维持全局的对象
     private static ApplicationComponent applicationComponent;
+    //BigToast
+    @Inject
+    public Toast singleBigToast;
+    protected Toast singleSmallToast;
+
+    public static ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
+    }
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -80,10 +83,6 @@ public class BaseApplication extends Application {
         init();
     }
 
-    public static ApplicationComponent getApplicationComponent() {
-        return applicationComponent;
-    }
-
     /**
      * 初始化全局变量等信息
      */
@@ -98,21 +97,6 @@ public class BaseApplication extends Application {
         //初始化litePal框架,创建数据库
         LitePal.initialize(this);
         Connector.getDatabase();
-
-        //设置全局未被捕获的异常：监听当前进程的所有线程
-        /*Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-            e.printStackTrace();
-            try {
-                //显示提示
-                Toast.makeText(BaseApplication.this, "线程：" + t.getName() + "\n" + "异常：" + e.toString(), Toast.LENGTH_LONG).show();
-                Log.e(TAG, "uncaughtException: " + e.toString());
-
-                //关闭应用
-                System.exit(0);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });*/
 
         //简单的toast
         singleSmallToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
@@ -131,7 +115,7 @@ public class BaseApplication extends Application {
         });
 
         //Logger
-        LogStrategy strategy= new LogcatLogStrategy();
+        LogStrategy strategy = new LogcatLogStrategy();
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 //.showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
                 //.methodCount(0)         // (Optional) How many method line to show. Default 2
@@ -156,10 +140,10 @@ public class BaseApplication extends Application {
 
             @Override
             public void onViewInitFinished(boolean b) {
-                if(b){
+                if (b) {
                     //加载x5内核成功,会使用x5内核
                     Logger.d("x5内核加载成功");
-                }else{
+                } else {
                     Logger.d("x5内核加载失败");
                 }
             }
@@ -231,12 +215,26 @@ public class BaseApplication extends Application {
 
             @Override
             public void onFailure(String s, String s1) {
-                MobclickAgent.reportError(BaseApplication.this,"友盟推送无法开启:\n"+s+"\n&&\n"+s1);
+                MobclickAgent.reportError(BaseApplication.this, "友盟推送无法开启:\n" + s + "\n&&\n" + s1);
             }
         });
 
         //Utils框架初始化
         Utils.init(this);
+    }
+
+    /**
+     * 更改系统默认的主题
+     *
+     * @param resid style id
+     */
+    @Override
+    public final void setTheme(int resid) {
+        super.setTheme(resid);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putInt(Const.PREFERENCE_APP_THEME, resid);
+        edit.apply();
     }
 
     /**

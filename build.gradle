@@ -8,19 +8,27 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
+
+        //gradle-bintray-plugin插件来上传到jcenter
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+
+/*        //bintray-release插件来上传到jcenter
+        classpath 'com.novoda:bintray-release:0.5.0'*/
     }
 }
 
 //allprojects里是项目本身需要的依赖
 allprojects {
     repositories {
-        //https://jcenter.bintray.com
+        //maven { url '//https://jcenter.bintray.com' }
         jcenter()
-        maven { url "https://jitpack.io" }
-        //maven { url "https://dl.bintray.com/lovingning/maven"}
+
+        maven { url 'https://jitpack.io' }
         google()
+
+        //个人maven库
+        maven { url "https://dl.bintray.com/lovingning/maven" }
     }
 }
 

@@ -17,4 +17,5 @@ public interface HttpInterface {
     Observable<BaseHttpBean> getJson(@Query("username") String username,
                                      @Query("password") String password);
 
+
 }

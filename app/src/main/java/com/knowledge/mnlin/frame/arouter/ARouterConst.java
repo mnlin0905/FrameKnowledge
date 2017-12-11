@@ -16,4 +16,5 @@ public final class ARouterConst {
     public static final String Activity_QRUtilActivity = "/activity/QRUtilActivity";
     public static final String Activity_SelectFunctionActivity = "/activity/SelectFunctionActivity";
     public static final String Activity_HelpActivity ="/activity/HelpActivity";
+    public static final String Activity_SplashActivity="/activity/SplashActivity";
 }

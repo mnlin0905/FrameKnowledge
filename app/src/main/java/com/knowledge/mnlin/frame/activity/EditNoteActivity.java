@@ -31,6 +31,7 @@ import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.adapter.EditNoteAdapter;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.bean.NoteConfigBean;
 import com.knowledge.mnlin.frame.bean.NoteContentBean;
@@ -53,10 +54,8 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_EditNoteActivity;
-
 @RuntimePermissions
-@Route(path = Activity_EditNoteActivity)
+@Route(path = ARouterConst.Activity_EditNoteActivity)
 public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements EditNoteContract.View, TakePhoto.TakeResultListener, InvokeListener {
 
     @BindView(R.id.xrl_content)
@@ -135,6 +134,12 @@ public class EditNoteActivity extends BaseActivity<EditNotePresenter> implements
                 && TextUtils.isEmpty(noteConfigBean.getContent().get(0).getPathOrData())) {
             showToast("便签无内容");
         } else {
+            noteConfigBean.setUpdateTime(System.currentTimeMillis());
+            if(!TextUtils.isEmpty(noteConfigBean.getContent().get(0).getPathOrData())){
+                noteConfigBean.setTitle(noteConfigBean.getContent().get(0).getPathOrData());
+            }else{
+                noteConfigBean.setTitle("图片："+noteConfigBean.getContent().get(0).getPathOrData());
+            }
             noteConfigBean.save();
             for (NoteContentBean bean : noteConfigBean.getContent()) {
                 bean.setNoteConfigBean(noteConfigBean);

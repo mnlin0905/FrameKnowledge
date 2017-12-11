@@ -28,6 +28,7 @@ import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.knowledge.mnlin.frame.R;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.contract.QRUtilContract;
 import com.knowledge.mnlin.frame.presenter.QRUtilPresenter;
@@ -48,10 +49,8 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_QRUtilActivity;
-
 @RuntimePermissions
-@Route(path = Activity_QRUtilActivity)
+@Route(path = ARouterConst.Activity_QRUtilActivity)
 public class QRUtilActivity extends BaseActivity<QRUtilPresenter> implements QRUtilContract.View, TakePhoto.TakeResultListener, InvokeListener {
     //从图库中扫描二维码
     private static int QR_SCAN_REQUEST = 10000;

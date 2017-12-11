@@ -10,6 +10,7 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.knowledge.mnlin.frame.R;
+import com.knowledge.mnlin.frame.arouter.ARouterConst;
 import com.knowledge.mnlin.frame.base.BaseActivity;
 import com.knowledge.mnlin.frame.bean.CityInfoBean;
 import com.knowledge.mnlin.frame.contract.AnalyzeCityInfoContract;
@@ -24,19 +25,16 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.knowledge.mnlin.frame.R.id.tv_city;
-import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeCityInfoActivity;
-
 /**
  * 解析城市信息
  */
-@Route(path = Activity_AnalyzeCityInfoActivity)
+@Route(path = ARouterConst.Activity_AnalyzeCityInfoActivity)
 public class AnalyzeCityInfoActivity extends BaseActivity<AnalyzeCityInfoPresenter> implements AnalyzeCityInfoContract.View {
 
 
     @BindView(R.id.tv_city_switch)
     TextView mTvCitySwitch;
-    @BindView(tv_city)
+    @BindView(R.id.tv_city)
     TextView mTvCity;
     private WebView webView;
 

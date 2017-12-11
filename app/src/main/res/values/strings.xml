@@ -19,6 +19,7 @@
     <string name="label_data_stream_analyze">数据流分析器</string>
     <string name="label_qb_web_browse">网页数据加载器</string>
     <string name="label_manage_note">便签管理</string>
+    <string name="label_splash">引导页</string>
     <string name="label_edit_note">便签编辑</string>
 
     <!--action菜单功能-->
@@ -94,4 +95,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--活动：使用帮助-->
+    <string-array name="activity_help_keys">
+        <item>@string/action_qr</item>
+        <item>@string/action_city_info</item>
+        <item>@string/action_http_request_simulate</item>
+        <item>@string/action_manage_note</item>
+    </string-array>
+    <string-array name="activity_help_values">
+        <item>可以动态生成二维码并保存到本地；也可以使用相机或者选择二维码图片进行识别</item>
+        <item>可以查看所有的城市信息</item>
+        <item>可以模拟发送http或者https网络请求</item>
+        <item>自定义的便签软件，可以使用文本编辑，可以保存图片信息</item>
+    </string-array>
 </resources>

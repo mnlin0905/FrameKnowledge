@@ -19,6 +19,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
+                includeCompileClasspath true
                 arguments = [moduleName: project.getName()]
             }
         }
@@ -123,16 +124,21 @@ dependencies {
     compile 'com.android.support:palette-v7:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.1.0'
+
     //multidex:dex分包
     compile 'com.android.support:multidex:1.0.2'
+
     //litepal,数据库框架,通过在assets中创建xml文件来配置
     compile 'org.litepal.android:core:1.6.0'
+
     //Dagger:基础包,dagger编译器,Javax标注
     compile 'com.google.dagger:dagger:2.11'
     provided 'com.google.dagger:dagger-compiler:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+
     //RxJava与RxAndroid
     compile('io.reactivex.rxjava2:rxjava:2.1.3') {
         force = true
@@ -143,94 +149,126 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:support-v13:26.1.0'
+
     //retrofit;
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+
     //使用GSON库将http返回的数据转换为对象
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
     //使用RxJava将返回的数据对象转为Observable(T);
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
     //引入OkHttp框架
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
+
     //okhttp打印日志
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
     //用于使用chrome调试应用
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
     //包含okhttp
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
+
     //ButterKnife
     compile 'com.jakewharton:butterknife:8.8.1'
     provided 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     //Glide
     compile 'com.github.bumptech.glide:glide:4.1.1'
     provided 'com.github.bumptech.glide:compiler:4.1.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+
     //AndroidUtilCode
     compile 'com.blankj:utilcode:1.9.2'
+
     //内存泄漏 监视工具
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
     //Logger
     compile 'com.orhanobut:logger:2.1.1'
+
     //二维码
     compile 'cn.yipianfengye.android:zxing-library:2.2'
+
     //圆形图片
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
     //图片选择
     compile('com.jph.takephoto:takephoto_library:4.0.3') {
         transitive false
     }
+
     //statubarutil,状态栏控制器
     compile 'com.jaeger.statusbaruitl:library:1.3.6'
+
     //时间,城市等选择器
     compile 'com.contrarywind:Android-PickerView:3.2.6'
+
     //权限请求框架
-    compile("com.github.hotchemi:permissionsdispatcher:3.0.1") {
+    compile('com.github.hotchemi:permissionsdispatcher:3.0.1') {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
     provided 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
+
     //activity路由跳转
     compile 'com.alibaba:arouter-api:1.2.4'
     provided 'com.alibaba:arouter-compiler:1.1.4'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+
     //友盟统计
     compile 'com.umeng.analytics:analytics:6.1.2'
+
     //友盟消息推送
     compile project(':PushSDK')
+
     //tag布局
     compile 'com.hyman:flowlayout-lib:1.1.2'
+
     //动态权限管理
     compile('com.github.hotchemi:permissionsdispatcher:3.0.1') {
         exclude module: 'support-v13'
     }
     provided 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
+
     //XRecycleView
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
+
     //sweet-alert-dialog
     compile 'cn.pedant.sweetalert:library:1.3'
+
     //CollapseLayout可折叠布局
-    compile ('com.knowledge.mnlin:collapselayout:0.0.1'){
+    compile('com.knowledge.mnlin:collapselayout:0.0.2') {
         exclude module: "support-annotations"
     }
 
+    //消息滚动布局
+    compile 'com.knowledge.mnlin:rolltextview:0.0.1'
+
     /*compile('org.hibernate:hibernate:3.1') {
-        // 冲突时优先使用该版本
-        force = true
+            // 冲突时优先使用该版本
+            force = true
 
-        // 依据构建名称排除
-        exclude module: 'cglib'
-        // 依据组织名称排除
-        exclude group: 'org.jmock'
-        // 依据组织名称+构件名称排除
-        exclude group: 'org.unwanted', module: 'iAmBuggy'
+            // 依据构建名称排除
+            exclude module: 'cglib'
+            // 依据组织名称排除
+            exclude group: 'org.jmock'
+            // 依据组织名称+构件名称排除
+            exclude group: 'org.unwanted', module: 'iAmBuggy'
 
-        // 为本依赖关闭依赖传递特性
-        transitive = false
-    }*/
+            // 为本依赖关闭依赖传递特性
+            transitive = false
+        }*/
+
+    //gradle3.0后compile等同与api；implementation表示限制性依赖，即若A依赖（implementation）B，C依赖A，则C无法访问B中的类
+    //implementation project(':methodinjection-processor')
 }
 
 class GenerateMvpCodes extends DefaultTask {
@@ -260,7 +298,7 @@ class GenerateMvpCodes extends DefaultTask {
                 " * 功能---- \n" +
                 " * <p>\n" +
                 " * Created(Gradle default create) by MNLIN on ${releaseTime()}.\n" +
-                " */\n"
+                " */\n" +
                 "public interface ${contractName} {\n" +
                 "    interface Presenter{\n" +
                 "\n" +
@@ -296,7 +334,7 @@ class GenerateMvpCodes extends DefaultTask {
                 " * 功能---- \n" +
                 " * <p>\n" +
                 " * Created(Gradle default create) by MNLIN on ${releaseTime()}.\n" +
-                " */\n"
+                " */\n" +
                 "public class ${PresenterName} extends BasePresenter<${domain}Activity> implements ${domain}Contract.Presenter{\n" +
                 "    @Inject\n" +
                 "    public ${PresenterName}() {}\n" +
@@ -322,13 +360,14 @@ class GenerateMvpCodes extends DefaultTask {
                 "import ${packageName}.presenter.${domain}Presenter;\n" +
                 "import  ${packageName}.contract.${domain}Contract;\n" +
                 "import  ${packageName}.base.BaseActivity;\n" +
+                "import  ${packageName}.arouter.ARouterConst;\n" +
                 "\n" +
                 "/**\n" +
                 " * 功能---- \n" +
                 " * <p>\n" +
                 " * Created(Gradle default create) by MNLIN on ${releaseTime()}.\n" +
-                " */\n"
-                "@Route(path = \"/activity/${ActivityName}\")" +
+                " */\n" +
+                "@Route(path = ARouterConst.Activity_${ActivityName})" +
                 "\n" +
                 "public class ${ActivityName} extends BaseActivity<${domain}Presenter> implements ${domain}Contract.View{\n" +
                 "\n" +
@@ -356,9 +395,9 @@ class GenerateMvpCodes extends DefaultTask {
 task mvp(type: GenerateMvpCodes) {
     group 'mnlin'
     description 'generate java code for MVP architecture'
-/*    def domainParam = System.getProperty('domain')
+/*   def domainParam = System.getProperty('domain')
     def pathParam = System.getProperty('path')*/
-    def domainParam = "Help"
+    def domainParam = "Splash"
     def pathParam = "/activity"
     if (domainParam && pathParam) {
         domain domainParam
