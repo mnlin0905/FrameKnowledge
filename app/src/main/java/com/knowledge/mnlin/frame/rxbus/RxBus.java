@@ -43,6 +43,6 @@ public  class  RxBus {
 
     // 根据传递的 eventType 类型返回特定类型(eventType)的 被观察者
     public <T>  Observable<T> toObservable (Class<T> event) {
-        return bus.filter(o -> o!=null).cast(event);
+        return bus.ofType(event);
     }
 }
