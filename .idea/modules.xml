@@ -5,7 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/FrameKnowledge.iml" filepath="$PROJECT_DIR$/FrameKnowledge.iml" />
       <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/collapselayout/collapselayout.iml" filepath="$PROJECT_DIR$/collapselayout/collapselayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://D:\personal\github\FrameKnowledge\textdrawable\textcolordrawable.iml" filepath="D:\personal\github\FrameKnowledge\textdrawable\textcolordrawable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/textdrawable/textdrawable.iml" filepath="$PROJECT_DIR$/textdrawable/textdrawable.iml" />
     </modules>
   </component>
 </project>

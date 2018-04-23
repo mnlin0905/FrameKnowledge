@@ -4,15 +4,18 @@
     <dbname value="litepal_hotchpotch"/>
 
     <!--数据库版本号，升级数据库时候需要累加-->
-    <version value="1"/>
+    <!--<version value="1"/>-->
+    <!--版本新添加了两个表:小说列表,小说章节列表-->
+    <version value="2"/>
 
     <!--创建表-->
     <list>
-
         <!--表对应的实体对象-->
         <mapping class="com.knowledge.mnlin.frame.bean.ContactBean"/>
         <mapping class="com.knowledge.mnlin.frame.bean.NoteConfigBean"/>
         <mapping class="com.knowledge.mnlin.frame.bean.NoteContentBean"/>
+        <mapping class="com.knowledge.mnlin.frame.bean.NovelBean"/>
+        <mapping class="com.knowledge.mnlin.frame.bean.ChapterBean"/>
     </list>
 
     <!--keep表示按照类和字段名大小写作为表名和列名-->

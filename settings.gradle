@@ -1,2 +1,9 @@
-include ':app', ':PushSDK' /*,':rolltextview' */ /*, ':test'*/ /*, ':methodinjection-processor' */  /*, ':collapselayout'*/
+include ':app', ':PushSDK'
+include ':textdrawable'
+//        ':methodinject',
+//        ':methodinject-compiler',
+//        ':methodinject-annotations'
+//        ':rolltextview' ,
+include ':test'
+//      ':collapselayout'
 

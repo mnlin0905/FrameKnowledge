@@ -46,7 +46,9 @@ public class AnalyzeByteDataActivity extends BaseActivity<AnalyzeByteDataPresent
     private ArrayList<String> data;
     private AnalyzeByteAdapter adapter;
 
-    //接收的数据流
+    /**
+     * 接收的数据流
+     */
     @Autowired
     String stream;
 

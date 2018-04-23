@@ -10,6 +10,8 @@ import com.knowledge.mnlin.frame.base.BaseApplication;
 import com.knowledge.mnlin.frame.retrofit.HttpInterface;
 import com.knowledge.mnlin.frame.window.BigToast;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +24,13 @@ import dagger.Provides;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -56,7 +62,7 @@ public class ApplicationModule {
     @Singleton
     HttpInterface provideHttpInterface() {
         //网络请求的Host
-        String baseUrl = "http://192.168.2.243:8888/";
+        String baseUrl = "https://www.biqudu.com/";
 
         //生成JSON转换的库
         Gson gson = new GsonBuilder().serializeNulls().setDateFormat("yyyy:MM:dd HH:mm:ss").create();
@@ -96,7 +102,7 @@ public class ApplicationModule {
 
         //最后组合成Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(gsonConverterFactory)
+                .addConverterFactory(new ToStringConverterFactory())
                 .addCallAdapterFactory(rxJava2CallAdapterFactory)
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
@@ -105,4 +111,25 @@ public class ApplicationModule {
         //将注解后的interface请求接口转换为真正可用的网络请求对象
         return retrofit.create(HttpInterface.class);
     }
+
+    public static class ToStringConverterFactory extends Converter.Factory {
+        private static final MediaType MEDIA_TYPE = MediaType.parse("text/plain");
+
+        @Override
+        public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+            if (String.class.equals(type)) {
+                return (Converter<ResponseBody, String>) ResponseBody::string;
+            }
+            return null;
+        }
+
+        @Override public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
+                                                                        Annotation[] methodAnnotations, Retrofit retrofit) {
+            if (String.class.equals(type)) {
+                return (Converter<String, RequestBody>) value -> RequestBody.create(MEDIA_TYPE, value);
+            }
+            return null;
+        }
+    }
+
 }

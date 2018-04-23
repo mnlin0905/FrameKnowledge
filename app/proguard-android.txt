@@ -112,6 +112,8 @@
 #数据库modle和自定义view不进行混淆
 -keep class com.mnlin.hotchpotch.bean.*{*;}
 -keep class com.mnlin.hotchpotch.view.*{*;}
+-keep class com.knowledge.mnlni.frame.bean.**{*;}
+-keep class com.knowledge.mnlni.frame.view.**{*;}
 
 
 #-libraryjars libs/litepal-1.5.1.jar

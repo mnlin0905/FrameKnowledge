@@ -19,10 +19,10 @@
             <include layout="@layout/layout_top_bar"/>
 
             <android.support.v4.widget.NestedScrollView
-                android:fitsSystemWindows="true"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <include layout="@layout/content_select_function"/>
             </android.support.v4.widget.NestedScrollView>
@@ -41,12 +41,13 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nv_slideBar"
-        app:itemIconTint="@color/white"
         android:layout_width="@dimen/prefer_slide_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/layout_slide_header"
-        app:menu="@menu/menu_home_end_slide_bar"/>
+        app:itemIconTint="@color/white"
+        app:menu="@menu/menu_home_end_slide_bar">
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

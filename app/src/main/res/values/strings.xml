@@ -33,6 +33,7 @@
     <string name="action_help">使用帮助</string>
     <string name="action_about">关于软件</string>
     <string name="action_more">更多功能</string>
+    <string name="action_novel">小说</string>
     <string name="action_invoices">工单管理</string>
     <string name="action_read_meter">抄表</string>
     <string name="action_open_valve">开阀</string>
@@ -94,6 +95,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_download_note">小说阅读</string>
 
     <!--活动：使用帮助-->
     <string-array name="activity_help_keys">

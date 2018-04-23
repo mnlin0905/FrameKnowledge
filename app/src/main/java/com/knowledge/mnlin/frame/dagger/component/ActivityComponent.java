@@ -2,6 +2,7 @@ package com.knowledge.mnlin.frame.dagger.component;
 
 import com.knowledge.mnlin.frame.activity.AnalyzeByteDataActivity;
 import com.knowledge.mnlin.frame.activity.AnalyzeCityInfoActivity;
+import com.knowledge.mnlin.frame.activity.DownloadNoteActivity;
 import com.knowledge.mnlin.frame.activity.EditNoteActivity;
 import com.knowledge.mnlin.frame.activity.HelpActivity;
 import com.knowledge.mnlin.frame.activity.HttpRequestSimulateActivity;
@@ -42,4 +43,6 @@ public interface ActivityComponent {
     void inject(HelpActivity helpActivity);
 
     void inject(SplashActivity splashActivity);
+
+    void inject(DownloadNoteActivity downloadNoteActivity);
 }

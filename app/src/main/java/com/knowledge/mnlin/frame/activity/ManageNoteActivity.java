@@ -77,9 +77,7 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
         mLmvSelectAll.setOnCheckedChangeListener(this);
     }
 
-    @Override
-    protected void refreshData() {
-        super.refreshData();
+    private void refreshData() {
         //初始化数据
         DataSupport.order("createTime desc").findAsync(NoteConfigBean.class, true).listen(new FindMultiCallback() {
             @Override
@@ -102,6 +100,8 @@ public class ManageNoteActivity extends BaseActivity<ManageNotePresenter> implem
     @Override
     protected void onPostResume() {
         super.onPostResume();
+
+        refreshData();
     }
 
     @Override

@@ -148,7 +148,10 @@
         <activity
             android:name=".activity.SplashActivity"
             android:label="@string/label_splash">
-
+        </activity>
+        <activity
+            android:label="@string/label_download_note"
+            android:name=".activity.DownloadNoteActivity">
         </activity>
     </application>
 

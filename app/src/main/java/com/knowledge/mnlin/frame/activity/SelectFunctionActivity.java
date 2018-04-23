@@ -32,6 +32,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_AnalyzeCityInfoActivity;
+import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_DownloadNoteActivity;
 import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_HelpActivity;
 import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_HttpRequestSimulateActivity;
 import static com.knowledge.mnlin.frame.arouter.ARouterConst.Activity_ManageNoteActivity;
@@ -177,6 +178,10 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
                 break;
             case R.id.action_help:
                 ARouter.getInstance().build(Activity_HelpActivity).navigation();
+                break;
+            case R.id.action_novel:
+                ARouter.getInstance().build(Activity_DownloadNoteActivity).navigation();
+                break;
         }
     }
 
@@ -191,4 +196,34 @@ public class SelectFunctionActivity extends BaseActivity<SelectFunctionPresenter
         showToast("为了更安全的使用软件,请开启该权限");
         request.proceed();
     }
+
+/*    @MethodInject(method = LifeCycleMethod.onResume, priority = 3)
+    void s1() {
+        Logger.e("s1   SelectFunctionActivity检测到 onCreate 方法已经执行");
+    }
+
+    @MethodInject(method = LifeCycleMethod.onResume, priority = 2)
+    void s2() {
+        Logger.e("s2   SelectFunctionActivity检测到 onCreate 方法已经执行");
+    }
+
+    @MethodInject(method = LifeCycleMethod.onResume, priority = 2)
+    void s3() {
+        Logger.e("s3   SelectFunctionActivity检测到 onCreate 方法已经执行");
+    }
+
+    @MethodInject(method = LifeCycleMethod.onResume, priority = 4)
+    void s4() {
+        Logger.e("s4   SelectFunctionActivity检测到 onCreate 方法已经执行");
+    }
+
+    @MethodInject(method = LifeCycleMethod.onResume, priority = 9)
+    void s5() {
+        Logger.e("s5   SelectFunctionActivity检测到 onCreate 方法已经执行");
+    }
+
+    @MethodInject(method = LifeCycleMethod.onResume, priority = 8)
+    void s6() {
+        Logger.e("s6   SelectFunctionActivity检测到 onCreate 方法已经执行");
+    }*/
 }

@@ -47,6 +47,9 @@ android {
             proguardFile 'proguard-android.txt'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 
 /*    tasks.whenTaskAdded{ task ->
         if(task.name.contains("lint")
@@ -265,10 +268,9 @@ dependencies {
 
             // 为本依赖关闭依赖传递特性
             transitive = false
-        }*/
+        }
+        gradle3.0后compile等同与api；implementation表示限制性依赖，即若A依赖（implementation）B，C依赖A，则C无法访问B中的类*/
 
-    //gradle3.0后compile等同与api；implementation表示限制性依赖，即若A依赖（implementation）B，C依赖A，则C无法访问B中的类
-    //implementation project(':methodinjection-processor')
 }
 
 class GenerateMvpCodes extends DefaultTask {

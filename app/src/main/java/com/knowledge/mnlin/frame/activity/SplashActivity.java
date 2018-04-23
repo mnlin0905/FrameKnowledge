@@ -1,7 +1,6 @@
 package com.knowledge.mnlin.frame.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -17,10 +16,11 @@ import com.orhanobut.logger.Logger;
 import java.util.Arrays;
 
 /**
- * 功能----
+ * 功能----启动界面
  * <p>
  * Created(Gradle default create) by MNLIN on 2017/12/08 07:09:59 (+0000).
  */
+//@ActivityInject
 @Route(path = ARouterConst.Activity_SplashActivity)
 public class SplashActivity extends BaseActivity<SplashPresenter> implements SplashContract.View {
 
@@ -70,13 +70,12 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
     protected void injectSelf() {
         activityComponent.inject(this);
     }
 
+//    @MethodInject(method = LifeCycleMethod.onResume,priority = 2)
+//    void sp1(){
+//        Logger.e("sp1");
+//    }
 }

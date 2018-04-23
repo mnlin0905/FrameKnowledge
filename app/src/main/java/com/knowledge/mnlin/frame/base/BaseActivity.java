@@ -2,15 +2,13 @@ package com.knowledge.mnlin.frame.base;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -20,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -28,46 +28,65 @@ import com.knowledge.mnlin.frame.R;
 import com.knowledge.mnlin.frame.dagger.component.ActivityComponent;
 import com.knowledge.mnlin.frame.dagger.component.DaggerActivityComponent;
 import com.knowledge.mnlin.frame.dagger.module.ActivityModule;
-import com.knowledge.mnlin.frame.retrofit.HttpInterface;
 import com.knowledge.mnlin.frame.rxbus.RxBus;
 import com.knowledge.mnlin.frame.util.ActivityUtil;
 import com.knowledge.mnlin.frame.util.Const;
-import com.orhanobut.logger.Logger;
 
-import java.lang.reflect.Field;
 import java.util.Stack;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 import static android.view.KeyEvent.KEYCODE_MENU;
 
 /**
  * Created by Administrator on 17-1-22.
+ *
+ * @param <T> MVP模式中,presenter类,
  */
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
-    protected final String TAG = getClass().getSimpleName();
+    /**
+     * 所有的插件列表,在子activity中可以关闭:
+     * <p>
+     *
+     * 0 : butterknife 自动绑定view和click
+     * 1 : Arouter 自动赋值
+     */
+    protected static final int PLUGIN_BUTTER_KNIFE = 0x00000001;
+    protected static final int PLUGIN_ROUTER = 0x00000002;
 
     public Toolbar toolbar;
 
     protected ActivityComponent activityComponent;
 
-    //管理RxBus添加的事件队列
-    private static CompositeDisposable group;
-
     @Inject
     protected T mPresenter;
 
-    @Inject
-    protected HttpInterface httpInterface;
-
     protected CharSequence activityTitle;
+
+    /**
+     * 默认所有插件开关为打开状态
+     */
+    private int PLUGIN_FLAGS = 0xFFFFFFFF;
+
+    /**
+     * 使用dagger注入自身
+     */
+    protected abstract void injectSelf();
+
+    /**
+     * @return 获取布局文件
+     */
+    @LayoutRes
+    protected abstract int getContentViewId();
+
+    /**
+     * 初始化数据
+     *
+     * @param savedInstanceState 已存储对象
+     */
+    protected abstract void initData(Bundle savedInstanceState);
 
     @Override
     @SuppressWarnings("all")
@@ -78,33 +97,35 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
         }
-
-        //设置系统主题
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        setTheme(preferences.getInt(Const.PREFERENCE_APP_THEME, R.style.AppTheme));
-
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        Logger.v(TAG+ "onCreate: ");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //设置支持动画过渡效果
         ActivityUtil.setActivityContentTransitions(this);
         ActivityUtil.setActivitySupportTransitions(this);
         /*getWindow().setExitTransition(new Fade());*/
 
-        //添加到活动管理中
-        manageAddActivity();
-
         //设置内容全屏
         ActivityUtil.setDecorTransparent(this);
 
         //设置statubar的颜色
-        ActivityUtil.setStatusBarColor(this, getResources().getColor(R.color.colorPrimaryDarkHacker));
+        ActivityUtil.setStatusBarColor(this, getResources().getColor(R.color.transparent));
 
         //添加布局
-        setContentView(getContentViewId());
-        ButterKnife.bind(this);
+        if(getContentViewId()!=0){
+            setContentView(getContentViewId());
+        }
+        if ((PLUGIN_FLAGS & PLUGIN_BUTTER_KNIFE) == PLUGIN_BUTTER_KNIFE) {
+            ButterKnife.bind(this);
+        }
 
-        //设置toolbar和startBar颜色;当点击navigation时默认退出活动
+        //设置ContentFrameLayout的第一个子view,即当前xml文件对应根布局FitsSystemWindows为true
+        ViewGroup contentFrameLayout = getWindow().getDecorView().findViewById(android.R.id.content);
+        contentFrameLayout.getChildAt(0).setFitsSystemWindows(true);
+
+        //设置toolbar和statusBar颜色;当点击navigation时默认退出活动
+        //设置toolbar与activity绑定
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -117,145 +138,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         injectSelf();
 
         //注入路由Arouter框架
-        ARouter.getInstance().inject(this);
+        if ((PLUGIN_FLAGS & PLUGIN_ROUTER) == PLUGIN_ROUTER) {
+            ARouter.getInstance().inject(this);
+        }
 
         //绑定presenter和activity
-        mPresenter.mView = this;
+        if (mPresenter != null) {
+            mPresenter.mView = this;
+        }
 
         //获取title值
         activityTitle = getTitle();
 
         //初始化内容
         initData(savedInstanceState);
-
-        //子线程数据处理
-        Observable.just(true)
-                .subscribeOn(Schedulers.single())
-                .map(aBoolean -> {
-                    initDataInThread(savedInstanceState);
-                    return true;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(a -> {});
-    }
-
-    /**
-     * 使用dagger注入自身
-     */
-    protected abstract void injectSelf();
-
-
-    /**
-     * 在子线程加载数据
-     */
-    protected void initDataInThread(Bundle savedInstanceState) {
-    }
-
-    /**
-     * 管理activity实例
-     */
-    private void manageAddActivity() {
-        boolean isExistStack = false;
-        for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
-            Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
-            if (temp.get(0).getTaskId() == getTaskId()) {
-                temp.push(this);
-                isExistStack = true;
-                break;
-            }
-        }
-        if (!isExistStack) {
-            Stack<BaseActivity> stack = new Stack<>();
-            stack.push(this);
-            BaseApplication.activityManager.add(stack);
-        }
-        logStack();
-    }
-
-    /**
-     * 移除需要销毁的activity实例
-     */
-    private void manageRemoveActivity() {
-        for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
-            Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
-            if (temp.get(0).getTaskId() == getTaskId()) {
-                temp.pop();
-                if (temp.size() == 0) {
-                    BaseApplication.activityManager.remove(temp);
-                }
-                break;
-            }
-        }
-    }
-
-    /**
-     * 打印活动栈
-     */
-    private void logStack() {
-        for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
-            Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
-            Logger.v(TAG+ "\n栈id：" + temp.get(0).getTaskId() + "\n栈底->" + temp.toString() + "栈顶");
-        }
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        Logger.v(TAG+ "onPostCreate: ");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Logger.v(TAG+ "onStart: ");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        refreshData();
-        Logger.v(TAG+ "onResume: ");
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Logger.v(TAG+ "onPostResume: ");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Logger.v(TAG+ "onPause: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Logger.v(TAG+ "onStop: ");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Logger.v(TAG+ "onDestroy: ");
-        manageRemoveActivity();
-        logStack();
-
-        mPresenter.mView = null;
-        removeDisposable();
-    }
-
-    /**
-     * @return 获取布局文件
-     */
-    @LayoutRes
-    protected abstract int getContentViewId();
-
-    @Override
-    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
-        Logger.v(TAG+ "onPostResume: public");
     }
 
     /**
@@ -289,20 +185,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     /**
-     * 初始化数据
-     */
-    protected abstract void initData(Bundle savedInstanceState);
-
-    /**
-     * 更新数据
-     */
-    protected void refreshData() {
-    }
-
-    /**
      * @param msg 需要显示的toast消息
      */
-    protected void showToast(String msg) {
+    public void showToast(String msg) {
         RxBus.getInstance().post(new BaseEvent(Const.SHOW_TOAST, msg == null ? "null" : msg));
     }
 
@@ -312,99 +197,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void showSnackbar(String msg, String button, View.OnClickListener onClickButton) {
         Snackbar singleSnackbar = Snackbar.make(toolbar == null ? findViewById(android.R.id.content) : toolbar, msg, Snackbar.LENGTH_INDEFINITE);
         ((TextView) singleSnackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setMaxLines(10);
+        ((TextView) singleSnackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setLineSpacing(0, 1.5F);
         singleSnackbar.getView().setAlpha(0.9f);
         singleSnackbar.setActionTextColor(getThemeColorAttribute(R.style.TextInputLayout_HintTextAppearance_Hacker, android.R.attr.textColor));
-        singleSnackbar.setAction(button, onClickButton == null ? (View.OnClickListener) view -> singleSnackbar.dismiss() : onClickButton).show();
-    }
-
-    /**
-     * 获取系统属性中某个值
-     */
-    protected int getThemeColorAttribute(int styleRes, int colorId) {
-        int defaultColor = 0xFF000000;
-        int[] attrsArray = {colorId};
-        TypedArray typedArray = obtainStyledAttributes(styleRes, attrsArray);
-        int color = typedArray.getColor(0, defaultColor);
-
-        typedArray.recycle();
-        return color;
-    }
-
-    /**
-     * 绑定View的id和对象
-     */
-    protected void bindView(String[] ids, View root) {
-        try {
-            if (ids == null || ids.length == 0) {
-                return;
+        singleSnackbar.setAction(button, v -> {
+            if (onClickButton != null) {
+                onClickButton.onClick(v);
             }
-            Class class_id = Class.forName("com.mnlin.hotchpotch.R$id");
-            Class class_view = getClass();
-            Field field_id = null;
-            Field field_view = null;
-            for (String id : ids) {
-                field_id = class_id.getDeclaredField(id);
-                field_view = class_view.getDeclaredField(id);
-                field_id.setAccessible(true);
-                field_view.setAccessible(true);
-                if (root != null) {
-                    field_view.set(this, root.findViewById(field_id.getInt(null)));
-                } else {
-                    field_view.set(this, findViewById(field_id.getInt(null)));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            singleSnackbar.dismiss();
+        }).show();
+        singleSnackbar.getView().setOnClickListener(v -> singleSnackbar.dismiss());
     }
 
-    /**
-     * 绑定View的id和对象
-     */
-    protected void bindView() {
-        try {
-            Class class_id = Class.forName("com.mnlin.hotchpotch" + ".R$id");
-            Class class_view = getClass();
-            Field[] fields = class_view.getDeclaredFields();
-            Field field_id;
-            for (Field field_view : fields) {
-                try {
-                    field_id = class_id.getDeclaredField(field_view.getName());
-                    field_id.setAccessible(true);
-                    field_view.setAccessible(true);
-                    field_view.set(this, findViewById(field_id.getInt(null)));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 获取颜色值
-     */
-    final public int getColors(@ColorRes int resId) {
-        if (Build.VERSION.SDK_INT < 23) {
-            return getResources().getColor(resId);
-        } else {
-            return getResources().getColor(resId, null);
-        }
-    }
-
-    protected void removeDisposable() {
-        if (group != null) {
-            group.dispose();
-        }
-    }
-
-    protected void addDisposable(Disposable disposable) {
-        if (group == null) {
-            group = new CompositeDisposable();
-        }
-        group.add(disposable);
-    }
 
     /**
      * 当点击menu键时屏蔽任何操作
@@ -419,13 +223,22 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     public void startActivity(Intent intent) {
-        super.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if (Build.VERSION.SDK_INT >= 21) {
+            super.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            super.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void startActivity(Intent intent, @Nullable Bundle options) {
+        super.startActivity(Intent.createChooser(intent, "选择一个应用"), options);
     }
 
     /**
      * 获取drawable
      */
-    public final Drawable dispatchGetDrawable(@DrawableRes int resId) {
+    public Drawable dispatchGetDrawable(@DrawableRes int resId) {
         if (Build.VERSION.SDK_INT >= 21) {
             return getDrawable(resId);
         } else {
@@ -434,13 +247,101 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     /**
-     * 获取color
+     * 获取颜色值
      */
-    public final int dispatchGetColor(@ColorRes int resId) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return getColor(resId);
-        } else {
+    final public int dispatchGetColor(@ColorRes int resId) {
+        if (Build.VERSION.SDK_INT < 23) {
             return getResources().getColor(resId);
+        } else {
+            return getResources().getColor(resId, null);
+        }
+    }
+
+    /**
+     * 获取系统属性中某个值
+     */
+    public int getThemeColorAttribute(int styleRes, int colorId) {
+        int defaultColor = dispatchGetColor(R.color.transparent);
+        int[] attrsArray = {colorId};
+        TypedArray typedArray = obtainStyledAttributes(styleRes, attrsArray);
+        int color = typedArray.getColor(0, defaultColor);
+
+        typedArray.recycle();
+        return color;
+    }
+
+    /**
+     * 当activity销毁时候,关闭资源
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.mView = null;
+        }
+    }
+
+    /**
+     * 需要在oncreate之前就设置,否则不起作用
+     *
+     * @return 用于关闭插件
+     */
+    final protected void disablePlugin(int plugin) {
+        PLUGIN_FLAGS &= ~plugin;
+    }
+
+    /**
+     * 需要在oncreate之前就设置,否则不起作用
+     *
+     * @return 用于关闭插件
+     */
+    final protected void enablePlugin(int plugin) {
+        PLUGIN_FLAGS |= plugin;
+        mPresenter.mView = null;
+    }
+
+    /**
+     * 管理activity实例
+     */
+    public void manageAddActivity() {
+        boolean isExistStack = false;
+        for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
+            Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
+            if (temp.get(0).getTaskId() == getTaskId()) {
+                temp.push(this);
+                isExistStack = true;
+                break;
+            }
+        }
+        if (!isExistStack) {
+            Stack<BaseActivity> stack = new Stack<>();
+            stack.push(this);
+            BaseApplication.activityManager.add(stack);
+        }
+    }
+
+    /**
+     * 移除需要销毁的activity实例
+     */
+    public void manageRemoveActivity() {
+        for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
+            Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
+            if (temp.get(0).getTaskId() == getTaskId()) {
+                temp.pop();
+                if (temp.size() == 0) {
+                    BaseApplication.activityManager.remove(temp);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * 打印活动栈
+     */
+    protected void logStack() {
+        for (int i = 0; i < BaseApplication.activityManager.size(); i++) {
+            Stack<BaseActivity> temp = BaseApplication.activityManager.get(i);
         }
     }
 
